@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+        http://www.springframework.org/schema/mvc  
+    	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	<context:component-scan base-package="com.threeone.mealplanner.web.controller" />
+	
+	<mvc:annotation-driven />
+	
+	<bean id="propertyConfigurer" class="com.threeone.mealplanner.common.CommonPropertyPlaceholderConfigurer">
+	</bean>
+	
+	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="order" value="2"></property>
+		<property name="prefix" value="/WEB-INF/ftl/" />
+		<property name="suffix" value="" /><!--可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑 -->
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+	</bean>
+
+	<bean id="freeMarkerViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="order" value="1"></property>
+		<property name="cache" value="true" />
+		<property name="contentType" value="text/html;charset=UTF-8"></property>
+		<!-- 宏命令的支持 -->
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="requestContextAttribute" value="rc"></property>
+		<property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView" />
+	</bean>
+
+	<bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="/WEB-INF/ftl/" />
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="template_update_delay">5</prop>
+				<prop key="default_encoding">UTF-8</prop>
+				<prop key="locale">zh_CN</prop>
+				<prop key="number_format">0.##########</prop>
+				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+				<prop key="classic_compatible">true</prop>
+				<prop key="template_exception_handler">ignore</prop>
+				<prop key="auto_import">import/spring.ftl as spring</prop>
+			</props>
+		</property>
+	</bean>
+
+	<mvc:resources mapping="/images/**" location="/images/" />
+	<mvc:resources mapping="/js/**" location="/js/" />
+	<mvc:resources mapping="/css/**" location="/css/" />
+</beans>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<bean id="propertyConfigurer" 
+		class="com.threeone.mealplanner.common.CommonPropertyPlaceholderConfigurer"> 
+    </bean> 
+    
+    <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+   		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://${main_db_ip}:${main_db_port}/${main_db_name}?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf8" />
+		<property name="username" value="${main_db_username}" />
+		<property name="password" value="${main_db_password}" />
+		<property name="idleConnectionTestPeriodInMinutes" value="${main_db_idleConnectionTestPeriodInMinutes}" />
+		<property name="idleMaxAgeInMinutes" value="${main_db_idleMaxAgeInMinutes}" />
+		<property name="maxConnectionsPerPartition" value="${main_db_maxConnectionPerPartition}" />
+		<property name="minConnectionsPerPartition" value="${main_db_minConnectionPerPartition}" />
+		<property name="partitionCount" value="${main_db_partitionCount}" />
+		<property name="acquireIncrement" value="${main_db_acquireIncrement}" />
+		<property name="statementsCacheSize" value="${main_db_statementsCacheSize}" />
+		<property name="releaseHelperThreads" value="${main_db_releaseHelperThreads}" />
+	</bean>
+	
+	</beans>

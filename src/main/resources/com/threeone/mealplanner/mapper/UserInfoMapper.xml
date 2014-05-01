@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.threeone.mealplanner.mapper.UserInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.threeone.mealplanner.model.entity.UserInfo" >
+    <id column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="phoneNum" property="phonenum" jdbcType="VARCHAR" />
+    <result column="nickName" property="nickname" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="registerDate" property="registerdate" jdbcType="TIMESTAMP" />
+    <result column="userType" property="usertype" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    userId, phoneNum, nickName, password, registerDate, userType
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from userinfo
+    where userId = #{userid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from userinfo
+    where userId = #{userid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.threeone.mealplanner.model.entity.UserInfo" >
+    insert into userinfo (userId, phoneNum, nickName, 
+      password, registerDate, userType
+      )
+    values (#{userid,jdbcType=INTEGER}, #{phonenum,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{registerdate,jdbcType=TIMESTAMP}, #{usertype,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.threeone.mealplanner.model.entity.UserInfo" >
+    insert into userinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="phonenum != null" >
+        phoneNum,
+      </if>
+      <if test="nickname != null" >
+        nickName,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="registerdate != null" >
+        registerDate,
+      </if>
+      <if test="usertype != null" >
+        userType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="phonenum != null" >
+        #{phonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="registerdate != null" >
+        #{registerdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="usertype != null" >
+        #{usertype,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.threeone.mealplanner.model.entity.UserInfo" >
+    update userinfo
+    <set >
+      <if test="phonenum != null" >
+        phoneNum = #{phonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        nickName = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="registerdate != null" >
+        registerDate = #{registerdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="usertype != null" >
+        userType = #{usertype,jdbcType=INTEGER},
+      </if>
+    </set>
+    where userId = #{userid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.threeone.mealplanner.model.entity.UserInfo" >
+    update userinfo
+    set phoneNum = #{phonenum,jdbcType=VARCHAR},
+      nickName = #{nickname,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      registerDate = #{registerdate,jdbcType=TIMESTAMP},
+      userType = #{usertype,jdbcType=INTEGER}
+    where userId = #{userid,jdbcType=INTEGER}
+  </update>
+</mapper>

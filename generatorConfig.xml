@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<!-- JDBC 包的绝对地址 -->
+	<classPathEntry
+		location="C:\Users\asus\.m2\repository\mysql\mysql-connector-java\5.1.21/mysql-connector-java-5.1.21.jar" />
+
+	<context id="MySqlTables" targetRuntime="MyBatis3">
+		<!-- 不生成注释 -->
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<!-- JDBC -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://127.0.0.1:3306/mealplanner" userId="root"
+			password="admin">
+		</jdbcConnection>
+
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+		
+		<!-- 实体类 -->
+		<javaModelGenerator targetPackage="com.threeone.mealplanner.model.entity"
+			targetProject="mealplanner/src/main/java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<!-- Mapper类 -->
+		<sqlMapGenerator targetPackage="com.threeone.mealplanner.mapper"
+			targetProject="mealplanner/src/main/resources">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<!-- Mapper XML -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.threeone.mealplanner.mapper" targetProject="mealplanner/src/main/java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		
+		<!-- 
+		tableName 数据库表名
+		Account 实体类类名
+		不生成Example相关文件
+		useActualColumnNames 是否使用实际列名（false 则自动生成驼峰式的字段名）
+		generatedKey 自增主键（如果主键不是自增，则不用写）
+		columnOverride 自定义规则 数据库字段 -> 属性
+		ignoreColumn 不生成某字段
+		 -->
+		<table tableName="userinfo" domainObjectName="UserInfo"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+			<property name="useActualColumnNames" value="false" />
+			<generatedKey column="id" sqlStatement="mysql"/>
+		</table>
+
+	</context>
+</generatorConfiguration>
