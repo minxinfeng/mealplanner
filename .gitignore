@@ -6,6 +6,7 @@
 /.settings
 /.classpath
 /.project
+/generatorConfig.xml
 /target
 
 
