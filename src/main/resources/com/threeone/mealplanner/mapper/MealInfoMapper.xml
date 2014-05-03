@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.threeone.mealplanner.mapper.MealInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.threeone.mealplanner.model.entity.MealInfo" >
+    <id column="mealId" property="mealid" jdbcType="INTEGER" />
+    <result column="mealOrganizeUserId" property="mealorganizeuserid" jdbcType="INTEGER" />
+    <result column="restId" property="restid" jdbcType="INTEGER" />
+    <result column="mealTime" property="mealtime" jdbcType="TIMESTAMP" />
+    <result column="organizationTime" property="organizationtime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    mealId, mealOrganizeUserId, restId, mealTime, organizationTime, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from mealinfo
+    where mealId = #{mealid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from mealinfo
+    where mealId = #{mealid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.threeone.mealplanner.model.entity.MealInfo" >
+    insert into mealinfo (mealId, mealOrganizeUserId, restId, 
+      mealTime, organizationTime, status
+      )
+    values (#{mealid,jdbcType=INTEGER}, #{mealorganizeuserid,jdbcType=INTEGER}, #{restid,jdbcType=INTEGER}, 
+      #{mealtime,jdbcType=TIMESTAMP}, #{organizationtime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.threeone.mealplanner.model.entity.MealInfo" >
+    insert into mealinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mealid != null" >
+        mealId,
+      </if>
+      <if test="mealorganizeuserid != null" >
+        mealOrganizeUserId,
+      </if>
+      <if test="restid != null" >
+        restId,
+      </if>
+      <if test="mealtime != null" >
+        mealTime,
+      </if>
+      <if test="organizationtime != null" >
+        organizationTime,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mealid != null" >
+        #{mealid,jdbcType=INTEGER},
+      </if>
+      <if test="mealorganizeuserid != null" >
+        #{mealorganizeuserid,jdbcType=INTEGER},
+      </if>
+      <if test="restid != null" >
+        #{restid,jdbcType=INTEGER},
+      </if>
+      <if test="mealtime != null" >
+        #{mealtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="organizationtime != null" >
+        #{organizationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.threeone.mealplanner.model.entity.MealInfo" >
+    update mealinfo
+    <set >
+      <if test="mealorganizeuserid != null" >
+        mealOrganizeUserId = #{mealorganizeuserid,jdbcType=INTEGER},
+      </if>
+      <if test="restid != null" >
+        restId = #{restid,jdbcType=INTEGER},
+      </if>
+      <if test="mealtime != null" >
+        mealTime = #{mealtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="organizationtime != null" >
+        organizationTime = #{organizationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where mealId = #{mealid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.threeone.mealplanner.model.entity.MealInfo" >
+    update mealinfo
+    set mealOrganizeUserId = #{mealorganizeuserid,jdbcType=INTEGER},
+      restId = #{restid,jdbcType=INTEGER},
+      mealTime = #{mealtime,jdbcType=TIMESTAMP},
+      organizationTime = #{organizationtime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where mealId = #{mealid,jdbcType=INTEGER}
+  </update>
+</mapper>

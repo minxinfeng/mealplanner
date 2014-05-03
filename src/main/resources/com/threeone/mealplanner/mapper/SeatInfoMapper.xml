@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.threeone.mealplanner.mapper.SeatInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.threeone.mealplanner.model.entity.SeatInfo" >
+    <id column="seatId" property="seatid" jdbcType="INTEGER" />
+    <result column="restId" property="restid" jdbcType="INTEGER" />
+    <result column="seatNo" property="seatno" jdbcType="INTEGER" />
+    <result column="peopleNum" property="peoplenum" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    seatId, restId, seatNo, peopleNum, description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from seatinfo
+    where seatId = #{seatid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from seatinfo
+    where seatId = #{seatid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.threeone.mealplanner.model.entity.SeatInfo" >
+    insert into seatinfo (seatId, restId, seatNo, 
+      peopleNum, description)
+    values (#{seatid,jdbcType=INTEGER}, #{restid,jdbcType=INTEGER}, #{seatno,jdbcType=INTEGER}, 
+      #{peoplenum,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.threeone.mealplanner.model.entity.SeatInfo" >
+    insert into seatinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="seatid != null" >
+        seatId,
+      </if>
+      <if test="restid != null" >
+        restId,
+      </if>
+      <if test="seatno != null" >
+        seatNo,
+      </if>
+      <if test="peoplenum != null" >
+        peopleNum,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="seatid != null" >
+        #{seatid,jdbcType=INTEGER},
+      </if>
+      <if test="restid != null" >
+        #{restid,jdbcType=INTEGER},
+      </if>
+      <if test="seatno != null" >
+        #{seatno,jdbcType=INTEGER},
+      </if>
+      <if test="peoplenum != null" >
+        #{peoplenum,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.threeone.mealplanner.model.entity.SeatInfo" >
+    update seatinfo
+    <set >
+      <if test="restid != null" >
+        restId = #{restid,jdbcType=INTEGER},
+      </if>
+      <if test="seatno != null" >
+        seatNo = #{seatno,jdbcType=INTEGER},
+      </if>
+      <if test="peoplenum != null" >
+        peopleNum = #{peoplenum,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where seatId = #{seatid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.threeone.mealplanner.model.entity.SeatInfo" >
+    update seatinfo
+    set restId = #{restid,jdbcType=INTEGER},
+      seatNo = #{seatno,jdbcType=INTEGER},
+      peopleNum = #{peoplenum,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR}
+    where seatId = #{seatid,jdbcType=INTEGER}
+  </update>
+</mapper>

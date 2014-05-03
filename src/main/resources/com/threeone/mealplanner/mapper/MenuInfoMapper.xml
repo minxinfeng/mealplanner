@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.threeone.mealplanner.mapper.MenuInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.threeone.mealplanner.model.entity.MenuInfo" >
+    <id column="menuId" property="menuid" jdbcType="INTEGER" />
+    <result column="restId" property="restid" jdbcType="INTEGER" />
+    <result column="menuName" property="menuname" jdbcType="VARCHAR" />
+    <result column="menuPrice" property="menuprice" jdbcType="DOUBLE" />
+    <result column="foodType" property="foodtype" jdbcType="INTEGER" />
+    <result column="searchTime" property="searchtime" jdbcType="INTEGER" />
+    <result column="orderTime" property="ordertime" jdbcType="INTEGER" />
+    <result column="recommand" property="recommand" jdbcType="INTEGER" />
+    <result column="hot" property="hot" jdbcType="INTEGER" />
+    <result column="foodUrl" property="foodurl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    menuId, restId, menuName, menuPrice, foodType, searchTime, orderTime, recommand, 
+    hot, foodUrl
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from menuinfo
+    where menuId = #{menuid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from menuinfo
+    where menuId = #{menuid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.threeone.mealplanner.model.entity.MenuInfo" >
+    insert into menuinfo (menuId, restId, menuName, 
+      menuPrice, foodType, searchTime, 
+      orderTime, recommand, hot, 
+      foodUrl)
+    values (#{menuid,jdbcType=INTEGER}, #{restid,jdbcType=INTEGER}, #{menuname,jdbcType=VARCHAR}, 
+      #{menuprice,jdbcType=DOUBLE}, #{foodtype,jdbcType=INTEGER}, #{searchtime,jdbcType=INTEGER}, 
+      #{ordertime,jdbcType=INTEGER}, #{recommand,jdbcType=INTEGER}, #{hot,jdbcType=INTEGER}, 
+      #{foodurl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.threeone.mealplanner.model.entity.MenuInfo" >
+    insert into menuinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuid != null" >
+        menuId,
+      </if>
+      <if test="restid != null" >
+        restId,
+      </if>
+      <if test="menuname != null" >
+        menuName,
+      </if>
+      <if test="menuprice != null" >
+        menuPrice,
+      </if>
+      <if test="foodtype != null" >
+        foodType,
+      </if>
+      <if test="searchtime != null" >
+        searchTime,
+      </if>
+      <if test="ordertime != null" >
+        orderTime,
+      </if>
+      <if test="recommand != null" >
+        recommand,
+      </if>
+      <if test="hot != null" >
+        hot,
+      </if>
+      <if test="foodurl != null" >
+        foodUrl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuid != null" >
+        #{menuid,jdbcType=INTEGER},
+      </if>
+      <if test="restid != null" >
+        #{restid,jdbcType=INTEGER},
+      </if>
+      <if test="menuname != null" >
+        #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="menuprice != null" >
+        #{menuprice,jdbcType=DOUBLE},
+      </if>
+      <if test="foodtype != null" >
+        #{foodtype,jdbcType=INTEGER},
+      </if>
+      <if test="searchtime != null" >
+        #{searchtime,jdbcType=INTEGER},
+      </if>
+      <if test="ordertime != null" >
+        #{ordertime,jdbcType=INTEGER},
+      </if>
+      <if test="recommand != null" >
+        #{recommand,jdbcType=INTEGER},
+      </if>
+      <if test="hot != null" >
+        #{hot,jdbcType=INTEGER},
+      </if>
+      <if test="foodurl != null" >
+        #{foodurl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.threeone.mealplanner.model.entity.MenuInfo" >
+    update menuinfo
+    <set >
+      <if test="restid != null" >
+        restId = #{restid,jdbcType=INTEGER},
+      </if>
+      <if test="menuname != null" >
+        menuName = #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="menuprice != null" >
+        menuPrice = #{menuprice,jdbcType=DOUBLE},
+      </if>
+      <if test="foodtype != null" >
+        foodType = #{foodtype,jdbcType=INTEGER},
+      </if>
+      <if test="searchtime != null" >
+        searchTime = #{searchtime,jdbcType=INTEGER},
+      </if>
+      <if test="ordertime != null" >
+        orderTime = #{ordertime,jdbcType=INTEGER},
+      </if>
+      <if test="recommand != null" >
+        recommand = #{recommand,jdbcType=INTEGER},
+      </if>
+      <if test="hot != null" >
+        hot = #{hot,jdbcType=INTEGER},
+      </if>
+      <if test="foodurl != null" >
+        foodUrl = #{foodurl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where menuId = #{menuid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.threeone.mealplanner.model.entity.MenuInfo" >
+    update menuinfo
+    set restId = #{restid,jdbcType=INTEGER},
+      menuName = #{menuname,jdbcType=VARCHAR},
+      menuPrice = #{menuprice,jdbcType=DOUBLE},
+      foodType = #{foodtype,jdbcType=INTEGER},
+      searchTime = #{searchtime,jdbcType=INTEGER},
+      orderTime = #{ordertime,jdbcType=INTEGER},
+      recommand = #{recommand,jdbcType=INTEGER},
+      hot = #{hot,jdbcType=INTEGER},
+      foodUrl = #{foodurl,jdbcType=VARCHAR}
+    where menuId = #{menuid,jdbcType=INTEGER}
+  </update>
+</mapper>

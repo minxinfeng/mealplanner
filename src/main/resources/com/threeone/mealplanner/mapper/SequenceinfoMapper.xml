@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.threeone.mealplanner.mapper.SequenceinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.threeone.mealplanner.model.entity.Sequenceinfo" >
+    <id column="seqId" property="seqid" jdbcType="INTEGER" />
+    <result column="restId" property="restid" jdbcType="VARCHAR" />
+    <result column="peopleNum" property="peoplenum" jdbcType="INTEGER" />
+    <result column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="seqDate" property="seqdate" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    seqId, restId, peopleNum, userId, seqDate, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sequenceinfo
+    where seqId = #{seqid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sequenceinfo
+    where seqId = #{seqid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.threeone.mealplanner.model.entity.Sequenceinfo" >
+    insert into sequenceinfo (seqId, restId, peopleNum, 
+      userId, seqDate, status
+      )
+    values (#{seqid,jdbcType=INTEGER}, #{restid,jdbcType=VARCHAR}, #{peoplenum,jdbcType=INTEGER}, 
+      #{userid,jdbcType=INTEGER}, #{seqdate,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.threeone.mealplanner.model.entity.Sequenceinfo" >
+    insert into sequenceinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="seqid != null" >
+        seqId,
+      </if>
+      <if test="restid != null" >
+        restId,
+      </if>
+      <if test="peoplenum != null" >
+        peopleNum,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="seqdate != null" >
+        seqDate,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="seqid != null" >
+        #{seqid,jdbcType=INTEGER},
+      </if>
+      <if test="restid != null" >
+        #{restid,jdbcType=VARCHAR},
+      </if>
+      <if test="peoplenum != null" >
+        #{peoplenum,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="seqdate != null" >
+        #{seqdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.threeone.mealplanner.model.entity.Sequenceinfo" >
+    update sequenceinfo
+    <set >
+      <if test="restid != null" >
+        restId = #{restid,jdbcType=VARCHAR},
+      </if>
+      <if test="peoplenum != null" >
+        peopleNum = #{peoplenum,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="seqdate != null" >
+        seqDate = #{seqdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where seqId = #{seqid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.threeone.mealplanner.model.entity.Sequenceinfo" >
+    update sequenceinfo
+    set restId = #{restid,jdbcType=VARCHAR},
+      peopleNum = #{peoplenum,jdbcType=INTEGER},
+      userId = #{userid,jdbcType=INTEGER},
+      seqDate = #{seqdate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where seqId = #{seqid,jdbcType=INTEGER}
+  </update>
+</mapper>

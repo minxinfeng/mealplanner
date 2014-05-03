@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.threeone.mealplanner.mapper.OrderInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.threeone.mealplanner.model.entity.OrderInfo" >
+    <id column="orderId" property="orderid" jdbcType="INTEGER" />
+    <result column="mealId" property="mealid" jdbcType="INTEGER" />
+    <result column="contactInfo" property="contactinfo" jdbcType="VARCHAR" />
+    <result column="actualPeopleNum" property="actualpeoplenum" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="operationUserId" property="operationuserid" jdbcType="INTEGER" />
+    <result column="seatId" property="seatid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    orderId, mealId, contactInfo, actualPeopleNum, status, operationUserId, seatId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from orderinfo
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from orderinfo
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.threeone.mealplanner.model.entity.OrderInfo" >
+    insert into orderinfo (orderId, mealId, contactInfo, 
+      actualPeopleNum, status, operationUserId, 
+      seatId)
+    values (#{orderid,jdbcType=INTEGER}, #{mealid,jdbcType=INTEGER}, #{contactinfo,jdbcType=VARCHAR}, 
+      #{actualpeoplenum,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{operationuserid,jdbcType=INTEGER}, 
+      #{seatid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.threeone.mealplanner.model.entity.OrderInfo" >
+    insert into orderinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderid != null" >
+        orderId,
+      </if>
+      <if test="mealid != null" >
+        mealId,
+      </if>
+      <if test="contactinfo != null" >
+        contactInfo,
+      </if>
+      <if test="actualpeoplenum != null" >
+        actualPeopleNum,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="operationuserid != null" >
+        operationUserId,
+      </if>
+      <if test="seatid != null" >
+        seatId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderid != null" >
+        #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="mealid != null" >
+        #{mealid,jdbcType=INTEGER},
+      </if>
+      <if test="contactinfo != null" >
+        #{contactinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="actualpeoplenum != null" >
+        #{actualpeoplenum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="operationuserid != null" >
+        #{operationuserid,jdbcType=INTEGER},
+      </if>
+      <if test="seatid != null" >
+        #{seatid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.threeone.mealplanner.model.entity.OrderInfo" >
+    update orderinfo
+    <set >
+      <if test="mealid != null" >
+        mealId = #{mealid,jdbcType=INTEGER},
+      </if>
+      <if test="contactinfo != null" >
+        contactInfo = #{contactinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="actualpeoplenum != null" >
+        actualPeopleNum = #{actualpeoplenum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="operationuserid != null" >
+        operationUserId = #{operationuserid,jdbcType=INTEGER},
+      </if>
+      <if test="seatid != null" >
+        seatId = #{seatid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.threeone.mealplanner.model.entity.OrderInfo" >
+    update orderinfo
+    set mealId = #{mealid,jdbcType=INTEGER},
+      contactInfo = #{contactinfo,jdbcType=VARCHAR},
+      actualPeopleNum = #{actualpeoplenum,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      operationUserId = #{operationuserid,jdbcType=INTEGER},
+      seatId = #{seatid,jdbcType=INTEGER}
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </update>
+</mapper>

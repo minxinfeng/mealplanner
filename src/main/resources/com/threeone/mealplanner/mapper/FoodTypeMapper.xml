@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.threeone.mealplanner.mapper.FoodTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.threeone.mealplanner.model.entity.FoodType" >
+    <id column="foodTypeId" property="foodtypeid" jdbcType="INTEGER" />
+    <result column="foodTypeName" property="foodtypename" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    foodTypeId, foodTypeName
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from foodtype
+    where foodTypeId = #{foodtypeid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from foodtype
+    where foodTypeId = #{foodtypeid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.threeone.mealplanner.model.entity.FoodType" >
+    insert into foodtype (foodTypeId, foodTypeName)
+    values (#{foodtypeid,jdbcType=INTEGER}, #{foodtypename,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.threeone.mealplanner.model.entity.FoodType" >
+    insert into foodtype
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="foodtypeid != null" >
+        foodTypeId,
+      </if>
+      <if test="foodtypename != null" >
+        foodTypeName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="foodtypeid != null" >
+        #{foodtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="foodtypename != null" >
+        #{foodtypename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.threeone.mealplanner.model.entity.FoodType" >
+    update foodtype
+    <set >
+      <if test="foodtypename != null" >
+        foodTypeName = #{foodtypename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where foodTypeId = #{foodtypeid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.threeone.mealplanner.model.entity.FoodType" >
+    update foodtype
+    set foodTypeName = #{foodtypename,jdbcType=VARCHAR}
+    where foodTypeId = #{foodtypeid,jdbcType=INTEGER}
+  </update>
+</mapper>
