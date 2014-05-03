@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.threeone.mealplanner.mapper.SequenceinfoMapper" >
-  <resultMap id="BaseResultMap" type="com.threeone.mealplanner.model.entity.Sequenceinfo" >
+<mapper namespace="com.threeone.mealplanner.mapper.SequenceInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.threeone.mealplanner.model.entity.SequenceInfo" >
     <id column="seqId" property="seqid" jdbcType="INTEGER" />
     <result column="restId" property="restid" jdbcType="VARCHAR" />
     <result column="peopleNum" property="peoplenum" jdbcType="INTEGER" />
@@ -22,7 +22,7 @@
     delete from sequenceinfo
     where seqId = #{seqid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.threeone.mealplanner.model.entity.Sequenceinfo" >
+  <insert id="insert" parameterType="com.threeone.mealplanner.model.entity.SequenceInfo" >
     insert into sequenceinfo (seqId, restId, peopleNum, 
       userId, seqDate, status
       )
@@ -30,7 +30,7 @@
       #{userid,jdbcType=INTEGER}, #{seqdate,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.threeone.mealplanner.model.entity.Sequenceinfo" >
+  <insert id="insertSelective" parameterType="com.threeone.mealplanner.model.entity.SequenceInfo" >
     insert into sequenceinfo
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="seqid != null" >
@@ -73,7 +73,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.threeone.mealplanner.model.entity.Sequenceinfo" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.threeone.mealplanner.model.entity.SequenceInfo" >
     update sequenceinfo
     <set >
       <if test="restid != null" >
@@ -94,7 +94,7 @@
     </set>
     where seqId = #{seqid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.threeone.mealplanner.model.entity.Sequenceinfo" >
+  <update id="updateByPrimaryKey" parameterType="com.threeone.mealplanner.model.entity.SequenceInfo" >
     update sequenceinfo
     set restId = #{restid,jdbcType=VARCHAR},
       peopleNum = #{peoplenum,jdbcType=INTEGER},

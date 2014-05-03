@@ -2,7 +2,7 @@ package com.threeone.mealplanner.model.entity;
 
 import java.util.Date;
 
-public class Sequenceinfo {
+public class SequenceInfo {
     private Integer seqid;
 
     private String restid;
