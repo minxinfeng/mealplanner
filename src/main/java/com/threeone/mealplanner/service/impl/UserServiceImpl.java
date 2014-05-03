@@ -8,7 +8,6 @@ public class UserServiceImpl implements UserService {
 
 	private UserInfoMapper userInfoMapper;
 	
-	@Override
 	public UserInfo getUserInfoById(int id) {
 		UserInfo userInfo = userInfoMapper.selectByPrimaryKey(id);
 		return userInfo;

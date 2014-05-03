@@ -16,8 +16,11 @@ import com.threeone.mealplanner.service.UserService;
 public class SampleController {
 
 	private UserService userService;
+	
 	@RequestMapping("/index")
-	public String index() {
+	public String index(Model model) {
+		UserInfo userInfo = userService.getUserInfoById(1);
+		model.addAttribute("userinfo", userInfo);
 		return "index.ftl";
 	}
 	
