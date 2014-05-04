@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -57,6 +56,7 @@ public class AppUserInfoController {
 		try {
 			userService.register(userInfo);
 			message = "Register success!";
+			userInfo.setUserid(userService.getUserInfoByLogin(username, password).getUserid());
 		} catch (InternalException e) {
 			message = "Register error, error message:" + e.getMessage();
 			flag = false;
@@ -64,15 +64,4 @@ public class AppUserInfoController {
 		return new JsonResult<UserInfo>(flag, message, userInfo); 
 	}
 	
-	
-	@RequestMapping("/userInfo")
-	@ResponseBody
-	public JsonResult<UserInfo> getUserinfo(@RequestParam(defaultValue="1") int userId, Model model) {
-		UserInfo userInfo = userService.getUserInfoById(userId);
-		Boolean flag = true;
-		String message = "success";
-		
-		return new JsonResult<UserInfo>(flag, message, userInfo);
-	}
-
 }
