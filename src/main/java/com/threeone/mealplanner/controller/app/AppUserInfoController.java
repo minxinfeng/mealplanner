@@ -56,6 +56,7 @@ public class AppUserInfoController {
 		Boolean flag = true;
 		try {
 			userService.register(userInfo);
+			userInfo.setUserid(userService.getUserInfoByLogin(phonenum, password).getUserid());
 			message = "Register success!";
 		} catch (InternalException e) {
 			message = "Register error, error message:" + e.getMessage();

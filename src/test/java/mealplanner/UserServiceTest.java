@@ -9,10 +9,10 @@ public class UserServiceTest {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Test
 	public void test(){
-		
+
 	}
 
 	public void setUserService(UserService userService) {
