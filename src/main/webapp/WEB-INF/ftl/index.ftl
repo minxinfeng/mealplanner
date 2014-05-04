@@ -1,9 +1,13 @@
 <html>
+<head>
+<#include "/base/base.ftl">
+</head>
 <body>
+	<#include "/base/header.ftl">
 	<h2>Hello World!</h2>
 	<br />
-	User NickName: ${userinfo.nickname!''}
+	Username: ${userInfo.username!''}
 	<br />
-	User Phone:${userinfo.phonenum}
+	User Phone:${userInfo.phonenum}
 </body>
 </html>

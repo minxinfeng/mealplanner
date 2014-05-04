@@ -114,4 +114,29 @@
       userType = #{usertype,jdbcType=INTEGER}
     where userId = #{userid,jdbcType=INTEGER}
   </update>
+  
+  <select id="getUserInfoByLogin" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from userinfo
+    where (userName = #{loginName,jdbcType=VARCHAR} or email = #{loginName,jdbcType=VARCHAR} or phoneNum = #{loginName,jdbcType=VARCHAR})
+    and password = #{password,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getUserInfoForCheck" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from userinfo
+    where 
+    <if test="username != null" >
+        userName = #{username,jdbcType=VARCHAR}
+    </if>
+    <if test="phonenum != null" >
+        phoneNum = #{phonenum,jdbcType=VARCHAR}
+    </if>
+    <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
 </mapper>

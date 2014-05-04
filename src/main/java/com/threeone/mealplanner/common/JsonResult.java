@@ -2,7 +2,6 @@ package com.threeone.mealplanner.common;
 
 /**
  * @author mei
- *
  */
 public class JsonResult<T> {
 	private boolean success;
