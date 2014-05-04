@@ -3,14 +3,15 @@
 <mapper namespace="com.threeone.mealplanner.mapper.UserInfoMapper" >
   <resultMap id="BaseResultMap" type="com.threeone.mealplanner.model.entity.UserInfo" >
     <id column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="userName" property="username" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="phoneNum" property="phonenum" jdbcType="VARCHAR" />
-    <result column="nickName" property="nickname" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="registerDate" property="registerdate" jdbcType="TIMESTAMP" />
     <result column="userType" property="usertype" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    userId, phoneNum, nickName, password, registerDate, userType
+    userId, userName, email, phoneNum, password, registerDate, userType
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -23,12 +24,12 @@
     where userId = #{userid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.threeone.mealplanner.model.entity.UserInfo" >
-    insert into userinfo (userId, phoneNum, nickName, 
-      password, registerDate, userType
-      )
-    values (#{userid,jdbcType=INTEGER}, #{phonenum,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{registerdate,jdbcType=TIMESTAMP}, #{usertype,jdbcType=INTEGER}
-      )
+    insert into userinfo (userId, userName, email, 
+      phoneNum, password, registerDate, 
+      userType)
+    values (#{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{phonenum,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{registerdate,jdbcType=TIMESTAMP}, 
+      #{usertype,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.threeone.mealplanner.model.entity.UserInfo" >
     insert into userinfo
@@ -36,11 +37,14 @@
       <if test="userid != null" >
         userId,
       </if>
+      <if test="username != null" >
+        userName,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
       <if test="phonenum != null" >
         phoneNum,
-      </if>
-      <if test="nickname != null" >
-        nickName,
       </if>
       <if test="password != null" >
         password,
@@ -56,11 +60,14 @@
       <if test="userid != null" >
         #{userid,jdbcType=INTEGER},
       </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
       <if test="phonenum != null" >
         #{phonenum,jdbcType=VARCHAR},
-      </if>
-      <if test="nickname != null" >
-        #{nickname,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         #{password,jdbcType=VARCHAR},
@@ -76,11 +83,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.threeone.mealplanner.model.entity.UserInfo" >
     update userinfo
     <set >
+      <if test="username != null" >
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
       <if test="phonenum != null" >
         phoneNum = #{phonenum,jdbcType=VARCHAR},
-      </if>
-      <if test="nickname != null" >
-        nickName = #{nickname,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         password = #{password,jdbcType=VARCHAR},
@@ -96,8 +106,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.threeone.mealplanner.model.entity.UserInfo" >
     update userinfo
-    set phoneNum = #{phonenum,jdbcType=VARCHAR},
-      nickName = #{nickname,jdbcType=VARCHAR},
+    set userName = #{username,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      phoneNum = #{phonenum,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       registerDate = #{registerdate,jdbcType=TIMESTAMP},
       userType = #{usertype,jdbcType=INTEGER}

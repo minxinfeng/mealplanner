@@ -1,4 +1,4 @@
-﻿CREATE DATABASE  IF NOT EXISTS `mealplanner` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE  IF NOT EXISTS `mealplanner` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `mealplanner`;
 -- MySQL dump 10.13  Distrib 5.5.16, for Win32 (x86)
 --
@@ -375,14 +375,14 @@ DROP TABLE IF EXISTS `userinfo`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `userinfo` (
   `userId` int(11) NOT NULL AUTO_INCREMENT,
-  `phoneNum` varchar(45) NOT NULL,
-  `nickName` varchar(45) DEFAULT NULL,
+  `userName` varchar(45) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  `phoneNum` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
   `registerDate` datetime DEFAULT NULL,
   `userType` int(11) DEFAULT NULL COMMENT '用户类型，1是系统管理员，2是餐厅管理员，3是普通用户',
   PRIMARY KEY (`userId`),
-  UNIQUE KEY `userId_UNIQUE` (`userId`),
-  UNIQUE KEY `phoneNum_UNIQUE` (`phoneNum`)
+  UNIQUE KEY `userId_UNIQUE` (`userId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -392,7 +392,7 @@ CREATE TABLE `userinfo` (
 
 LOCK TABLES `userinfo` WRITE;
 /*!40000 ALTER TABLE `userinfo` DISABLE KEYS */;
-INSERT INTO `userinfo` VALUES (1,'11111111111','minxin11','123456',NULL,1);
+INSERT INTO `userinfo` VALUES (1,'minxin',NULL,'15210582672','123456',NULL,1);
 /*!40000 ALTER TABLE `userinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -405,4 +405,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-03 16:46:53
+-- Dump completed on 2014-05-04 15:28:55

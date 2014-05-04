@@ -5,9 +5,11 @@ import java.util.Date;
 public class UserInfo {
     private Integer userid;
 
-    private String phonenum;
+    private String username;
 
-    private String nickname;
+    private String email;
+
+    private String phonenum;
 
     private String password;
 
@@ -23,20 +25,28 @@ public class UserInfo {
         this.userid = userid;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username == null ? null : username.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
+
     public String getPhonenum() {
         return phonenum;
     }
 
     public void setPhonenum(String phonenum) {
         this.phonenum = phonenum == null ? null : phonenum.trim();
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname == null ? null : nickname.trim();
     }
 
     public String getPassword() {
