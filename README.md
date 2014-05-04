@@ -1,7 +1,7 @@
 mealplanner
 ===========
 
-This project is for  our training project II and III, mainly to support the other two project -- android &amp; website by service.
+This project is for  our training project II and III, mainly to support the other project -- android by service, as well as the website for the restaurant。
 
 The team members are as followings:
 
