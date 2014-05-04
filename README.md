@@ -1,7 +1,9 @@
 mealplanner
 ===========
 
-This project is for  our training project II and III, mainly to support the other project -- android by service, as well as the website for the restaurant。
+This project is for  our training project II and III, mainly to support the other project -- android by service, as well as the website for the restaurant.
+
+The Android app is: https://github.com/YangruiEmma/MealPlanner_Android
 
 The team members are as followings:
 
