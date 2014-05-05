@@ -1,5 +1,7 @@
 package com.threeone.mealplanner.mapper;
 
+import java.util.List;
+
 import com.threeone.mealplanner.model.entity.FoodType;
 
 public interface FoodTypeMapper {
@@ -14,4 +16,8 @@ public interface FoodTypeMapper {
     int updateByPrimaryKeySelective(FoodType record);
 
     int updateByPrimaryKey(FoodType record);
+    
+    List<FoodType> getAllFoodTypes();
+    
+    
 }

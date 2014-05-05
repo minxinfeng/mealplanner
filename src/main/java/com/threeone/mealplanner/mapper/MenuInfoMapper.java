@@ -25,4 +25,11 @@ public interface MenuInfoMapper {
      * @return
      */
     List<MenuInfo> getMenuByRestId(@Param("restId") int restId);
+    
+    /**
+     * 获取某类别的所有菜单信息
+     * @param typeId
+     * @return
+     */
+    List<MenuInfo> getMenuInfoByType(@Param("typeId") int typeId);
 }

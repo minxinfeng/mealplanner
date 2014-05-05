@@ -158,4 +158,13 @@
     from menuinfo, foodtype
     where restId = #{restId,jdbcType=INTEGER} and menuinfo.foodType = foodtype.foodTypeId
   </select>
+  
+   <select id="getMenuInfoByType" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from menuinfo, foodtype
+    where foodType = #{typeId,jdbcType=INTEGER} and menuinfo.foodType = foodtype.foodTypeId
+  </select>
+  
+  
 </mapper>

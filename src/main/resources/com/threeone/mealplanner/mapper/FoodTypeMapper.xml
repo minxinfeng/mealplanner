@@ -55,4 +55,10 @@
     set foodTypeName = #{foodtypename,jdbcType=VARCHAR}
     where foodTypeId = #{foodtypeid,jdbcType=INTEGER}
   </update>
+  
+  <select id="getAllFoodTypes" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from foodtype
+  </select>
 </mapper>
