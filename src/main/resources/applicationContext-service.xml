@@ -18,4 +18,9 @@
 	<bean id="userService" class="com.threeone.mealplanner.service.impl.UserServiceImpl">
 		<property name="userInfoMapper" ref="userInfoMapper" />
 	</bean>
+	
+	<bean id="restaurantService" class="com.threeone.mealplanner.service.impl.RestaurantServiceImpl">
+		<property name="restaurantInfoMapper" ref="restaurantInfoMapper" />
+		<property name="menuInfoMapper" ref="menuInfoMapper" />
+	</bean>
 </beans>

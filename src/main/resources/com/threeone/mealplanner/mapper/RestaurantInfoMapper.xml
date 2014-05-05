@@ -9,18 +9,19 @@
     <result column="restAddress" property="restaddress" jdbcType="VARCHAR" />
     <result column="restWebsite" property="restwebsite" jdbcType="VARCHAR" />
     <result column="restType" property="resttype" jdbcType="INTEGER" />
+    <result column="restTypeName" property="restTypeName" jdbcType="VARCHAR" />
     <result column="restSearchTime" property="restsearchtime" jdbcType="VARCHAR" />
     <result column="hot" property="hot" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    restId, restName, restPhone, restCity, restAddress, restWebsite, restType, restSearchTime, 
+    restId, restName, restPhone, restCity, restAddress, restWebsite, restType, restTypeName, restSearchTime, 
     hot
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from restaurantinfo
-    where restId = #{restid,jdbcType=INTEGER}
+    from restaurantinfo, resttype
+    where restId = #{restid,jdbcType=INTEGER} and restaurantinfo.restType = resttype.restTypeId
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from restaurantinfo
@@ -139,4 +140,11 @@
       hot = #{hot,jdbcType=INTEGER}
     where restId = #{restid,jdbcType=INTEGER}
   </update>
+  
+  <select id="getAllRestaurantInfos" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from restaurantinfo, resttype
+    where restaurantinfo.restType = resttype.restTypeId
+  </select>
 </mapper>

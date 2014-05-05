@@ -7,6 +7,7 @@
     <result column="menuName" property="menuname" jdbcType="VARCHAR" />
     <result column="menuPrice" property="menuprice" jdbcType="DOUBLE" />
     <result column="foodType" property="foodtype" jdbcType="INTEGER" />
+    <result column="foodTypeName" property="foodTypeName" jdbcType="VARCHAR" />
     <result column="searchTime" property="searchtime" jdbcType="INTEGER" />
     <result column="orderTime" property="ordertime" jdbcType="INTEGER" />
     <result column="recommand" property="recommand" jdbcType="INTEGER" />
@@ -14,14 +15,14 @@
     <result column="foodUrl" property="foodurl" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    menuId, restId, menuName, menuPrice, foodType, searchTime, orderTime, recommand, 
+    menuId, restId, menuName, menuPrice, foodType, foodTypeName, searchTime, orderTime, recommand, 
     hot, foodUrl
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from menuinfo
-    where menuId = #{menuid,jdbcType=INTEGER}
+    from menuinfo,foodtype
+    where menuId = #{menuid,jdbcType=INTEGER} and menuinfo.foodType = foodtype.foodTypeId
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from menuinfo
@@ -150,4 +151,11 @@
       foodUrl = #{foodurl,jdbcType=VARCHAR}
     where menuId = #{menuid,jdbcType=INTEGER}
   </update>
+  
+  <select id="getMenuByRestId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from menuinfo, foodtype
+    where restId = #{restId,jdbcType=INTEGER} and menuinfo.foodType = foodtype.foodTypeId
+  </select>
 </mapper>

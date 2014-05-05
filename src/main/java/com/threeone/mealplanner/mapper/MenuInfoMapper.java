@@ -1,5 +1,9 @@
 package com.threeone.mealplanner.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.threeone.mealplanner.model.entity.MenuInfo;
 
 public interface MenuInfoMapper {
@@ -14,4 +18,11 @@ public interface MenuInfoMapper {
     int updateByPrimaryKeySelective(MenuInfo record);
 
     int updateByPrimaryKey(MenuInfo record);
+    
+    /**
+     * 根据restId获取餐厅的菜单信息
+     * @param restId
+     * @return
+     */
+    List<MenuInfo> getMenuByRestId(@Param("restId") int restId);
 }

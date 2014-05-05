@@ -14,6 +14,8 @@ public class RestaurantInfo {
     private String restwebsite;
 
     private Integer resttype;
+    
+    private String restTypeName;
 
     private String restsearchtime;
 
@@ -90,4 +92,12 @@ public class RestaurantInfo {
     public void setHot(Integer hot) {
         this.hot = hot;
     }
+
+	public String getRestTypeName() {
+		return restTypeName;
+	}
+
+	public void setRestTypeName(String restTypeName) {
+		this.restTypeName = restTypeName;
+	}
 }

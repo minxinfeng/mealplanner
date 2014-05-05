@@ -10,6 +10,8 @@ public class MenuInfo {
     private Double menuprice;
 
     private Integer foodtype;
+    
+    private String foodTypeName;
 
     private Integer searchtime;
 
@@ -100,4 +102,12 @@ public class MenuInfo {
     public void setFoodurl(String foodurl) {
         this.foodurl = foodurl == null ? null : foodurl.trim();
     }
+
+	public String getFoodTypeName() {
+		return foodTypeName;
+	}
+
+	public void setFoodTypeName(String foodTypeName) {
+		this.foodTypeName = foodTypeName;
+	}
 }
