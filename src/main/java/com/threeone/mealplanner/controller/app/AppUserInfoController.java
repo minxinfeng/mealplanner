@@ -61,6 +61,7 @@ public class AppUserInfoController {
 		} catch (InternalException e) {
 			message = "Register error, error message:" + e.getMessage();
 			flag = false;
+			userInfo = null;
 		}
 		return new JsonResult<UserInfo>(flag, message, userInfo); 
 	}

@@ -129,13 +129,13 @@
     from userinfo
     where 
     <if test="username != null" >
-        userName = #{username,jdbcType=VARCHAR}
+        userName = #{username,jdbcType=VARCHAR} or phoneNum = #{username,jdbcType=VARCHAR} or email = #{username,jdbcType=VARCHAR}
     </if>
     <if test="phonenum != null" >
-        phoneNum = #{phonenum,jdbcType=VARCHAR}
+        userName = #{phonenum,jdbcType=VARCHAR} or phoneNum = #{phonenum,jdbcType=VARCHAR} or email = #{phonenum,jdbcType=VARCHAR}
     </if>
     <if test="email != null" >
-        email = #{email,jdbcType=VARCHAR}
+        userName = #{email,jdbcType=VARCHAR} or phoneNum = #{email,jdbcType=VARCHAR} or email = #{email,jdbcType=VARCHAR}
     </if>
   </select>
   

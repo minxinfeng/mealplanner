@@ -1,4 +1,4 @@
-<#-- alert 提示 -->
+<#-- alert  -->
 <div class='alert-information'>
     <#comment>
     FAQ:
