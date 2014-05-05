@@ -35,6 +35,22 @@ public class RestaurantServiceImpl implements RestaurantService {
 		return restaurantWithMenus;
 	}
 
+	
+	@Override
+	public List<RestaurantWithMenu> getSeveralRestaurantWithMenus(int start,
+			int end) throws InternalException {
+		List<RestaurantWithMenu> restaurantWithMenus = new ArrayList<RestaurantWithMenu>();
+		List<RestaurantInfo> restaurantInfos = restaurantInfoMapper.getSeveralRestaurantInfos(start, end);
+		for (RestaurantInfo restaurantInfo : restaurantInfos) {
+			RestaurantWithMenu restaurantWithMenu = new RestaurantWithMenu();
+			List<MenuInfo> menuInfos = menuInfoMapper.getMenuByRestId(restaurantInfo.getRestid());
+			restaurantWithMenu.setRestaurantInfo(restaurantInfo);
+			restaurantWithMenu.setMenuInfos(menuInfos);
+			restaurantWithMenus.add(restaurantWithMenu);
+		}
+		return restaurantWithMenus;
+	}
+	
 	public void setRestaurantInfoMapper(RestaurantInfoMapper restaurantInfoMapper) {
 		this.restaurantInfoMapper = restaurantInfoMapper;
 	}

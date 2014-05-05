@@ -19,4 +19,6 @@ public interface RestaurantService {
 	 * @throws InternalException 
 	 */
 	List<RestaurantWithMenu> getAllRestaurantWithMenus() throws InternalException;
+	
+	List<RestaurantWithMenu> getSeveralRestaurantWithMenus(int start, int end) throws InternalException;
 }

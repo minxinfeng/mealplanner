@@ -147,4 +147,12 @@
     from restaurantinfo, resttype
     where restaurantinfo.restType = resttype.restTypeId
   </select>
+  
+  <select id="getSeveralRestaurantInfos" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from restaurantinfo, resttype
+    where restaurantinfo.restType = resttype.restTypeId
+    limit #{startFrom,jdbcType=INTEGER},#{endTo,jdbcType=INTEGER}
+  </select>
 </mapper>

@@ -2,6 +2,8 @@ package com.threeone.mealplanner.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.threeone.mealplanner.model.entity.RestaurantInfo;
 
 public interface RestaurantInfoMapper {
@@ -18,4 +20,6 @@ public interface RestaurantInfoMapper {
     int updateByPrimaryKey(RestaurantInfo record);
     
     List<RestaurantInfo> getAllRestaurantInfos();
+    
+    List<RestaurantInfo> getSeveralRestaurantInfos(@Param("startFrom") int startFrom, @Param("endTo") int endTo);
 }

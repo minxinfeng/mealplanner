@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.threeone.mealplanner.common.InternalException;
@@ -32,7 +33,22 @@ public class AppRestaurantController {
 			message = "Get all restaurants failed! Reason:" + e.getMessage();
 			return new JsonResult<List<RestaurantWithMenu>>(flag, message, null);
 		}
-		
+	}
+	
+	@RequestMapping("/getRest")
+	@ResponseBody
+	public JsonResult<List<RestaurantWithMenu>> getRest(@RequestParam int start, int end){
+		Boolean flag = true;
+		String message = "Get restaurants info from " + start + " to " + end;
+		try {
+			List<RestaurantWithMenu> restaurantWithMenus = restaurantService.getSeveralRestaurantWithMenus(start,end);
+			message += " success!";
+			return new JsonResult<List<RestaurantWithMenu>>(flag, message, restaurantWithMenus);
+		} catch (InternalException e) {
+			flag = false;
+			message = message + " failed! Reason:" + e.getMessage();
+			return new JsonResult<List<RestaurantWithMenu>>(flag, message, null);
+		}
 	}
 
 }
