@@ -29,9 +29,9 @@ public class WebUserInfoController {
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String loginPost(@RequestParam String loginName, @RequestParam String password, Model model){
-		UserInfo userInfo = userService.getUserInfoByLogin(loginName, password);
+		UserInfo userInfo = userService.getUserInfoByLogin(loginName);
 		Message message = new Message();
-		if(userInfo == null){
+		if(userInfo == null || !userInfo.getPassword().equals(password)){
 			message.danger("Username or password is error!");
 			model.addAttribute("messages", message.getMessages());
 			return "auth/login.ftl";

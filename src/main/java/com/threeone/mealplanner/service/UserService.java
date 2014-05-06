@@ -10,10 +10,9 @@ public interface UserService {
 	/**
 	 * 登录
 	 * @param loginName  登录名，可以使username,phonenum,email
-	 * @param password
 	 * @return
 	 */
-	UserInfo getUserInfoByLogin(String loginName, String password);
+	UserInfo getUserInfoByLogin(String loginName);
 	
 	/**
 	 * 注册

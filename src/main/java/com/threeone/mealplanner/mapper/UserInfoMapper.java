@@ -17,7 +17,7 @@ public interface UserInfoMapper {
     UserInfo getUserInfoForCheck(@Param("username") String username, @Param("phonenum") String phonenum, @Param("email") String email);
     
     //获取用户登录相关信息
-    UserInfo getUserInfoByLogin(@Param("loginName") String loginName, @Param("password") String password);
+    UserInfo getUserInfoByLogin(@Param("loginName") String loginName);
 
     int updateByPrimaryKeySelective(UserInfo record);
 

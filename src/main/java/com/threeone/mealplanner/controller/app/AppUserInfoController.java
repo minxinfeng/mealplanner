@@ -31,14 +31,13 @@ public class AppUserInfoController {
 	@RequestMapping("/login")
 	@ResponseBody
 	public JsonResult<UserInfo> login(@RequestParam String loginName, @RequestParam String password){
-		UserInfo userInfo = userService.getUserInfoByLogin(loginName, password);
+		UserInfo userInfo = userService.getUserInfoByLogin(loginName);
 		Boolean flag = true;
 		String message = "login success!";
-		if(userInfo == null){
+		if(userInfo == null || !userInfo.getPassword().equals(password)){
 			flag = false;
 			message = "Username or password is error!";
 		}
-		
 		return new JsonResult<UserInfo>(flag, message, userInfo);
 	}
 	
@@ -56,7 +55,7 @@ public class AppUserInfoController {
 		Boolean flag = true;
 		try {
 			userService.register(userInfo);
-			userInfo.setUserid(userService.getUserInfoByLogin(phonenum, password).getUserid());
+			userInfo.setUserid(userService.getUserInfoByLogin(phonenum).getUserid());
 			message = "Register success!";
 		} catch (InternalException e) {
 			message = "Register error, error message:" + e.getMessage();

@@ -29,7 +29,7 @@ CREATE TABLE `foodtype` (
   `foodTypeName` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`foodTypeId`),
   UNIQUE KEY `foodTypeId_UNIQUE` (`foodTypeId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜品类别:辣，微辣，川菜等';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='菜品类别:辣，微辣，川菜等';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,6 +38,7 @@ CREATE TABLE `foodtype` (
 
 LOCK TABLES `foodtype` WRITE;
 /*!40000 ALTER TABLE `foodtype` DISABLE KEYS */;
+INSERT INTO `foodtype` VALUES (1,'北京菜'),(2,'川菜');
 /*!40000 ALTER TABLE `foodtype` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -141,7 +142,7 @@ CREATE TABLE `menuinfo` (
   `foodUrl` varchar(255) DEFAULT NULL COMMENT '食物图片对应的URL',
   PRIMARY KEY (`menuId`),
   UNIQUE KEY `menuId_UNIQUE` (`menuId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单信息';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='菜单信息';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -150,6 +151,7 @@ CREATE TABLE `menuinfo` (
 
 LOCK TABLES `menuinfo` WRITE;
 /*!40000 ALTER TABLE `menuinfo` DISABLE KEYS */;
+INSERT INTO `menuinfo` VALUES (1,1,'宫保鸡丁',20,1,0,0,1,1,NULL),(2,1,'干煸豆角',18,1,1,1,1,1,NULL),(3,2,'test',48,2,NULL,NULL,1,1,NULL);
 /*!40000 ALTER TABLE `menuinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -163,11 +165,14 @@ DROP TABLE IF EXISTS `orderinfo`;
 CREATE TABLE `orderinfo` (
   `orderId` int(11) NOT NULL AUTO_INCREMENT,
   `mealId` int(11) DEFAULT NULL COMMENT '饭局邀请ID',
+  `restId` int(11) DEFAULT NULL,
   `contactInfo` varchar(45) DEFAULT NULL COMMENT '联系方式，默认为饭局创建者的手机号码，同时可以修改',
   `actualPeopleNum` int(11) DEFAULT NULL COMMENT '该饭局中的用户数',
-  `status` int(11) DEFAULT NULL COMMENT '订单状态：\n0：订单提交成功\n1：订单提交失败(无座位)\n2：已经审核通过\n3：被取消\n4：已完成',
-  `operationUserId` int(11) DEFAULT NULL COMMENT '最后操作的用户ID，如管理员，餐厅管理者等',
+  `menuIds` varchar(45) DEFAULT NULL,
+  `mealTime` datetime DEFAULT NULL,
   `seatId` int(11) DEFAULT NULL COMMENT '预定的座位ID',
+  `operationUserId` int(11) DEFAULT NULL COMMENT '最后操作的用户ID，如管理员，餐厅管理者等',
+  `status` int(11) DEFAULT NULL COMMENT '订单状态：\n0：订单提交成功\n1：订单提交失败(无座位)\n2：已经审核通过\n3：被取消\n4：已完成',
   PRIMARY KEY (`orderId`),
   UNIQUE KEY `orderId_UNIQUE` (`orderId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单信息';
@@ -180,31 +185,6 @@ CREATE TABLE `orderinfo` (
 LOCK TABLES `orderinfo` WRITE;
 /*!40000 ALTER TABLE `orderinfo` DISABLE KEYS */;
 /*!40000 ALTER TABLE `orderinfo` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `ordermenu`
---
-
-DROP TABLE IF EXISTS `ordermenu`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ordermenu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `orderId` int(11) DEFAULT NULL COMMENT '订单ID',
-  `menuId` int(11) DEFAULT NULL COMMENT '菜品ID',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单与菜品的对应关系';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `ordermenu`
---
-
-LOCK TABLES `ordermenu` WRITE;
-/*!40000 ALTER TABLE `ordermenu` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ordermenu` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -226,7 +206,7 @@ CREATE TABLE `restaurantinfo` (
   `hot` int(11) DEFAULT NULL COMMENT '是否是热门餐厅\n1 热门\n0 非热门',
   PRIMARY KEY (`restId`),
   UNIQUE KEY `restId_UNIQUE` (`restId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='餐厅信息';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='餐厅信息';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -235,6 +215,7 @@ CREATE TABLE `restaurantinfo` (
 
 LOCK TABLES `restaurantinfo` WRITE;
 /*!40000 ALTER TABLE `restaurantinfo` DISABLE KEYS */;
+INSERT INTO `restaurantinfo` VALUES (1,'天外天','111',1,'111','111',1,'1',1),(2,'西门','1',1,'1','1',1,'1',1);
 /*!40000 ALTER TABLE `restaurantinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,7 +255,7 @@ CREATE TABLE `resttype` (
   `restTypeName` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`restTypeId`),
   UNIQUE KEY `restTypeId_UNIQUE` (`restTypeId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='餐馆类别';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='餐馆类别';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -283,6 +264,7 @@ CREATE TABLE `resttype` (
 
 LOCK TABLES `resttype` WRITE;
 /*!40000 ALTER TABLE `resttype` DISABLE KEYS */;
+INSERT INTO `resttype` VALUES (1,'自助');
 /*!40000 ALTER TABLE `resttype` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -383,7 +365,7 @@ CREATE TABLE `userinfo` (
   `userType` int(11) DEFAULT NULL COMMENT '用户类型，1是系统管理员，2是餐厅管理员，3是普通用户',
   PRIMARY KEY (`userId`),
   UNIQUE KEY `userId_UNIQUE` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -392,7 +374,7 @@ CREATE TABLE `userinfo` (
 
 LOCK TABLES `userinfo` WRITE;
 /*!40000 ALTER TABLE `userinfo` DISABLE KEYS */;
-INSERT INTO `userinfo` VALUES (1,'minxin',NULL,'15210582672','123456',NULL,1);
+INSERT INTO `userinfo` VALUES (1,'minxin',NULL,'15210582672','123456',NULL,1),(2,'fxm','111','111111','111','2014-05-04 23:12:22',2),(3,'1','1','1','1','2014-05-04 23:24:18',3),(4,'11','11','11','11','2014-05-05 14:17:20',3);
 /*!40000 ALTER TABLE `userinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -405,4 +387,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-04 15:28:55
+-- Dump completed on 2014-05-06  9:36:59

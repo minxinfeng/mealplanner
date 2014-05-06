@@ -4,14 +4,18 @@
   <resultMap id="BaseResultMap" type="com.threeone.mealplanner.model.entity.OrderInfo" >
     <id column="orderId" property="orderid" jdbcType="INTEGER" />
     <result column="mealId" property="mealid" jdbcType="INTEGER" />
+    <result column="restId" property="restid" jdbcType="INTEGER" />
     <result column="contactInfo" property="contactinfo" jdbcType="VARCHAR" />
     <result column="actualPeopleNum" property="actualpeoplenum" jdbcType="INTEGER" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="operationUserId" property="operationuserid" jdbcType="INTEGER" />
+    <result column="menuIds" property="menuids" jdbcType="VARCHAR" />
+    <result column="mealTime" property="mealtime" jdbcType="TIMESTAMP" />
     <result column="seatId" property="seatid" jdbcType="INTEGER" />
+    <result column="operationUserId" property="operationuserid" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    orderId, mealId, contactInfo, actualPeopleNum, status, operationUserId, seatId
+    orderId, mealId, restId, contactInfo, actualPeopleNum, menuIds, mealTime, seatId, 
+    operationUserId, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -24,12 +28,14 @@
     where orderId = #{orderid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.threeone.mealplanner.model.entity.OrderInfo" >
-    insert into orderinfo (orderId, mealId, contactInfo, 
-      actualPeopleNum, status, operationUserId, 
-      seatId)
-    values (#{orderid,jdbcType=INTEGER}, #{mealid,jdbcType=INTEGER}, #{contactinfo,jdbcType=VARCHAR}, 
-      #{actualpeoplenum,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{operationuserid,jdbcType=INTEGER}, 
-      #{seatid,jdbcType=INTEGER})
+    insert into orderinfo (orderId, mealId, restId, 
+      contactInfo, actualPeopleNum, menuIds, 
+      mealTime, seatId, operationUserId, 
+      status)
+    values (#{orderid,jdbcType=INTEGER}, #{mealid,jdbcType=INTEGER}, #{restid,jdbcType=INTEGER}, 
+      #{contactinfo,jdbcType=VARCHAR}, #{actualpeoplenum,jdbcType=INTEGER}, #{menuids,jdbcType=VARCHAR}, 
+      #{mealtime,jdbcType=TIMESTAMP}, #{seatid,jdbcType=INTEGER}, #{operationuserid,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.threeone.mealplanner.model.entity.OrderInfo" >
     insert into orderinfo
@@ -40,20 +46,29 @@
       <if test="mealid != null" >
         mealId,
       </if>
+      <if test="restid != null" >
+        restId,
+      </if>
       <if test="contactinfo != null" >
         contactInfo,
       </if>
       <if test="actualpeoplenum != null" >
         actualPeopleNum,
       </if>
-      <if test="status != null" >
-        status,
+      <if test="menuids != null" >
+        menuIds,
+      </if>
+      <if test="mealtime != null" >
+        mealTime,
+      </if>
+      <if test="seatid != null" >
+        seatId,
       </if>
       <if test="operationuserid != null" >
         operationUserId,
       </if>
-      <if test="seatid != null" >
-        seatId,
+      <if test="status != null" >
+        status,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -63,20 +78,29 @@
       <if test="mealid != null" >
         #{mealid,jdbcType=INTEGER},
       </if>
+      <if test="restid != null" >
+        #{restid,jdbcType=INTEGER},
+      </if>
       <if test="contactinfo != null" >
         #{contactinfo,jdbcType=VARCHAR},
       </if>
       <if test="actualpeoplenum != null" >
         #{actualpeoplenum,jdbcType=INTEGER},
       </if>
-      <if test="status != null" >
-        #{status,jdbcType=INTEGER},
+      <if test="menuids != null" >
+        #{menuids,jdbcType=VARCHAR},
+      </if>
+      <if test="mealtime != null" >
+        #{mealtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="seatid != null" >
+        #{seatid,jdbcType=INTEGER},
       </if>
       <if test="operationuserid != null" >
         #{operationuserid,jdbcType=INTEGER},
       </if>
-      <if test="seatid != null" >
-        #{seatid,jdbcType=INTEGER},
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -86,20 +110,29 @@
       <if test="mealid != null" >
         mealId = #{mealid,jdbcType=INTEGER},
       </if>
+      <if test="restid != null" >
+        restId = #{restid,jdbcType=INTEGER},
+      </if>
       <if test="contactinfo != null" >
         contactInfo = #{contactinfo,jdbcType=VARCHAR},
       </if>
       <if test="actualpeoplenum != null" >
         actualPeopleNum = #{actualpeoplenum,jdbcType=INTEGER},
       </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
+      <if test="menuids != null" >
+        menuIds = #{menuids,jdbcType=VARCHAR},
+      </if>
+      <if test="mealtime != null" >
+        mealTime = #{mealtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="seatid != null" >
+        seatId = #{seatid,jdbcType=INTEGER},
       </if>
       <if test="operationuserid != null" >
         operationUserId = #{operationuserid,jdbcType=INTEGER},
       </if>
-      <if test="seatid != null" >
-        seatId = #{seatid,jdbcType=INTEGER},
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
       </if>
     </set>
     where orderId = #{orderid,jdbcType=INTEGER}
@@ -107,11 +140,14 @@
   <update id="updateByPrimaryKey" parameterType="com.threeone.mealplanner.model.entity.OrderInfo" >
     update orderinfo
     set mealId = #{mealid,jdbcType=INTEGER},
+      restId = #{restid,jdbcType=INTEGER},
       contactInfo = #{contactinfo,jdbcType=VARCHAR},
       actualPeopleNum = #{actualpeoplenum,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
+      menuIds = #{menuids,jdbcType=VARCHAR},
+      mealTime = #{mealtime,jdbcType=TIMESTAMP},
+      seatId = #{seatid,jdbcType=INTEGER},
       operationUserId = #{operationuserid,jdbcType=INTEGER},
-      seatId = #{seatid,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER}
     where orderId = #{orderid,jdbcType=INTEGER}
   </update>
 </mapper>

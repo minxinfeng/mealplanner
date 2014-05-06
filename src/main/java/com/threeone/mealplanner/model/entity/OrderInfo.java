@@ -1,19 +1,27 @@
 package com.threeone.mealplanner.model.entity;
 
+import java.util.Date;
+
 public class OrderInfo {
     private Integer orderid;
 
     private Integer mealid;
 
+    private Integer restid;
+
     private String contactinfo;
 
     private Integer actualpeoplenum;
 
-    private Integer status;
+    private String menuids;
+
+    private Date mealtime;
+
+    private Integer seatid;
 
     private Integer operationuserid;
 
-    private Integer seatid;
+    private Integer status;
 
     public Integer getOrderid() {
         return orderid;
@@ -29,6 +37,14 @@ public class OrderInfo {
 
     public void setMealid(Integer mealid) {
         this.mealid = mealid;
+    }
+
+    public Integer getRestid() {
+        return restid;
+    }
+
+    public void setRestid(Integer restid) {
+        this.restid = restid;
     }
 
     public String getContactinfo() {
@@ -47,12 +63,28 @@ public class OrderInfo {
         this.actualpeoplenum = actualpeoplenum;
     }
 
-    public Integer getStatus() {
-        return status;
+    public String getMenuids() {
+        return menuids;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setMenuids(String menuids) {
+        this.menuids = menuids == null ? null : menuids.trim();
+    }
+
+    public Date getMealtime() {
+        return mealtime;
+    }
+
+    public void setMealtime(Date mealtime) {
+        this.mealtime = mealtime;
+    }
+
+    public Integer getSeatid() {
+        return seatid;
+    }
+
+    public void setSeatid(Integer seatid) {
+        this.seatid = seatid;
     }
 
     public Integer getOperationuserid() {
@@ -63,11 +95,11 @@ public class OrderInfo {
         this.operationuserid = operationuserid;
     }
 
-    public Integer getSeatid() {
-        return seatid;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setSeatid(Integer seatid) {
-        this.seatid = seatid;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

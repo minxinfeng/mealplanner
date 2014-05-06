@@ -120,7 +120,6 @@
     <include refid="Base_Column_List" />
     from userinfo
     where (userName = #{loginName,jdbcType=VARCHAR} or email = #{loginName,jdbcType=VARCHAR} or phoneNum = #{loginName,jdbcType=VARCHAR})
-    and password = #{password,jdbcType=VARCHAR}
   </select>
   
   <select id="getUserInfoForCheck" resultMap="BaseResultMap" >
