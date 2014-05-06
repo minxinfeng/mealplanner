@@ -81,4 +81,24 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="getFriendRequestIdsByStatus" resultType="java.lang.Integer">
+    select userId
+    from friendinfo
+    where friendId = #{friendId,jdbcType=INTEGER} and status = #{status,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getAllFriendIds" resultType="java.lang.Integer">
+    SELECT distinct(userId) as id FROM mealplanner.friendinfo where friendId=#{userId,jdbcType=INTEGER} and status = 1
+	union 
+	select distinct(friendId) as id from mealplanner.friendinfo where userId=#{userId,jdbcType=INTEGER} and status = 1
+	order by id
+  </select>
+  
+  <update id="handleFriendRequest" >
+    update friendinfo
+    set status = #{status,jdbcType=INTEGER}
+    where userId = #{userId,jdbcType=INTEGER} and friendId = #{friendId,jdbcType=INTEGER}
+  </update>
+  
 </mapper>

@@ -19,6 +19,11 @@
 		<property name="userInfoMapper" ref="userInfoMapper" />
 	</bean>
 	
+	<bean id="FriendService" class="com.threeone.mealplanner.service.impl.FriendServiceImpl">
+		<property name="friendInfoMapper" ref="friendInfoMapper" />
+		<property name="userInfoMapper" ref="userInfoMapper" />
+	</bean>
+	
 	<bean id="restaurantService" class="com.threeone.mealplanner.service.impl.RestaurantServiceImpl">
 		<property name="restaurantInfoMapper" ref="restaurantInfoMapper" />
 		<property name="menuInfoMapper" ref="menuInfoMapper" />
