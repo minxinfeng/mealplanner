@@ -13,7 +13,7 @@ public class MealInfo {
 
     private Date organizationtime;
 
-    private Integer status;
+    private Integer mealstatus;
 
     public Integer getMealid() {
         return mealid;
@@ -55,11 +55,12 @@ public class MealInfo {
         this.organizationtime = organizationtime;
     }
 
-    public Integer getStatus() {
-        return status;
-    }
+	public Integer getMealstatus() {
+		return mealstatus;
+	}
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
+	public void setMealstatus(Integer mealstatus) {
+		this.mealstatus = mealstatus;
+	}
+
 }

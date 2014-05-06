@@ -33,4 +33,9 @@
 		<property name="foodTypeMapper" ref="foodTypeMapper" />
 		<property name="menuInfoMapper" ref="menuInfoMapper" />
 	</bean>
+	
+	<bean id="mealService" class="com.threeone.mealplanner.service.impl.MealServiceImpl">
+		<property name="mealInfoMapper" ref="mealInfoMapper" />
+		<property name="mealFriendMapper" ref="mealFriendMapper" />
+	</bean>
 </beans>

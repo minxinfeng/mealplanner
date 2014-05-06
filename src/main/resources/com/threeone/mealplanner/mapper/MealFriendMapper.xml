@@ -30,12 +30,11 @@
       #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.threeone.mealplanner.model.entity.MealFriend" >
-    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into mealfriend
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      id,
+      <if test="mealid != null" >
+      	id,
+      </if>
       <if test="mealid != null" >
         mealId,
       </if>
@@ -47,7 +46,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{id,jdbcType=INTEGER},
+      <if test="mealid != null" >
+      	#{id,jdbcType=INTEGER},
+      	</if>
       <if test="mealid != null" >
         #{mealid,jdbcType=INTEGER},
       </if>
@@ -81,4 +82,20 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <update id="handleAMeal" >
+    update mealfriend
+    set status = #{status,jdbcType=INTEGER}
+    where mealId = #{mealId,jdbcType=INTEGER} and
+      friendId = #{userId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getMealRequestByUserId" resultType="java.lang.Integer" >
+    select distinct(mealId)
+    from mealfriend
+    where friendId=#{userId,jdbcType=INTEGER}
+    <if test="status != null" >
+    	and status = #{status, jdbcType=INTEGER}
+    </if>
+  </select>
 </mapper>

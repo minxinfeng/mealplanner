@@ -7,10 +7,26 @@
     <result column="restId" property="restid" jdbcType="INTEGER" />
     <result column="mealTime" property="mealtime" jdbcType="TIMESTAMP" />
     <result column="organizationTime" property="organizationtime" jdbcType="TIMESTAMP" />
-    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="mealStatus" property="mealstatus" jdbcType="INTEGER" />
   </resultMap>
+  
+  <resultMap id="userInfoResultMap" type="com.threeone.mealplanner.model.entity.UserInfo" >
+    <id column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="userName" property="username" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="phoneNum" property="phonenum" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="registerDate" property="registerdate" jdbcType="TIMESTAMP" />
+    <result column="userType" property="usertype" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap id="mealFriendWithStatus" type="com.threeone.mealplanner.model.MealFriendWithStatus" >
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <collection property="friendInfo" resultMap="userInfoResultMap"></collection>
+  </resultMap>
+  
   <sql id="Base_Column_List" >
-    mealId, mealOrganizeUserId, restId, mealTime, organizationTime, status
+    mealId, mealOrganizeUserId, restId, mealTime, organizationTime, mealStatus
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -24,10 +40,10 @@
   </delete>
   <insert id="insert" parameterType="com.threeone.mealplanner.model.entity.MealInfo" >
     insert into mealinfo (mealId, mealOrganizeUserId, restId, 
-      mealTime, organizationTime, status
+      mealTime, organizationTime, mealStatus
       )
     values (#{mealid,jdbcType=INTEGER}, #{mealorganizeuserid,jdbcType=INTEGER}, #{restid,jdbcType=INTEGER}, 
-      #{mealtime,jdbcType=TIMESTAMP}, #{organizationtime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      #{mealtime,jdbcType=TIMESTAMP}, #{organizationtime,jdbcType=TIMESTAMP}, #{mealstatus,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.threeone.mealplanner.model.entity.MealInfo" >
@@ -48,8 +64,8 @@
       <if test="organizationtime != null" >
         organizationTime,
       </if>
-      <if test="status != null" >
-        status,
+      <if test="mealstatus != null" >
+        mealStatus,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -68,8 +84,8 @@
       <if test="organizationtime != null" >
         #{organizationtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="status != null" >
-        #{status,jdbcType=INTEGER},
+      <if test="mealstatus != null" >
+        #{mealstatus,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -88,8 +104,8 @@
       <if test="organizationtime != null" >
         organizationTime = #{organizationtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
+      <if test="mealstatus != null" >
+        mealStatus = #{mealstatus,jdbcType=INTEGER},
       </if>
     </set>
     where mealId = #{mealid,jdbcType=INTEGER}
@@ -100,7 +116,30 @@
       restId = #{restid,jdbcType=INTEGER},
       mealTime = #{mealtime,jdbcType=TIMESTAMP},
       organizationTime = #{organizationtime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER}
+      mealStatus = #{mealstatus,jdbcType=INTEGER}
     where mealId = #{mealid,jdbcType=INTEGER}
   </update>
+  
+  <select id="getMealFriendWithStatus" resultMap="mealFriendWithStatus">
+    select userId, userName, email, phoneNum, password, registerDate, userType, status
+    from userinfo, mealfriend
+    where mealfriend.mealId = #{mealId,jdbcType=INTEGER} and userinfo.userId=mealfriend.friendId
+  </select>
+  
+  <select id="getNewestMealId" resultType="java.lang.Integer">
+    select mealId
+    from mealinfo
+    order by mealId desc limit 1
+  </select>
+  
+   <select id="getMealListByUserId" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from mealinfo
+    where mealorganizeuserid = #{userId,jdbcType=INTEGER}
+    <if test="mealstatus != null" >
+    	and mealStatus = #{mealstatus, jdbcType=INTEGER}
+    </if>
+  </select>
+  
 </mapper>

@@ -56,7 +56,7 @@ CREATE TABLE `friendinfo` (
   `status` int(11) DEFAULT NULL COMMENT '好友请求状态\n0好友请求中\n1: friendId已经同意\n2: friendId拒绝\n3: 已删除\n\n',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='好友信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='好友信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,6 +65,7 @@ CREATE TABLE `friendinfo` (
 
 LOCK TABLES `friendinfo` WRITE;
 /*!40000 ALTER TABLE `friendinfo` DISABLE KEYS */;
+INSERT INTO `friendinfo` VALUES (1,1,2,1),(2,1,3,1),(3,4,1,1),(4,5,6,1),(5,4,6,1);
 /*!40000 ALTER TABLE `friendinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -82,7 +83,7 @@ CREATE TABLE `mealfriend` (
   `status` int(11) DEFAULT NULL COMMENT '饭局中被邀请的好友的反馈状态\n0：待接受\n1：已接受\n2：已拒绝\n3：已过期',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='饭局中的好友信息';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='饭局中的好友信息';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,6 +92,7 @@ CREATE TABLE `mealfriend` (
 
 LOCK TABLES `mealfriend` WRITE;
 /*!40000 ALTER TABLE `mealfriend` DISABLE KEYS */;
+INSERT INTO `mealfriend` VALUES (1,1,3,1),(2,1,4,0),(3,1,5,2),(4,1,6,0),(5,2,4,0),(6,2,5,0),(7,5,2,0),(8,5,3,0);
 /*!40000 ALTER TABLE `mealfriend` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -107,10 +109,10 @@ CREATE TABLE `mealinfo` (
   `restId` int(11) DEFAULT NULL COMMENT '餐厅ID',
   `mealTime` datetime DEFAULT NULL COMMENT '开始用餐时间',
   `organizationTime` datetime DEFAULT NULL COMMENT '发起邀请时间',
-  `status` int(11) DEFAULT NULL COMMENT '饭局状态\n1：正在进行\n2：成功，已下订单\n3：过期',
+  `mealStatus` int(11) DEFAULT NULL COMMENT '饭局状态\n0：正在进行\n1：成功，已下订单\n2：过期',
   PRIMARY KEY (`mealId`),
   UNIQUE KEY `mealId_UNIQUE` (`mealId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='饭局邀请';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='饭局邀请';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,6 +121,7 @@ CREATE TABLE `mealinfo` (
 
 LOCK TABLES `mealinfo` WRITE;
 /*!40000 ALTER TABLE `mealinfo` DISABLE KEYS */;
+INSERT INTO `mealinfo` VALUES (1,1,1,'2014-05-10 00:00:00','2014-05-06 00:00:00',0),(2,1,2,'2014-05-10 00:00:00','2014-05-06 00:00:00',0),(3,1,1,'2010-10-01 00:00:00','2014-05-06 23:55:51',0),(4,1,1,'2010-10-01 00:00:00','2014-05-07 00:00:10',0),(5,1,1,'2010-10-01 00:00:00','2014-05-07 00:04:11',0);
 /*!40000 ALTER TABLE `mealinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -365,7 +368,7 @@ CREATE TABLE `userinfo` (
   `userType` int(11) DEFAULT NULL COMMENT '用户类型，1是系统管理员，2是餐厅管理员，3是普通用户',
   PRIMARY KEY (`userId`),
   UNIQUE KEY `userId_UNIQUE` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -374,7 +377,7 @@ CREATE TABLE `userinfo` (
 
 LOCK TABLES `userinfo` WRITE;
 /*!40000 ALTER TABLE `userinfo` DISABLE KEYS */;
-INSERT INTO `userinfo` VALUES (1,'minxin',NULL,'15210582672','123456',NULL,1),(2,'fxm','111','111111','111','2014-05-04 23:12:22',2),(3,'1','1','1','1','2014-05-04 23:24:18',3),(4,'11','11','11','11','2014-05-05 14:17:20',3);
+INSERT INTO `userinfo` VALUES (1,'minxin',NULL,'15210582672','123456',NULL,1),(2,'fxm','111','111111','111','2014-05-04 23:12:22',2),(3,'1','1','1','1','2014-05-04 23:24:18',3),(4,'11','11','11','11','2014-05-05 14:17:20',3),(5,'yr','yr','yr','yr',NULL,3),(6,'cyt','cyt','cyt','cyt',NULL,3);
 /*!40000 ALTER TABLE `userinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -387,4 +390,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-06  9:36:59
+-- Dump completed on 2014-05-07  0:14:22
