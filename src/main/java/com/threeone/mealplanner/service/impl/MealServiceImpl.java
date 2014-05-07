@@ -30,7 +30,7 @@ public class MealServiceImpl implements MealService {
 			
 			// 1.创建mealinfo
 			 mealInfoMapper.insertSelective(mealInfo);
-			 mealInfo.setMealid(mealInfoMapper.getNewestMealId());
+			 mealInfo.setMealid(mealInfoMapper.getNewestMealId(mealInfo.getMealorganizeuserid()));
 			 LOG.info("Create mealInfo menuId= " + mealInfo.getMealid());
 			// 2.向表mealfriend中添加相应的对应关系,friendIds用英文逗号分隔
 			String[] ids = friendIds.split(",");

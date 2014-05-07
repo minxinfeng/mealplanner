@@ -129,6 +129,7 @@
   <select id="getNewestMealId" resultType="java.lang.Integer">
     select mealId
     from mealinfo
+    where mealorganizeuserid = #{userId,jdbcType=INTEGER}
     order by mealId desc limit 1
   </select>
   

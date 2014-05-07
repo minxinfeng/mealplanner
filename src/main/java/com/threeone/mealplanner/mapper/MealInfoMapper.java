@@ -28,10 +28,10 @@ public interface MealInfoMapper {
     List<MealFriendWithStatus> getMealFriendWithStatus(@Param("mealId") int mealId);
     
     /**
-     * 获取最新的mealId
+     * 获取某人创建的最新的mealId
      * @return
      */
-    int getNewestMealId();
+    int getNewestMealId(@Param("userId") int userId);
     
     /**
      * 获取某个人组织的所有饭局信息
