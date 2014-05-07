@@ -4,10 +4,13 @@
   <resultMap id="BaseResultMap" type="com.threeone.mealplanner.model.entity.SeatStatus" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="seatId" property="seatid" jdbcType="INTEGER" />
-    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="restId" property="restid" jdbcType="INTEGER" />
+    <result column="dateDay" property="dateday" jdbcType="VARCHAR" />
+    <result column="dateClock" property="dateclock" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, seatId, status
+    id, seatId, restId, dateDay, dateClock, state
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -23,9 +26,11 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into seatstatus (id, seatId, status
+    insert into seatstatus (id, seatId, restId, 
+      dateDay, dateClock, state
       )
-    values (#{id,jdbcType=INTEGER}, #{seatid,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}
+    values (#{id,jdbcType=INTEGER}, #{seatid,jdbcType=INTEGER}, #{restid,jdbcType=INTEGER}, 
+      #{dateday,jdbcType=VARCHAR}, #{dateclock,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.threeone.mealplanner.model.entity.SeatStatus" >
@@ -38,8 +43,17 @@
       <if test="seatid != null" >
         seatId,
       </if>
-      <if test="status != null" >
-        status,
+      <if test="restid != null" >
+        restId,
+      </if>
+      <if test="dateday != null" >
+        dateDay,
+      </if>
+      <if test="dateclock != null" >
+        dateClock,
+      </if>
+      <if test="state != null" >
+        state,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -47,8 +61,17 @@
       <if test="seatid != null" >
         #{seatid,jdbcType=INTEGER},
       </if>
-      <if test="status != null" >
-        #{status,jdbcType=INTEGER},
+      <if test="restid != null" >
+        #{restid,jdbcType=INTEGER},
+      </if>
+      <if test="dateday != null" >
+        #{dateday,jdbcType=VARCHAR},
+      </if>
+      <if test="dateclock != null" >
+        #{dateclock,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -58,8 +81,17 @@
       <if test="seatid != null" >
         seatId = #{seatid,jdbcType=INTEGER},
       </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
+      <if test="restid != null" >
+        restId = #{restid,jdbcType=INTEGER},
+      </if>
+      <if test="dateday != null" >
+        dateDay = #{dateday,jdbcType=VARCHAR},
+      </if>
+      <if test="dateclock != null" >
+        dateClock = #{dateclock,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -67,7 +99,10 @@
   <update id="updateByPrimaryKey" parameterType="com.threeone.mealplanner.model.entity.SeatStatus" >
     update seatstatus
     set seatId = #{seatid,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER}
+      restId = #{restid,jdbcType=INTEGER},
+      dateDay = #{dateday,jdbcType=VARCHAR},
+      dateClock = #{dateclock,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
