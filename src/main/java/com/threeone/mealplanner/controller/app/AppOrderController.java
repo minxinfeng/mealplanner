@@ -43,7 +43,7 @@ public class AppOrderController {
 	//创建饭局，若mealId为默认值时则直接创建饭局
 	@RequestMapping("/createOrder")
 	@ResponseBody
-	public JsonResult<String> createOrder(@RequestParam int userId, @RequestParam int restId, 
+	public JsonResult<OrderDetail> createOrder(@RequestParam int userId, @RequestParam int restId, 
 			@RequestParam(defaultValue="-1") int mealId, @RequestParam String date, @RequestParam int peopleNum,
 			@RequestParam String menuIds, @RequestParam String phoneNum){
 		Boolean flag = false;
@@ -60,13 +60,14 @@ public class AppOrderController {
 			orderInfo.setOperationuserid(userId);
 			orderInfo.setRestid(restId);
 			orderInfo.setUserid(userId);
-			orderService.createOrder(orderInfo);
+			OrderDetail orderDetail = orderService.createOrder(orderInfo);
 			message += " success!";
 			flag = true;
+			return new JsonResult<OrderDetail>(flag, message, orderDetail);
 		} catch (Exception e) {
 			message = message + " failed. Reason:" + e.getMessage();
+			return new JsonResult<OrderDetail>(flag, message, null);
 		}
-		return new JsonResult<String>(flag, message, null);
 	}
 	
 	@RequestMapping("/cancleByUser")

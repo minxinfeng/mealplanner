@@ -186,4 +186,12 @@
      </if>
   </select>
   
+  <select id="getNewestOrderIdByUser" resultType="java.lang.Integer" >
+    select 
+    orderId
+    from orderinfo
+    where userId = #{userId,jdbcType=INTEGER}
+    order by orderId desc limit 1
+  </select>
+  
 </mapper>

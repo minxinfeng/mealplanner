@@ -106,6 +106,7 @@ public class OrderServiceImpl implements OrderService {
 				seatService.reserveSeat(restId, dateDay, dateClock, peopleNum);
 				LOG.info("create order success!");
 				// 3.获得相应的详细信息
+				orderInfo.setOrderid(orderInfoMapper.getNewestOrderIdByUser(orderInfo.getUserid()));
 				return this.getOrderDetailByOrder(orderInfo);
 			}
 			
