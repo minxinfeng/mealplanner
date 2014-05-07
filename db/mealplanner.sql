@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50515
 File Encoding         : 65001
 
-Date: 2014-05-07 16:47:14
+Date: 2014-05-07 19:38:49
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -137,6 +137,7 @@ CREATE TABLE `orderinfo` (
   `orderId` int(11) NOT NULL AUTO_INCREMENT,
   `mealId` int(11) DEFAULT NULL COMMENT '饭局邀请ID',
   `restId` int(11) DEFAULT NULL,
+  `userId` int(11) DEFAULT NULL,
   `contactInfo` varchar(45) DEFAULT NULL COMMENT '联系方式，默认为饭局创建者的手机号码，同时可以修改',
   `actualPeopleNum` int(11) DEFAULT NULL COMMENT '该饭局中的用户数',
   `menuIds` varchar(45) DEFAULT NULL,

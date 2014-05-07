@@ -5,6 +5,7 @@
     <id column="orderId" property="orderid" jdbcType="INTEGER" />
     <result column="mealId" property="mealid" jdbcType="INTEGER" />
     <result column="restId" property="restid" jdbcType="INTEGER" />
+    <result column="userId" property="userid" jdbcType="INTEGER" />
     <result column="contactInfo" property="contactinfo" jdbcType="VARCHAR" />
     <result column="actualPeopleNum" property="actualpeoplenum" jdbcType="INTEGER" />
     <result column="menuIds" property="menuids" jdbcType="VARCHAR" />
@@ -14,8 +15,8 @@
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    orderId, mealId, restId, contactInfo, actualPeopleNum, menuIds, mealTime, seatId, 
-    operationUserId, status
+    orderId, mealId, restId, userId, contactInfo, actualPeopleNum, menuIds, mealTime, 
+    seatId, operationUserId, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -29,13 +30,13 @@
   </delete>
   <insert id="insert" parameterType="com.threeone.mealplanner.model.entity.OrderInfo" >
     insert into orderinfo (orderId, mealId, restId, 
-      contactInfo, actualPeopleNum, menuIds, 
-      mealTime, seatId, operationUserId, 
-      status)
+      userId, contactInfo, actualPeopleNum, 
+      menuIds, mealTime, seatId, 
+      operationUserId, status)
     values (#{orderid,jdbcType=INTEGER}, #{mealid,jdbcType=INTEGER}, #{restid,jdbcType=INTEGER}, 
-      #{contactinfo,jdbcType=VARCHAR}, #{actualpeoplenum,jdbcType=INTEGER}, #{menuids,jdbcType=VARCHAR}, 
-      #{mealtime,jdbcType=TIMESTAMP}, #{seatid,jdbcType=INTEGER}, #{operationuserid,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER})
+      #{userid,jdbcType=INTEGER}, #{contactinfo,jdbcType=VARCHAR}, #{actualpeoplenum,jdbcType=INTEGER}, 
+      #{menuids,jdbcType=VARCHAR}, #{mealtime,jdbcType=TIMESTAMP}, #{seatid,jdbcType=INTEGER}, 
+      #{operationuserid,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.threeone.mealplanner.model.entity.OrderInfo" >
     insert into orderinfo
@@ -48,6 +49,9 @@
       </if>
       <if test="restid != null" >
         restId,
+      </if>
+      <if test="userid != null" >
+        userId,
       </if>
       <if test="contactinfo != null" >
         contactInfo,
@@ -81,6 +85,9 @@
       <if test="restid != null" >
         #{restid,jdbcType=INTEGER},
       </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
       <if test="contactinfo != null" >
         #{contactinfo,jdbcType=VARCHAR},
       </if>
@@ -113,6 +120,9 @@
       <if test="restid != null" >
         restId = #{restid,jdbcType=INTEGER},
       </if>
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
       <if test="contactinfo != null" >
         contactInfo = #{contactinfo,jdbcType=VARCHAR},
       </if>
@@ -141,6 +151,7 @@
     update orderinfo
     set mealId = #{mealid,jdbcType=INTEGER},
       restId = #{restid,jdbcType=INTEGER},
+      userId = #{userid,jdbcType=INTEGER},
       contactInfo = #{contactinfo,jdbcType=VARCHAR},
       actualPeopleNum = #{actualpeoplenum,jdbcType=INTEGER},
       menuIds = #{menuids,jdbcType=VARCHAR},

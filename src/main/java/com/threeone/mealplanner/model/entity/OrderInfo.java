@@ -9,6 +9,8 @@ public class OrderInfo {
 
     private Integer restid;
 
+    private Integer userid;
+
     private String contactinfo;
 
     private Integer actualpeoplenum;
@@ -45,6 +47,14 @@ public class OrderInfo {
 
     public void setRestid(Integer restid) {
         this.restid = restid;
+    }
+
+    public Integer getUserid() {
+        return userid;
+    }
+
+    public void setUserid(Integer userid) {
+        this.userid = userid;
     }
 
     public String getContactinfo() {
