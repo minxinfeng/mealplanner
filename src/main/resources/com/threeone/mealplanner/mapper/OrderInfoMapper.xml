@@ -166,6 +166,24 @@
     select 
     <include refid="Base_Column_List" />
     from orderinfo
-    where userId = #{userId,jdbcType=INTEGER} and  status = #{status,jdbcType=INTEGER}
+    where userId = #{userId,jdbcType=INTEGER} 
+    <if test="status != -1" >
+       and  status = #{status,jdbcType=INTEGER}
+     </if>
+    
   </select>
+  
+  <select id="getOrderByRest" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from orderinfo
+    where restId = #{restId,jdbcType=INTEGER}
+    <if test="dateFrom != null" >
+        and mealTime &gt; #{dateFrom,jdbcType=VARCHAR},
+     </if>
+    <if test="dateTo != null" >
+        mealTime &lt; #{dateTo,jdbcType=VARCHAR}
+     </if>
+  </select>
+  
 </mapper>

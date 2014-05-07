@@ -12,6 +12,7 @@ import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.mapper.MenuInfoMapper;
 import com.threeone.mealplanner.mapper.OrderInfoMapper;
 import com.threeone.mealplanner.model.OrderDetail;
+import com.threeone.mealplanner.model.OrderStatus;
 import com.threeone.mealplanner.model.entity.MenuInfo;
 import com.threeone.mealplanner.model.entity.OrderInfo;
 import com.threeone.mealplanner.service.MealService;
@@ -53,25 +54,51 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<OrderDetail> getOrderByRest(int restId, String dateFrom,
 			String dateTo) throws InternalException {
-		// 1. 获取用户所有的订单信息
-		// 2. 根据每个订单的menuIds，获取菜品信息
-		// 3. 根据mealId获取meal详细信息
-		return null;
+		try {
+			List<OrderDetail> orderDetails = new ArrayList<OrderDetail>();
+			// 1. 获取用户所有的订单信息
+			List<OrderInfo> orderInfos = orderInfoMapper.getOrderByRest(restId, dateFrom, dateTo);
+			// 2. 获取order详细信息
+			for (OrderInfo orderInfo : orderInfos) {
+				OrderDetail orderDetail = this.getOrderDetailByOrder(orderInfo);
+				orderDetails.add(orderDetail);
+			}
+			LOG.info("Success to get orderDetail of restId = " + restId + " from datefrom=" + dateFrom + " to dateTo=" + dateTo);
+			return orderDetails;
+		} catch (Exception e) {
+			String message = "Error to get orderDetail of restId = " + restId + " from datefrom=" + dateFrom + " to dateTo=" + dateTo + ". Reason:" + e.getMessage();
+			LOG.error(message);
+			throw new InternalException(message);
+		}
 	}
 
 	@Override
 	public OrderDetail createOrder(OrderInfo orderInfo)
 			throws InternalException {
 		// 1.根据时间，restId,人数获得freeSeat的Id
+		//若获取失败
+		orderInfo.setStatus(OrderStatus.commitFailed.getValue());
+		
 		// 2.向数据库中插入数据
+		// 获取座位成功
+		orderInfo.setStatus(OrderStatus.commitSuccess.getValue());
+		orderInfoMapper.insertSelective(orderInfo);
 		// 3.获得相应的详细信息
-		return null;
+		return this.getOrderDetailByOrder(orderInfo);
 	}
 
 	@Override
 	public int updateOrder(OrderInfo orderInfo) throws InternalException {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			orderInfoMapper.updateByPrimaryKeySelective(orderInfo);
+			LOG.info("Success to update orderID=" + orderInfo.getOrderid());
+			return 0;
+		} catch (Exception e) {
+			String message = "Error to update orderID=" + orderInfo.getOrderid() + ". Reason:" + e.getMessage();
+			LOG.error(message);
+			throw new InternalException(message);
+		}
+		
 	}
 	
 	/**
@@ -103,6 +130,15 @@ public class OrderServiceImpl implements OrderService {
 		}
 		return orderDetail;
 	}
+	
+	@Override
+	public OrderInfo getOrderInfoById(int orderId) throws InternalException {
+		try {
+			return orderInfoMapper.selectByPrimaryKey(orderId);
+		} catch (Exception e) {
+			throw new InternalException(e.getMessage());
+		}
+	}
 
 	public void setOrderInfoMapper(OrderInfoMapper orderInfoMapper) {
 		this.orderInfoMapper = orderInfoMapper;
@@ -111,5 +147,6 @@ public class OrderServiceImpl implements OrderService {
 	public void setMenuInfoMapper(MenuInfoMapper menuInfoMapper) {
 		this.menuInfoMapper = menuInfoMapper;
 	}
+
 
 }
