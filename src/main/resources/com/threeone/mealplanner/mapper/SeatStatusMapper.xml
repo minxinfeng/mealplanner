@@ -106,14 +106,19 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="insertSeatStatus" parameterType="com.threeone.mealplanner.model.entity.SeatStatus" >
-    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into seatstatus (seatId, restId, 
       dateDay, dateClock, state
       )
-    values (#{seatid,jdbcType=INTEGER}, #{restid,jdbcType=INTEGER}, 
-      #{dateday,jdbcType=VARCHAR}, #{dateclock,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}
+    values (#{seatId,jdbcType=INTEGER}, #{restId,jdbcType=INTEGER}, 
+      #{dateDay,jdbcType=VARCHAR}, #{dateClock,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}
       )
   </insert>
+  <select id="getNotAvailableOfSeatWholeDay" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from seatstatus
+    where seatId = #{seatId,jdbcType=INTEGER} and
+    restId = #{restId,jdbcType=INTEGER} and 
+    dateDay = #{dateDay,jdbcType=VARCHAR}
+  </select>
 </mapper>
