@@ -1,5 +1,6 @@
 package com.threeone.mealplanner.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -79,24 +80,41 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public OrderDetail createOrder(OrderInfo orderInfo)
-			throws InternalException {
-		// 1.根据时间，restId,人数获得freeSeat的Id
-		int restId = orderInfo.getRestid();
-		int peopleNum = orderInfo.getActualpeoplenum();
-		Date mealTime = orderInfo.getMealtime();
-		String dateDay = "";
-		int dateClock = mealTime.getHours();
-		List<SeatInfo> seatInfos = seatService.getAvailableSeats(restId, dateDay, dateClock, peopleNum);
-		//若获取失败
-		orderInfo.setStatus(OrderStatus.commitFailed.getValue());
+	public OrderDetail createOrder(OrderInfo orderInfo) throws InternalException {
+		try {
+			// 1.根据时间，restId,人数获得freeSeat的Id
+			int restId = orderInfo.getRestid();
+			int peopleNum = orderInfo.getActualpeoplenum();
+			Date mealTime = orderInfo.getMealtime();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String dateString = formatter.format(mealTime);
+			String dateDay = dateString.split(" ")[0];
+			int dateClock = mealTime.getHours();
+			List<SeatInfo> seatInfos = seatService.getAvailableSeats(restId, dateDay, dateClock, peopleNum);
+			//若获取失败
+			if(seatInfos == null){
+				orderInfo.setStatus(OrderStatus.commitFailed.getValue());
+				LOG.error("Sorry, No seats empty!");
+				throw new InternalException("Create order failed for there is no seats empty!");
+			}
+			// 获取座位成功
+			else {
+				// 2.向数据库中插入数据
+				orderInfo.setStatus(OrderStatus.commitSuccess.getValue());
+				orderInfo.setSeatid(seatInfos.get(0).getSeatid());
+				orderInfoMapper.insertSelective(orderInfo);
+				seatService.reserveSeat(restId, dateDay, dateClock, peopleNum);
+				LOG.info("create order success!");
+				// 3.获得相应的详细信息
+				return this.getOrderDetailByOrder(orderInfo);
+			}
+			
+		} catch (Exception e) {
+			String message = "error to create order, reason:" + e.getMessage();
+			LOG.error(message);
+			throw new InternalException(message);
+		}
 		
-		// 2.向数据库中插入数据
-		// 获取座位成功
-		orderInfo.setStatus(OrderStatus.commitSuccess.getValue());
-		orderInfoMapper.insertSelective(orderInfo);
-		// 3.获得相应的详细信息
-		return this.getOrderDetailByOrder(orderInfo);
 	}
 
 	@Override
