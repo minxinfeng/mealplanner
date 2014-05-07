@@ -1,6 +1,7 @@
 package com.threeone.mealplanner.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -15,8 +16,10 @@ import com.threeone.mealplanner.model.OrderDetail;
 import com.threeone.mealplanner.model.OrderStatus;
 import com.threeone.mealplanner.model.entity.MenuInfo;
 import com.threeone.mealplanner.model.entity.OrderInfo;
+import com.threeone.mealplanner.model.entity.SeatInfo;
 import com.threeone.mealplanner.service.MealService;
 import com.threeone.mealplanner.service.OrderService;
+import com.threeone.mealplanner.service.SeatService;
 
 public class OrderServiceImpl implements OrderService {
 	
@@ -27,6 +30,9 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private MealService mealService;
+	
+	@Autowired
+	private SeatService seatService;
 	
 
 	@Override
@@ -76,6 +82,12 @@ public class OrderServiceImpl implements OrderService {
 	public OrderDetail createOrder(OrderInfo orderInfo)
 			throws InternalException {
 		// 1.根据时间，restId,人数获得freeSeat的Id
+		int restId = orderInfo.getRestid();
+		int peopleNum = orderInfo.getActualpeoplenum();
+		Date mealTime = orderInfo.getMealtime();
+		String dateDay = "";
+		int dateClock = mealTime.getHours();
+		List<SeatInfo> seatInfos = seatService.getAvailableSeats(restId, dateDay, dateClock, peopleNum);
 		//若获取失败
 		orderInfo.setStatus(OrderStatus.commitFailed.getValue());
 		
@@ -121,7 +133,7 @@ public class OrderServiceImpl implements OrderService {
 		}
 		orderDetail.setMenuInfos(menuInfos);
 		// 2. 根据mealId获取meal详细信息
-		if (orderInfo.getMealid() != null) {
+		if (orderInfo.getMealid() != -1) {
 			try {
 				orderDetail.setMealWithDetail(mealService.getMealDetail(orderInfo.getMealid()));
 			} catch (InternalException e) {

@@ -1,5 +1,8 @@
 package com.threeone.mealplanner.controller.app;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,30 +40,26 @@ public class AppOrderController {
 		}
 	}
 	
-	@RequestMapping("/createOrderByMeal")
-	@ResponseBody
-	public JsonResult<String> createOrderByMeal(@RequestParam int mealId){
-		Boolean flag = false;
-		String message = "Create order of mealId=" + mealId;
-		try {
-			OrderInfo orderInfo = new OrderInfo();
-			orderInfo.setMealid(mealId);
-			orderService.createOrder(orderInfo);
-			message += " success!";
-			flag = true;
-		} catch (Exception e) {
-			message = message + " failed. Reason:" + e.getMessage();
-		}
-		return new JsonResult<String>(flag, message, null);
-	}
-	
+	//创建饭局，若mealId为默认值时则直接创建饭局
 	@RequestMapping("/createOrder")
 	@ResponseBody
-	public JsonResult<String> createOrder(@RequestParam int restId){
+	public JsonResult<String> createOrder(@RequestParam int userId, @RequestParam int restId, 
+			@RequestParam(defaultValue="-1") int mealId, @RequestParam String date, @RequestParam int peopleNum,
+			@RequestParam String menuIds, @RequestParam String phoneNum){
 		Boolean flag = false;
 		String message = "Create order for restId=" + restId;
 		try {
+			DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+			Date mealtime = format1.parse(date);
 			OrderInfo orderInfo = new OrderInfo();
+			orderInfo.setActualpeoplenum(peopleNum);
+			orderInfo.setContactinfo(phoneNum);
+			orderInfo.setMealid(mealId);
+			orderInfo.setMealtime(mealtime);
+			orderInfo.setMenuids(menuIds);
+			orderInfo.setOperationuserid(userId);
+			orderInfo.setRestid(restId);
+			orderInfo.setUserid(userId);
 			orderService.createOrder(orderInfo);
 			message += " success!";
 			flag = true;
