@@ -70,5 +70,19 @@ public class SeatServiceImpl implements SeatService {
 		}
 		return stateHashMap;
 	}
+
+	@Override
+	public void reserveSeatById(int seatId, int restId, String dateDay,
+			int dateClock) throws InternalException {
+		seatStatusMapper.insertSeatStatus(seatId, restId, dateDay, dateClock, RESERVED);
+		seatStatusMapper.insertSeatStatus(seatId, restId, dateDay, dateClock + 1, RESERVED);
+	}
+
+	@Override
+	public void freeSeatById(int seatId, int restId, String dateDay,
+			int dateClock) throws InternalException {
+		seatStatusMapper.deleteBySeatIdClock(seatId, restId, dateDay, dateClock);
+		seatStatusMapper.deleteBySeatIdClock(seatId, restId, dateDay, dateClock + 1);
+	}
 	
 }

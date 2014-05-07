@@ -25,4 +25,7 @@ public interface SeatStatusMapper {
     
     List<SeatStatus> getNotAvailableOfSeatWholeDay(@Param("seatId") int seatId, @Param("restId") int restId, 
     		@Param("dateDay") String dateDay);
+    
+    int deleteBySeatIdClock(@Param("seatId") int seatId, @Param("restId") int restId, 
+    		@Param("dateDay") String dateDay, @Param("dateClock") int dateClock);
 }
