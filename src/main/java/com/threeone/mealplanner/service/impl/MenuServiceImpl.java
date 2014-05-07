@@ -19,7 +19,7 @@ public class MenuServiceImpl implements MenuService {
 	
 	private static final Log LOG = LogFactory.getLog(MenuServiceImpl.class);
 	
-	@Override
+	
 	public List<MenuInfo> getMenuInfoByRestId(int restId) throws InternalException {
 		try {
 			return menuInfoMapper.getMenuByRestId(restId);
@@ -30,7 +30,7 @@ public class MenuServiceImpl implements MenuService {
 		}
 	}
 
-	@Override
+	
 	public List<MenuInfo> getMenuInfoByType(int typeId) throws InternalException {
 		try {
 			return menuInfoMapper.getMenuInfoByType(typeId);
@@ -41,7 +41,7 @@ public class MenuServiceImpl implements MenuService {
 		}
 	}
 	
-	@Override
+	
 	public MenuInfo getMenuInfoDetail(int menuId) throws InternalException {
 		try {
 			return menuInfoMapper.selectByPrimaryKey(menuId);
@@ -52,7 +52,7 @@ public class MenuServiceImpl implements MenuService {
 		}
 	}
 
-	@Override
+	
 	public int addMenu(MenuInfo menuInfo) throws InternalException {
 		try {
 			return menuInfoMapper.insertSelective(menuInfo);
@@ -63,7 +63,7 @@ public class MenuServiceImpl implements MenuService {
 		}
 	}
 
-	@Override
+	
 	public int updateMenu(MenuInfo menuInfo) throws InternalException {
 		try {
 			return menuInfoMapper.updateByPrimaryKeySelective(menuInfo);
@@ -74,7 +74,7 @@ public class MenuServiceImpl implements MenuService {
 		}
 	}
 
-	@Override
+	
 	public int deleteMenu(int menuId) throws InternalException {
 		try {
 			return menuInfoMapper.deleteByPrimaryKey(menuId);
@@ -85,7 +85,7 @@ public class MenuServiceImpl implements MenuService {
 		}
 	}
 
-	@Override
+	
 	public List<FoodType> getAllFoodTypes() throws InternalException {
 		try {
 			return foodTypeMapper.getAllFoodTypes();
@@ -96,7 +96,7 @@ public class MenuServiceImpl implements MenuService {
 		}
 	}
 
-	@Override
+	
 	public int addFoodType(FoodType foodType) throws InternalException {
 		try {
 			return foodTypeMapper.insertSelective(foodType);
@@ -107,7 +107,7 @@ public class MenuServiceImpl implements MenuService {
 		}
 	}
 
-	@Override
+	
 	public int deleteFoodType(int foodtypeid) throws InternalException {
 		try {
 			return foodTypeMapper.deleteByPrimaryKey(foodtypeid);

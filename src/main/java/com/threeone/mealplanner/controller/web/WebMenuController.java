@@ -2,12 +2,15 @@ package com.threeone.mealplanner.controller.web;
 
 import java.util.List;
 
+import org.apache.log4j.lf5.viewer.LogFactor5Dialog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mysql.jdbc.log.Log;
 import com.threeone.mealplanner.common.JsonResult;
 import com.threeone.mealplanner.model.entity.FoodType;
 import com.threeone.mealplanner.model.entity.MenuInfo;
@@ -15,7 +18,7 @@ import com.threeone.mealplanner.service.MenuService;
 
 /**
  * Need to update for the web side
- * @author asus
+ * @author kyle
  *
  */
 @Controller
@@ -26,23 +29,17 @@ public class WebMenuController {
 	private MenuService menuService;
 	
 	@RequestMapping("/getMenuByRestId")
-	@ResponseBody
-	public JsonResult<List<MenuInfo>> getMenuInfoByRestId(@RequestParam int restId){
-		Boolean flag = true;
-		String message = "Get menu info of the restId=" + restId;
+	public String getMenuInfoByRestId(@RequestParam int restId, Model model){
 		try {
 			List<MenuInfo> menuInfos = menuService.getMenuInfoByRestId(restId);
-			message += " success!";
-			return new JsonResult<List<MenuInfo>>(flag, message, menuInfos);
+			model.addAttribute("menuInfos", menuInfos);
+			return "menu/menu.ftl";
 		} catch (Exception e) {
-			message = message + " error! Reason:" + e.getMessage();
-			flag = false;
-			return new JsonResult<List<MenuInfo>>(flag, message, null);
+			return null;
 		}
 	}
 	
 	@RequestMapping("/getMenuByFoodType")
-	@ResponseBody
 	public JsonResult<List<MenuInfo>> getMenuByFoodType(@RequestParam int foodTypeId){
 		Boolean flag = true;
 		String message = "Get menu info of the foodTypeId=" + foodTypeId;
@@ -105,19 +102,45 @@ public class WebMenuController {
 		}
 	}
 	
+	@RequestMapping("/updateMenuPart")
+	@ResponseBody
+	public String updateMenuPart(@RequestParam int menuid, @RequestParam int restid, @RequestParam String menuname, 
+			@RequestParam Double menuprice, @RequestParam Integer foodtype){
+		Boolean flag = true;
+		Integer recommand = 0;
+		Integer hot = 0;
+		String message = "Update menu of restId=" + restid;
+		try {
+			MenuInfo menuInfo = menuService.getMenuInfoDetail(menuid);
+			menuInfo.setFoodtype(foodtype);
+			menuInfo.setHot(hot);
+			menuInfo.setMenuname(menuname);
+			menuInfo.setMenuprice(menuprice);
+			menuInfo.setRecommand(recommand);
+			menuInfo.setRestid(restid);
+			menuService.updateMenu(menuInfo);
+			message += " success!";
+			return "/web/menu/getMenuByRestId?restId=" + restid;
+		} catch (Exception e) {
+			message = message + " error! Reason:" + e.getMessage();
+			flag = false;
+			return "web/menu/error";
+		}
+	}
+	
 	@RequestMapping("/deleteMenu")
 	@ResponseBody
-	public JsonResult<String> deleteMenu(@RequestParam int menuid){
+	public String deleteMenu(@RequestParam int menuid){
 		Boolean flag = true;
 		String message = "deleteMenu menu of menuId=" + menuid;
 		try {
 			menuService.deleteMenu(menuid);
 			message += " success!";
-			return new JsonResult<String>(flag, message, null);
+			return message;
 		} catch (Exception e) {
 			message = message + " error! Reason:" + e.getMessage();
 			flag = false;
-			return new JsonResult<String>(flag, message, null);
+			return message;
 		}
 	}
 	
