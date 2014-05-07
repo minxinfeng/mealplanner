@@ -3,7 +3,7 @@ package com.threeone.mealplanner.service;
 import java.util.List;
 
 import com.threeone.mealplanner.common.InternalException;
-import com.threeone.mealplanner.model.MealWithFriends;
+import com.threeone.mealplanner.model.MealWithDetail;
 import com.threeone.mealplanner.model.entity.MealInfo;
 
 /**
@@ -29,7 +29,7 @@ public interface MealService {
 	 * @return
 	 * @throws InternalException
 	 */
-	List<MealWithFriends> getMealInfoByUserId(int userId, int status) throws InternalException;
+	List<MealWithDetail> getMealDetailByUserId(int userId, int status) throws InternalException;
 	
 	/**
 	 * 获取某个人待处理的饭局信息
@@ -50,11 +50,11 @@ public interface MealService {
 	int handleAMeal(int mealId, int userId, int status) throws InternalException;
 	
 	/**
-	 * 获取饭局中的好友相关信息
+	 * 获取饭局中的详细信息
 	 * @param mealId
 	 * @return
 	 * @throws InternalException 
 	 */
-	MealWithFriends getMealInfoFriends(int mealId) throws InternalException;
+	MealWithDetail getMealDetail(int mealId) throws InternalException;
 	
 }

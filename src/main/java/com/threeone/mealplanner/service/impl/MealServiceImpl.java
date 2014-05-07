@@ -9,8 +9,9 @@ import org.apache.commons.logging.LogFactory;
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.mapper.MealFriendMapper;
 import com.threeone.mealplanner.mapper.MealInfoMapper;
+import com.threeone.mealplanner.mapper.RestaurantInfoMapper;
 import com.threeone.mealplanner.model.MealFriendStatus;
-import com.threeone.mealplanner.model.MealWithFriends;
+import com.threeone.mealplanner.model.MealWithDetail;
 import com.threeone.mealplanner.model.entity.MealFriend;
 import com.threeone.mealplanner.model.entity.MealInfo;
 import com.threeone.mealplanner.service.MealService;
@@ -21,6 +22,7 @@ public class MealServiceImpl implements MealService {
 	
 	private MealInfoMapper mealInfoMapper;
 	private MealFriendMapper mealFriendMapper;
+	private RestaurantInfoMapper restaurantInfoMapper;
 	
 	@Override
 	public int createMeal(MealInfo mealInfo, String friendIds) throws InternalException {
@@ -50,21 +52,22 @@ public class MealServiceImpl implements MealService {
 	}
 	
 	@Override
-	public List<MealWithFriends> getMealInfoByUserId(int userId, int status)
+	public List<MealWithDetail> getMealDetailByUserId(int userId, int status)
 			throws InternalException {
 		try {
-			List<MealWithFriends> mealWithFriendsList = new ArrayList<MealWithFriends>(); 
+			List<MealWithDetail> mealWithDetailList = new ArrayList<MealWithDetail>(); 
 			// 1.获取所有的meal信息
 			List<MealInfo> mealInfos = mealInfoMapper.getMealListByUserId(userId, status);
 			// 2.获取每个对应的friend信息
 			for (MealInfo mealInfo : mealInfos) {
-				MealWithFriends mealWithFriends = new MealWithFriends();
-				mealWithFriends.setMealInfo(mealInfo);
-				mealWithFriends.setMealFriendWithStatusList(mealInfoMapper.getMealFriendWithStatus(mealInfo.getMealid()));
-				mealWithFriendsList.add(mealWithFriends);
+				MealWithDetail mealWithDetail = new MealWithDetail();
+				mealWithDetail.setMealInfo(mealInfo);
+				mealWithDetail.setMealFriendWithStatusList(mealInfoMapper.getMealFriendWithStatus(mealInfo.getMealid()));
+				mealWithDetail.setRestaurantInfo(restaurantInfoMapper.selectByPrimaryKey(mealInfo.getRestid()));
+				mealWithDetailList.add(mealWithDetail);
 			}
 			LOG.info("Get mealinfo of userId=" + userId + " and status=" + status);
-			return mealWithFriendsList;
+			return mealWithDetailList;
 		} catch (Exception e) {
 			String message = "Error to get the mealinfo of userId=" + userId + " and status=" + status + ", reason:" + e.getMessage();
 			LOG.error(message);
@@ -104,14 +107,15 @@ public class MealServiceImpl implements MealService {
 	}
 
 	@Override
-	public MealWithFriends getMealInfoFriends(int mealId) throws InternalException {
+	public MealWithDetail getMealDetail(int mealId) throws InternalException {
 		try {
-			MealWithFriends mealWithFriends = new MealWithFriends();
+			MealWithDetail mealWithDetail = new MealWithDetail();
 			MealInfo mealInfo = mealInfoMapper.selectByPrimaryKey(mealId);
-			mealWithFriends.setMealInfo(mealInfo);
-			mealWithFriends.setMealFriendWithStatusList(mealInfoMapper.getMealFriendWithStatus(mealId));
+			mealWithDetail.setMealInfo(mealInfo);
+			mealWithDetail.setMealFriendWithStatusList(mealInfoMapper.getMealFriendWithStatus(mealId));
+			mealWithDetail.setRestaurantInfo(restaurantInfoMapper.selectByPrimaryKey(mealInfo.getRestid()));
 			LOG.info("Get meal detail info of mealId=" + mealId);
-			return mealWithFriends;
+			return mealWithDetail;
 		} catch (Exception e) {
 			LOG.info("Get meal detail info of mealId=" + mealId + " failed. Reason:" + e.getMessage());
 			throw new InternalException(e.getMessage());
@@ -124,6 +128,10 @@ public class MealServiceImpl implements MealService {
 
 	public void setMealFriendMapper(MealFriendMapper mealFriendMapper) {
 		this.mealFriendMapper = mealFriendMapper;
+	}
+
+	public void setRestaurantInfoMapper(RestaurantInfoMapper restaurantInfoMapper) {
+		this.restaurantInfoMapper = restaurantInfoMapper;
 	}
 
 }

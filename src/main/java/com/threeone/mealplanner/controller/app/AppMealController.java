@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.threeone.mealplanner.common.JsonResult;
 import com.threeone.mealplanner.model.MealFriendStatus;
 import com.threeone.mealplanner.model.MealStatus;
-import com.threeone.mealplanner.model.MealWithFriends;
+import com.threeone.mealplanner.model.MealWithDetail;
 import com.threeone.mealplanner.model.entity.MealInfo;
 import com.threeone.mealplanner.service.MealService;
 
@@ -51,17 +51,17 @@ public class AppMealController {
 	
 	@RequestMapping("/getMealInfo")
 	@ResponseBody
-	public JsonResult<List<MealWithFriends>> getMealInfoByUserId(@RequestParam int userId, @RequestParam int status){
+	public JsonResult<List<MealWithDetail>> getMealInfoByUserId(@RequestParam int userId, @RequestParam int status){
 		Boolean flag = false;
 		String message = "Get Meal of userId=" + userId + " and status=" + status;
 		try {
-			List<MealWithFriends> mealWithFriends = mealService.getMealInfoByUserId(userId, status);
+			List<MealWithDetail> mealWithDetails = mealService.getMealDetailByUserId(userId, status);
 			message += " success!";
 			flag = true;
-			return new JsonResult<List<MealWithFriends>>(flag, message, mealWithFriends);
+			return new JsonResult<List<MealWithDetail>>(flag, message, mealWithDetails);
 		} catch (Exception e) {
 			message = message + "failed! reason:" + e.getMessage();
-			return new JsonResult<List<MealWithFriends>>(flag, message, null);
+			return new JsonResult<List<MealWithDetail>>(flag, message, null);
 		}
 	}
 	
@@ -113,19 +113,19 @@ public class AppMealController {
 		}
 	}
 	
-	@RequestMapping("/mealFriendInfo")
+	@RequestMapping("/mealDetail")
 	@ResponseBody
-	public JsonResult<MealWithFriends> mealFriendInfo(@RequestParam int mealId){
+	public JsonResult<MealWithDetail> mealDetail(@RequestParam int mealId){
 		Boolean flag = false;
 		String message = " Get Meal Friends info of  mealId= " + mealId;
 		try {
-			MealWithFriends mealWithFriends = mealService.getMealInfoFriends(mealId);
+			MealWithDetail mealWithDetail = mealService.getMealDetail(mealId);
 			message += " success!";
 			flag = true;
-			return new JsonResult<MealWithFriends>(flag, message, mealWithFriends);
+			return new JsonResult<MealWithDetail>(flag, message, mealWithDetail);
 		} catch (Exception e) {
 			message = message + "failed! reason:" + e.getMessage();
-			return new JsonResult<MealWithFriends>(flag, message, null);
+			return new JsonResult<MealWithDetail>(flag, message, null);
 		}
 	}
 
