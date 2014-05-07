@@ -137,7 +137,7 @@
     <include refid="Base_Column_List" />
     from mealinfo
     where mealorganizeuserid = #{userId,jdbcType=INTEGER}
-    <if test="mealstatus != null" >
+    <if test="mealstatus != -1" >
     	and mealStatus = #{mealstatus, jdbcType=INTEGER}
     </if>
   </select>

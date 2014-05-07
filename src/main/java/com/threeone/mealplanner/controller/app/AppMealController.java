@@ -51,7 +51,7 @@ public class AppMealController {
 	
 	@RequestMapping("/getMealInfo")
 	@ResponseBody
-	public JsonResult<List<MealWithDetail>> getMealInfoByUserId(@RequestParam int userId, @RequestParam int status){
+	public JsonResult<List<MealWithDetail>> getMealInfoByUserId(@RequestParam int userId, @RequestParam(defaultValue="-1") int status){
 		Boolean flag = false;
 		String message = "Get Meal of userId=" + userId + " and status=" + status;
 		try {
@@ -67,7 +67,7 @@ public class AppMealController {
 	
 	@RequestMapping("/getMealRequest")
 	@ResponseBody
-	public JsonResult<List<MealInfo>> getMealRequest(@RequestParam int userId, @RequestParam int status){
+	public JsonResult<List<MealInfo>> getMealRequest(@RequestParam int userId, @RequestParam(defaultValue="-1") int status){
 		Boolean flag = false;
 		String message = "Get Meal request of userId=" + userId + " and status=" + status;
 		try {
