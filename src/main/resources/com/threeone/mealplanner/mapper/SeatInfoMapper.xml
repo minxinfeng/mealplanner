@@ -90,4 +90,15 @@
       description = #{description,jdbcType=VARCHAR}
     where seatId = #{seatid,jdbcType=INTEGER}
   </update>
+  <select id="getAvailableSeatInfos" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from seatinfo
+    where restId = #{restId,jdbcType=INTEGER} and 
+    peopleNum >= #{peopleNum,jdbcType=INTEGER} and 
+    seatId not in 
+    (select seatId from seatstatus 
+    where dateDay = #{dateDay,jdbcType=VARCHAR} and 
+    	dateClock = #{dateClock,jdbcType=INTEGER})
+  </select>
 </mapper>
