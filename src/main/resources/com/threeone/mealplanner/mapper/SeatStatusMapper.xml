@@ -105,4 +105,15 @@
       state = #{state,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <insert id="insertSeatStatus" parameterType="com.threeone.mealplanner.model.entity.SeatStatus" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into seatstatus (seatId, restId, 
+      dateDay, dateClock, state
+      )
+    values (#{seatid,jdbcType=INTEGER}, #{restid,jdbcType=INTEGER}, 
+      #{dateday,jdbcType=VARCHAR}, #{dateclock,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}
+      )
+  </insert>
 </mapper>
