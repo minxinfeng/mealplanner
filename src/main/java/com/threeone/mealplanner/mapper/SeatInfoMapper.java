@@ -21,5 +21,5 @@ public interface SeatInfoMapper {
     int updateByPrimaryKey(SeatInfo record);
     
     List<SeatInfo> getAvailableSeatInfos(@Param("restId") int restId, @Param("dateDay") String dateDay,
-    		@Param("dateClock") int dateClock, @Param("peopleNum") int peopleNum);    
+    		@Param("dateClock") int dateClock, @Param("peopleNum") int peopleNum);
 }

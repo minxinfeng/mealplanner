@@ -1,7 +1,10 @@
 package com.threeone.mealplanner.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
+import com.threeone.mealplanner.model.entity.SeatInfo;
 import com.threeone.mealplanner.model.entity.SeatStatus;
 
 public interface SeatStatusMapper {
@@ -19,4 +22,7 @@ public interface SeatStatusMapper {
 
     int insertSeatStatus(@Param("seatId") int seatId, @Param("restId") int restId, @Param("dateDay") String dateDay,
     		@Param("dateClock") int dateClock, @Param("state") int state);
+    
+    List<SeatStatus> getNotAvailableOfSeatWholeDay(@Param("seatId") int seatId, @Param("restId") int restId, 
+    		@Param("dateDay") String dateDay);
 }

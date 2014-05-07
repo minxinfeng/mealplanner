@@ -7,11 +7,13 @@ import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.mapper.SeatInfoMapper;
 import com.threeone.mealplanner.mapper.SeatStatusMapper;
 import com.threeone.mealplanner.model.entity.SeatInfo;
+import com.threeone.mealplanner.model.entity.SeatStatus;
 import com.threeone.mealplanner.service.SeatService;
 
 public class SeatServiceImpl implements SeatService {
 	private static int RESERVED = 1;
 	private static int OCCUPIED = 2;
+	private static Integer AVAILABLE = 0;
 	
 	private SeatInfoMapper seatInfoMapper;
 	private SeatStatusMapper seatStatusMapper;
@@ -55,7 +57,17 @@ public class SeatServiceImpl implements SeatService {
 	public HashMap<Integer, Integer> getStateOfSeatWholeDay(int seatId,
 			int restId, String dateDay) throws InternalException {
 		HashMap<Integer, Integer> stateHashMap = new HashMap<Integer, Integer>();
-		// TODO Auto-generated method stub
+		int[] clockState = new int[13];
+		List<SeatStatus> notAvailableSeats = seatStatusMapper.getNotAvailableOfSeatWholeDay(seatId, restId, dateDay);
+		for(SeatStatus seatStatus : notAvailableSeats){
+			stateHashMap.put(seatStatus.getDateclock(), seatStatus.getState());
+			clockState[seatStatus.getDateclock()] = 1;
+		}
+		for(int i = 0; i < clockState.length; i++){
+			if(clockState[i] != 1){
+				stateHashMap.put(i + 10, AVAILABLE);
+			}
+		}
 		return stateHashMap;
 	}
 	
