@@ -40,4 +40,6 @@ public interface OrderService {
 	 */
 	int updateOrder(OrderInfo orderInfo) throws InternalException;
 	
+	OrderInfo getOrderInfoById(int orderId) throws InternalException;
+	
 }
