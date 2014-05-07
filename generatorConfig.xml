@@ -51,7 +51,7 @@
 		columnOverride 自定义规则 数据库字段 -> 属性
 		ignoreColumn 不生成某字段
 		 -->
-		<table tableName="orderinfo" domainObjectName="OrderInfo"
+		<table tableName="restuser" domainObjectName="RestUser"
 			enableCountByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="false" />

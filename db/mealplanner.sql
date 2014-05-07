@@ -272,6 +272,31 @@ INSERT INTO `resttype` VALUES (1,'自助');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `restuser`
+--
+
+DROP TABLE IF EXISTS `restuser`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `restuser` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) DEFAULT NULL,
+  `restId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户与餐厅对应关系';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `restuser`
+--
+
+LOCK TABLES `restuser` WRITE;
+/*!40000 ALTER TABLE `restuser` DISABLE KEYS */;
+/*!40000 ALTER TABLE `restuser` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `seatinfo`
 --
 
@@ -308,7 +333,10 @@ DROP TABLE IF EXISTS `seatstatus`;
 CREATE TABLE `seatstatus` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `seatId` int(11) DEFAULT NULL,
-  `status` int(11) DEFAULT NULL COMMENT '座位当前状态\n0：空闲\n1：被预定\n2：用餐中',
+  `restId` int(11) DEFAULT NULL,
+  `dateDay` varchar(45) DEFAULT NULL COMMENT '预定的日期-天',
+  `dateClock` int(11) DEFAULT NULL COMMENT '预定的日期-时(24小时)',
+  `state` int(11) DEFAULT NULL COMMENT '座位当前状态\n0：空闲\n1：被预定\n2：用餐中',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='座位当前状态(预定产生的未来状态根据orderinfo/menuinfo/seatinfo来共同决定)';
@@ -390,4 +418,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-07  0:14:22
+-- Dump completed on 2014-05-07 16:11:11

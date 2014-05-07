@@ -5,7 +5,13 @@ public class SeatStatus {
 
     private Integer seatid;
 
-    private Integer status;
+    private Integer restid;
+
+    private String dateday;
+
+    private Integer dateclock;
+
+    private Integer state;
 
     public Integer getId() {
         return id;
@@ -23,11 +29,35 @@ public class SeatStatus {
         this.seatid = seatid;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getRestid() {
+        return restid;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setRestid(Integer restid) {
+        this.restid = restid;
+    }
+
+    public String getDateday() {
+        return dateday;
+    }
+
+    public void setDateday(String dateday) {
+        this.dateday = dateday == null ? null : dateday.trim();
+    }
+
+    public Integer getDateclock() {
+        return dateclock;
+    }
+
+    public void setDateclock(Integer dateclock) {
+        this.dateclock = dateclock;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 }
