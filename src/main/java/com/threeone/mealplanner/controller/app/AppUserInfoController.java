@@ -68,7 +68,7 @@ public class AppUserInfoController {
 	
 	@RequestMapping("/userInfo")
 	@ResponseBody
-	public JsonResult<UserInfo> getUserinfo(@RequestParam(defaultValue="1") int userId, Model model) {
+	public JsonResult<UserInfo> getUserinfo(@RequestParam(defaultValue="1") int userId) {
 		UserInfo userInfo = userService.getUserInfoById(userId);
 		Boolean flag = true;
 		String message = "success";

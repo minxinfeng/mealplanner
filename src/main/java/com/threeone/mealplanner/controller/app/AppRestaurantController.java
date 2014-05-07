@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.common.JsonResult;
 import com.threeone.mealplanner.model.RestaurantWithMenu;
+import com.threeone.mealplanner.model.entity.RestaurantInfo;
 import com.threeone.mealplanner.service.RestaurantService;
 
 @Controller
@@ -35,9 +36,9 @@ public class AppRestaurantController {
 		}
 	}
 	
-	@RequestMapping("/getRest")
+	@RequestMapping("/getSeveralRestWithMenu")
 	@ResponseBody
-	public JsonResult<List<RestaurantWithMenu>> getRest(@RequestParam int start, int end){
+	public JsonResult<List<RestaurantWithMenu>> getSeveralRestaurantWithMenus(@RequestParam int start, int end){
 		Boolean flag = true;
 		String message = "Get restaurants info from " + start + " to " + end;
 		try {
@@ -48,6 +49,38 @@ public class AppRestaurantController {
 			flag = false;
 			message = message + " failed! Reason:" + e.getMessage();
 			return new JsonResult<List<RestaurantWithMenu>>(flag, message, null);
+		}
+	}
+	
+	@RequestMapping("/getRest")
+	@ResponseBody
+	public JsonResult<RestaurantInfo> getRest(@RequestParam int restId){
+		Boolean flag = true;
+		String message = "Get restaurants info of " + restId;
+		try {
+			RestaurantInfo restaurantInfo = restaurantService.getRestaurantInfo(restId);
+			message += " success!";
+			return new JsonResult<RestaurantInfo>(flag, message, restaurantInfo);
+		} catch (InternalException e) {
+			flag = false;
+			message = message + " failed! Reason:" + e.getMessage();
+			return new JsonResult<RestaurantInfo>(flag, message, null);
+		}
+	}
+	
+	@RequestMapping("/getRestWithMenu")
+	@ResponseBody
+	public JsonResult<RestaurantWithMenu> getRestWithMenu(@RequestParam int restId){
+		Boolean flag = true;
+		String message = "Get restaurants info of " + restId;
+		try {
+			RestaurantWithMenu restaurantWithMenu = restaurantService.getRestaurantInfoWithMenu(restId);
+			message += " success!";
+			return new JsonResult<RestaurantWithMenu>(flag, message, restaurantWithMenu);
+		} catch (InternalException e) {
+			flag = false;
+			message = message + " failed! Reason:" + e.getMessage();
+			return new JsonResult<RestaurantWithMenu>(flag, message, null);
 		}
 	}
 

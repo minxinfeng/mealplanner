@@ -59,4 +59,31 @@ public class RestaurantServiceImpl implements RestaurantService {
 		this.menuInfoMapper = menuInfoMapper;
 	}
 
+
+	@Override
+	public RestaurantInfo getRestaurantInfo(int restId)
+			throws InternalException {
+		try {
+			return restaurantInfoMapper.selectByPrimaryKey(restId);
+		} catch (Exception e) {
+			throw new InternalException(e.getMessage());
+		}
+	}
+
+
+	@Override
+	public RestaurantWithMenu getRestaurantInfoWithMenu(int restId)
+			throws InternalException {
+		try {
+			RestaurantInfo restaurantInfo = restaurantInfoMapper.selectByPrimaryKey(restId);
+			RestaurantWithMenu restaurantWithMenu = new RestaurantWithMenu();
+			List<MenuInfo> menuInfos = menuInfoMapper.getMenuByRestId(restaurantInfo.getRestid());
+			restaurantWithMenu.setRestaurantInfo(restaurantInfo);
+			restaurantWithMenu.setMenuInfos(menuInfos);
+			return restaurantWithMenu;
+		} catch (Exception e) {
+			throw new InternalException(e.getMessage());
+		}
+	}
+
 }
