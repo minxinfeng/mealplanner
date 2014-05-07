@@ -9,6 +9,7 @@ package com.threeone.mealplanner.model;
  *
  */
 public enum MealFriendStatus {
+	all(-1, "所有"),
 	waiting(0,"等待处理中"),
 	accept(1,"已接受"),
 	reject(2,"已拒绝");

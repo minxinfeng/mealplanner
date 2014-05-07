@@ -94,7 +94,7 @@
     select distinct(mealId)
     from mealfriend
     where friendId=#{userId,jdbcType=INTEGER}
-    <if test="status != null" >
+    <if test="status != -1" >
     	and status = #{status, jdbcType=INTEGER}
     </if>
   </select>
