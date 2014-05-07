@@ -161,4 +161,11 @@
       status = #{status,jdbcType=INTEGER}
     where orderId = #{orderid,jdbcType=INTEGER}
   </update>
+  
+  <select id="getOrderByUser" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from orderinfo
+    where userId = #{userId,jdbcType=INTEGER} and  status = #{status,jdbcType=INTEGER}
+  </select>
 </mapper>
