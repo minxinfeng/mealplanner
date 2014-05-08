@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50515
 File Encoding         : 65001
 
-Date: 2014-05-07 19:38:49
+Date: 2014-05-08 08:55:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,13 +24,14 @@ CREATE TABLE `foodtype` (
   `foodTypeName` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`foodTypeId`),
   UNIQUE KEY `foodTypeId_UNIQUE` (`foodTypeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='菜品类别:辣，微辣，川菜等';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='菜品类别:辣，微辣，川菜等';
 
 -- ----------------------------
 -- Records of foodtype
 -- ----------------------------
-INSERT INTO `foodtype` VALUES ('1', '北京菜');
+INSERT INTO `foodtype` VALUES ('1', '清真菜');
 INSERT INTO `foodtype` VALUES ('2', '川菜');
+INSERT INTO `foodtype` VALUES ('3', '北京菜');
 
 -- ----------------------------
 -- Table structure for friendinfo
@@ -120,14 +121,14 @@ CREATE TABLE `menuinfo` (
   `foodUrl` varchar(255) DEFAULT NULL COMMENT '食物图片对应的URL',
   PRIMARY KEY (`menuId`),
   UNIQUE KEY `menuId_UNIQUE` (`menuId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='菜单信息';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='菜单信息';
 
 -- ----------------------------
 -- Records of menuinfo
 -- ----------------------------
-INSERT INTO `menuinfo` VALUES ('1', '1', '宫保鸡丁', '20', '1', '0', '0', '1', '1', null);
+INSERT INTO `menuinfo` VALUES ('1', '1', '椒麻鸡', '25', '1', '1', '1', '1', '1', null);
 INSERT INTO `menuinfo` VALUES ('2', '1', '干煸豆角', '18', '1', '1', '1', '1', '1', null);
-INSERT INTO `menuinfo` VALUES ('3', '2', 'test', '48', '2', null, null, '1', '1', null);
+INSERT INTO `menuinfo` VALUES ('3', '1', '羊肉串', '2', '1', '1', '1', '1', '1', null);
 
 -- ----------------------------
 -- Table structure for orderinfo
@@ -147,11 +148,17 @@ CREATE TABLE `orderinfo` (
   `status` int(11) DEFAULT NULL COMMENT '订单状态：\n0：订单提交成功\n1：订单提交失败(无座位)\n2：已经审核通过\n3：被取消\n4：已完成',
   PRIMARY KEY (`orderId`),
   UNIQUE KEY `orderId_UNIQUE` (`orderId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单信息';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='订单信息';
 
 -- ----------------------------
 -- Records of orderinfo
 -- ----------------------------
+INSERT INTO `orderinfo` VALUES ('1', '1', '1', '1', '15310582672', '4', '1,2,3,4', '2014-05-10 00:00:00', '1', '1', '3');
+INSERT INTO `orderinfo` VALUES ('2', '-1', '1', '3', '15310582675', '2', '1,2', '2014-05-10 00:00:00', '2', '3', '2');
+INSERT INTO `orderinfo` VALUES ('3', '-1', '1', '5', '15310582673', '3', '1,2,3', '2014-05-23 17:34:20', null, '5', '0');
+INSERT INTO `orderinfo` VALUES ('5', '-1', '1', '5', '15310582673', '3', '1,2,3', '2014-05-23 17:34:20', '1', '5', '0');
+INSERT INTO `orderinfo` VALUES ('6', '-1', '1', '4', '15310582670', '3', '1,2,3', '2014-05-23 17:34:20', '3', '4', '0');
+INSERT INTO `orderinfo` VALUES ('7', '-1', '1', '5', '15310582673', '3', '1,2,3', '2014-05-23 17:34:20', '4', '5', '0');
 
 -- ----------------------------
 -- Table structure for restaurantinfo
@@ -174,8 +181,8 @@ CREATE TABLE `restaurantinfo` (
 -- ----------------------------
 -- Records of restaurantinfo
 -- ----------------------------
-INSERT INTO `restaurantinfo` VALUES ('1', '天外天', '111', '1', '111', '111', '1', '1', '1');
-INSERT INTO `restaurantinfo` VALUES ('2', '西门', '1', '1', '1', '1', '1', '1', '1');
+INSERT INTO `restaurantinfo` VALUES ('1', '阿里食府', '010-12345678', '1', '交大东路', 'http://www.baidu.com', '1', '1', '1');
+INSERT INTO `restaurantinfo` VALUES ('2', '西贝', '010-12345679', '1', '学苑公寓', 'http://www.google.com', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for restcity
@@ -186,11 +193,14 @@ CREATE TABLE `restcity` (
   `cityName` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`cityId`),
   UNIQUE KEY `cityId_UNIQUE` (`cityId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='餐馆所在城市信息';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='餐馆所在城市信息';
 
 -- ----------------------------
 -- Records of restcity
 -- ----------------------------
+INSERT INTO `restcity` VALUES ('1', '北京');
+INSERT INTO `restcity` VALUES ('2', '上海');
+INSERT INTO `restcity` VALUES ('3', '成都');
 
 -- ----------------------------
 -- Table structure for resttype
@@ -201,12 +211,14 @@ CREATE TABLE `resttype` (
   `restTypeName` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`restTypeId`),
   UNIQUE KEY `restTypeId_UNIQUE` (`restTypeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='餐馆类别';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='餐馆类别';
 
 -- ----------------------------
 -- Records of resttype
 -- ----------------------------
-INSERT INTO `resttype` VALUES ('1', '自助');
+INSERT INTO `resttype` VALUES ('1', '清真');
+INSERT INTO `resttype` VALUES ('2', '自助');
+INSERT INTO `resttype` VALUES ('3', '西北菜');
 
 -- ----------------------------
 -- Table structure for restuser
@@ -236,11 +248,17 @@ CREATE TABLE `seatinfo` (
   `description` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`seatId`),
   UNIQUE KEY `seatId_UNIQUE` (`seatId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='店内座位信息';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='店内座位信息';
 
 -- ----------------------------
 -- Records of seatinfo
 -- ----------------------------
+INSERT INTO `seatinfo` VALUES ('1', '1', '1', '4', null);
+INSERT INTO `seatinfo` VALUES ('2', '1', '2', '2', null);
+INSERT INTO `seatinfo` VALUES ('3', '1', '3', '6', null);
+INSERT INTO `seatinfo` VALUES ('4', '1', '4', '8', null);
+INSERT INTO `seatinfo` VALUES ('5', '1', '5', '25', null);
+INSERT INTO `seatinfo` VALUES ('6', '1', '6', '4', null);
 
 -- ----------------------------
 -- Table structure for seatstatus
@@ -255,11 +273,17 @@ CREATE TABLE `seatstatus` (
   `state` int(11) DEFAULT NULL COMMENT '座位当前状态\n0：空闲\n1：被预定\n2：用餐中',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='座位当前状态(预定产生的未来状态根据orderinfo/menuinfo/seatinfo来共同决定)';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='座位当前状态(预定产生的未来状态根据orderinfo/menuinfo/seatinfo来共同决定)';
 
 -- ----------------------------
 -- Records of seatstatus
 -- ----------------------------
+INSERT INTO `seatstatus` VALUES ('1', '1', '1', '2014-05-23', '17', '1');
+INSERT INTO `seatstatus` VALUES ('2', '1', '1', '2014-05-23', '18', '1');
+INSERT INTO `seatstatus` VALUES ('3', '3', '1', '2014-05-23', '17', '1');
+INSERT INTO `seatstatus` VALUES ('4', '3', '1', '2014-05-23', '18', '1');
+INSERT INTO `seatstatus` VALUES ('5', '4', '1', '2014-05-23', '17', '1');
+INSERT INTO `seatstatus` VALUES ('6', '4', '1', '2014-05-23', '18', '1');
 
 -- ----------------------------
 -- Table structure for sequenceinfo
@@ -299,9 +323,9 @@ CREATE TABLE `userinfo` (
 -- ----------------------------
 -- Records of userinfo
 -- ----------------------------
-INSERT INTO `userinfo` VALUES ('1', 'minxin', null, '15210582672', '123456', null, '1');
-INSERT INTO `userinfo` VALUES ('2', 'fxm', '111', '111111', '111', '2014-05-04 23:12:22', '2');
-INSERT INTO `userinfo` VALUES ('3', '1', '1', '1', '1', '2014-05-04 23:24:18', '3');
-INSERT INTO `userinfo` VALUES ('4', '11', '11', '11', '11', '2014-05-05 14:17:20', '3');
-INSERT INTO `userinfo` VALUES ('5', 'yr', 'yr', 'yr', 'yr', null, '3');
-INSERT INTO `userinfo` VALUES ('6', 'cyt', 'cyt', 'cyt', 'cyt', null, '3');
+INSERT INTO `userinfo` VALUES ('1', 'minxin', 'minxinfeng@gmail.com', '15310582672', '123456', '2014-05-04 23:12:22', '3');
+INSERT INTO `userinfo` VALUES ('2', 'fxm', 'fxm@qq.com', '15310582671', 'fxm', '2014-05-04 23:12:22', '3');
+INSERT INTO `userinfo` VALUES ('3', 'mm', 'mm@qq.com', '15310582675', 'mm', '2014-05-04 23:24:18', '3');
+INSERT INTO `userinfo` VALUES ('4', 'gg', 'gg@qq.com', '15310582670', 'gg', '2014-05-05 14:17:20', '3');
+INSERT INTO `userinfo` VALUES ('5', 'yr', 'yr@qq.com', '15310582673', 'yr', '2014-05-05 14:17:20', '3');
+INSERT INTO `userinfo` VALUES ('6', 'cyt', 'cyt@qq.com', '15310582674', 'cyt', '2014-05-05 14:17:20', '3');
