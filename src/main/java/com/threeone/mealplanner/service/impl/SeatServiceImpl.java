@@ -1,5 +1,6 @@
 package com.threeone.mealplanner.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -83,6 +84,40 @@ public class SeatServiceImpl implements SeatService {
 			int dateClock) throws InternalException {
 		seatStatusMapper.deleteBySeatIdClock(seatId, restId, dateDay, dateClock);
 		seatStatusMapper.deleteBySeatIdClock(seatId, restId, dateDay, dateClock + 1);
+	}
+
+	@Override
+	public List<SeatInfo> getSeatsByRestId(int restId) throws InternalException {
+		List<SeatInfo> seatInfos = seatInfoMapper.getSeatsByRestId(restId);
+		return seatInfos;
+	}
+
+	@Override
+	public int addSeat(int restId, int seatNo, int peopleNum, String description)
+			throws InternalException {
+		SeatInfo seatInfo = new SeatInfo();
+		seatInfo.setRestid(restId);
+		seatInfo.setSeatno(seatNo);
+		seatInfo.setPeoplenum(peopleNum);
+		seatInfo.setDescription(description);		
+		return seatInfoMapper.insert(seatInfo);
+	}
+
+	@Override
+	public int updateSeat(int seatId, int restId, int seatNo, int peopleNum,
+			String description) throws InternalException {
+		SeatInfo seatInfo = new SeatInfo();
+		seatInfo.setSeatid(seatId);
+		seatInfo.setRestid(restId);
+		seatInfo.setSeatno(seatNo);
+		seatInfo.setPeoplenum(peopleNum);
+		seatInfo.setDescription(description);
+		return seatInfoMapper.updateByPrimaryKey(seatInfo);
+	}
+
+	@Override
+	public int deleteSeat(int seatId, int restId) throws InternalException {
+		return seatInfoMapper.deleteByPrimaryKey(seatId);
 	}
 	
 }

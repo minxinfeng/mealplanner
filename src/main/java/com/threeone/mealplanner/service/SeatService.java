@@ -55,4 +55,32 @@ public interface SeatService {
 	 * @throws InternalException 
 	 */
 	HashMap<Integer, Integer> getStateOfSeatWholeDay(int seatId, int restId, String dateDay) throws InternalException;
+	
+	/**
+	 * 获取某餐厅的所有座位信息
+	 * @return
+	 * @throws InternalException 
+	 */
+	List<SeatInfo> getSeatsByRestId(int restId) throws InternalException;
+	
+	/**
+	 * 餐厅添加座位
+	 * @return
+	 * @throws InternalException 
+	 */
+	int addSeat(int restId, int seatNo, int peopleNum, String description) throws InternalException;
+	
+	/**
+	 * 餐厅更新座位信息
+	 * @return
+	 * @throws InternalException 
+	 */
+	int updateSeat(int seatId, int restId, int seatNo, int peopleNum, String description) throws InternalException;
+	
+	/**
+	 * 餐厅删除座位信息
+	 * @return
+	 * @throws InternalException 
+	 */
+	int deleteSeat(int seatId, int restId) throws InternalException;
 }

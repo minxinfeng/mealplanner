@@ -22,4 +22,6 @@ public interface SeatInfoMapper {
     
     List<SeatInfo> getAvailableSeatInfos(@Param("restId") int restId, @Param("dateDay") String dateDay,
     		@Param("dateClock") int dateClock, @Param("peopleNum") int peopleNum);
+
+	List<SeatInfo> getSeatsByRestId(@Param("restId") int restId);
 }

@@ -101,4 +101,11 @@
     where dateDay = #{dateDay,jdbcType=VARCHAR} and 
     	dateClock = #{dateClock,jdbcType=INTEGER})
   </select>
+  
+  <select id="getSeatsByRestId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from seatinfo
+    where restId = #{restId,jdbcType=INTEGER} 
+  </select>
 </mapper>
