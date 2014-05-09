@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.common.Message;
+import com.threeone.mealplanner.model.entity.RestaurantInfo;
 import com.threeone.mealplanner.model.entity.UserInfo;
 import com.threeone.mealplanner.model.entity.UserType;
+import com.threeone.mealplanner.service.RestaurantService;
 import com.threeone.mealplanner.service.UserService;
 
 @Controller
@@ -21,6 +23,9 @@ public class WebUserInfoController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private RestaurantService restaurantService;
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String loginGet(){
@@ -50,7 +55,8 @@ public class WebUserInfoController {
 	}
 	
 	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public String registerPost(@RequestParam String username, @RequestParam String phonenum, @RequestParam String email, @RequestParam String password, Model model){
+	public String registerForRestPost(@RequestParam String username, @RequestParam String phonenum, @RequestParam String email, @RequestParam String password, 
+			@RequestParam String restName, @RequestParam String restAddress, @RequestParam int restCity, @RequestParam String restWebsite, @RequestParam int restType, Model model){
 		UserInfo userInfo = new UserInfo();
 		userInfo.setUsername(username);
 		userInfo.setEmail(email);
@@ -58,10 +64,20 @@ public class WebUserInfoController {
 		userInfo.setPhonenum(phonenum);
 		userInfo.setUsertype(UserType.restAdmin.getUserType());
 		userInfo.setRegisterdate(new Date());
+		RestaurantInfo restaurantInfo = new RestaurantInfo();
+		restaurantInfo.setRestname(restName);
+		restaurantInfo.setRestaddress(restAddress);
+		restaurantInfo.setRestcity(restCity);
+		if(!"".equals(restWebsite)){
+			restaurantInfo.setRestwebsite(restWebsite);
+		}			
 		Message message = new Message();
 		try {
 			userService.register(userInfo);
 			message.success("username " + userInfo.getUsername() + " register success!");
+			model.addAttribute("messages", message.getMessages());
+			restaurantService.registRestaurant(restaurantInfo);
+			message.success("restname " + restaurantInfo.getRestname() + " register success!");
 			model.addAttribute("messages", message.getMessages());
 			return "auth/login.ftl";
 		} catch (InternalException e) {

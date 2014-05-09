@@ -38,4 +38,11 @@ public interface RestaurantService {
 	RestaurantInfo getRestInfoByExactName(@Param("restName") String restName) throws InternalException;
     
     List<RestaurantInfo> getRestsByName(@Param("restName") String restName) throws InternalException;
+    
+    /**
+	 * ×¢²á²ÍÌüÐÅÏ¢
+	 * @return
+	 * @throws InternalException 
+	 */
+	int registRestaurant(RestaurantInfo restaurantInfo) throws InternalException;
 }

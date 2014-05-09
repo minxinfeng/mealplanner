@@ -21,7 +21,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 	private RestaurantInfoMapper restaurantInfoMapper;
 	private MenuInfoMapper menuInfoMapper;
 	
-	@Override
+	
 	public List<RestaurantWithMenu> getAllRestaurantWithMenus() throws InternalException{
 		List<RestaurantWithMenu> restaurantWithMenus = new ArrayList<RestaurantWithMenu>();
 		List<RestaurantInfo> restaurantInfos = restaurantInfoMapper.getAllRestaurantInfos();
@@ -36,7 +36,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	
-	@Override
+	
 	public List<RestaurantWithMenu> getSeveralRestaurantWithMenus(int start,
 			int end) throws InternalException {
 		List<RestaurantWithMenu> restaurantWithMenus = new ArrayList<RestaurantWithMenu>();
@@ -60,7 +60,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 
-	@Override
+	
 	public RestaurantInfo getRestaurantInfo(int restId)
 			throws InternalException {
 		try {
@@ -71,7 +71,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 
-	@Override
+	
 	public RestaurantWithMenu getRestaurantInfoWithMenu(int restId)
 			throws InternalException {
 		try {
@@ -87,7 +87,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 
-	@Override
+	
 	public RestaurantInfo getRestInfoByExactName(String restName) throws InternalException {
 		try {
 			return restaurantInfoMapper.getRestInfoByExactName(restName);
@@ -97,7 +97,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 
-	@Override
+	
 	public List<RestaurantInfo> getRestsByName(String restName) throws InternalException{
 		try {
 			return restaurantInfoMapper.getRestsByName(restName);
@@ -106,4 +106,14 @@ public class RestaurantServiceImpl implements RestaurantService {
 		}
 	}
 
+
+
+	public int registRestaurant(RestaurantInfo restaurantInfo)
+			throws InternalException {
+		try {
+			return restaurantInfoMapper.insert(restaurantInfo);
+		} catch (Exception e) {
+			throw new InternalException(e.getMessage());
+		}		
+	}
 }
