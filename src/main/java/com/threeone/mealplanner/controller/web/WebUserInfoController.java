@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.common.Message;
 import com.threeone.mealplanner.model.entity.RestType;
+import com.threeone.mealplanner.model.entity.RestUser;
 import com.threeone.mealplanner.model.entity.RestaurantInfo;
 import com.threeone.mealplanner.model.entity.UserInfo;
 import com.threeone.mealplanner.model.entity.UserType;
@@ -41,6 +42,7 @@ public class WebUserInfoController {
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String loginPost(@RequestParam String loginName, @RequestParam String password, Model model){
 		UserInfo userInfo = userService.getUserInfoByLogin(loginName);
+//		RestaurantInfo restaurantInfo = restaurantService
 		Message message = new Message();
 		if(userInfo == null || !userInfo.getPassword().equals(password)){
 			message.danger("Username or password is error!");
@@ -82,15 +84,20 @@ public class WebUserInfoController {
 		restaurantInfo.setRestname(restName);
 		restaurantInfo.setRestaddress(restAddress);
 		restaurantInfo.setRestcity(restCity);
+		restaurantInfo.setResttype(restType);
+		RestUser restUser = new RestUser();
+		Message message = new Message();		
 		if(!"".equals(restWebsite)){
 			restaurantInfo.setRestwebsite(restWebsite);
-		}			
-		Message message = new Message();
+		}	
 		try {
 			userService.register(userInfo);
 			message.success("username " + userInfo.getUsername() + " register success!");
 			model.addAttribute("messages", message.getMessages());
 			restaurantService.registRestaurant(restaurantInfo);
+			restUser.setRestid(restaurantService.getRestsByName(restName).get(0).getRestid());
+			restUser.setUserid(userService.getUserInfoByLogin(username).getUserid());
+			restaurantService.mapRestaurantUser(restUser);
 			message.success("restname " + restaurantInfo.getRestname() + " register success!");
 			model.addAttribute("messages", message.getMessages());
 			return "auth/login.ftl";

@@ -30,7 +30,7 @@
 
     <div class="container">
 		<#include "base/alert.ftl">
-      <form class="form-signin" role="form" action="${rc.contextPath}/web/registerForRest"  method="post">
+      <form class="form-signin" role="form" action="${rc.contextPath}/web/register"  method="post">
         <h2 class="form-signin-heading">Sign up</h2>
         
         <div class="form-group">

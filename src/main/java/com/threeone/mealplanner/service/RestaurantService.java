@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.model.RestaurantWithMenu;
+import com.threeone.mealplanner.model.entity.RestUser;
 import com.threeone.mealplanner.model.entity.RestaurantInfo;
 
 
@@ -45,4 +46,11 @@ public interface RestaurantService {
 	 * @throws InternalException 
 	 */
 	int registRestaurant(RestaurantInfo restaurantInfo) throws InternalException;
+	
+	/**
+	 * 添加餐厅用户对应关系
+	 * @return
+	 * @throws InternalException 
+	 */
+	int mapRestaurantUser(RestUser restUser) throws InternalException;
 }
