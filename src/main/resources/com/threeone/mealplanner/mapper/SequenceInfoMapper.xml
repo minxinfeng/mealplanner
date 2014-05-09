@@ -3,7 +3,7 @@
 <mapper namespace="com.threeone.mealplanner.mapper.SequenceInfoMapper" >
   <resultMap id="BaseResultMap" type="com.threeone.mealplanner.model.entity.SequenceInfo" >
     <id column="seqId" property="seqid" jdbcType="INTEGER" />
-    <result column="restId" property="restid" jdbcType="VARCHAR" />
+    <result column="restId" property="restid" jdbcType="INTEGER" />
     <result column="userId" property="userid" jdbcType="INTEGER" />
     <result column="peopleNum" property="peoplenum" jdbcType="INTEGER" />
     <result column="seqNo" property="seqno" jdbcType="INTEGER" />
@@ -27,7 +27,7 @@
     insert into sequenceinfo (seqId, restId, userId, 
       peopleNum, seqNo, seqDate, 
       status)
-    values (#{seqid,jdbcType=INTEGER}, #{restid,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, 
+    values (#{seqid,jdbcType=INTEGER}, #{restid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, 
       #{peoplenum,jdbcType=INTEGER}, #{seqno,jdbcType=INTEGER}, #{seqdate,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=INTEGER})
   </insert>
@@ -61,7 +61,7 @@
         #{seqid,jdbcType=INTEGER},
       </if>
       <if test="restid != null" >
-        #{restid,jdbcType=VARCHAR},
+        #{restid,jdbcType=INTEGER},
       </if>
       <if test="userid != null" >
         #{userid,jdbcType=INTEGER},
@@ -84,7 +84,7 @@
     update sequenceinfo
     <set >
       <if test="restid != null" >
-        restId = #{restid,jdbcType=VARCHAR},
+        restId = #{restid,jdbcType=INTEGER},
       </if>
       <if test="userid != null" >
         userId = #{userid,jdbcType=INTEGER},
@@ -106,7 +106,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.threeone.mealplanner.model.entity.SequenceInfo" >
     update sequenceinfo
-    set restId = #{restid,jdbcType=VARCHAR},
+    set restId = #{restid,jdbcType=INTEGER},
       userId = #{userid,jdbcType=INTEGER},
       peopleNum = #{peoplenum,jdbcType=INTEGER},
       seqNo = #{seqno,jdbcType=INTEGER},
@@ -114,4 +114,24 @@
       status = #{status,jdbcType=INTEGER}
     where seqId = #{seqid,jdbcType=INTEGER}
   </update>
+  
+  <select id="getSeqNo" resultType="java.lang.Integer" >
+    select IFNULL(seqNo,0)
+    from sequenceinfo
+    where restId = #{restId,jdbcType=INTEGER} and seqDate &gt; #{dateDay,jdbcType=VARCHAR}
+    order by seqId desc limit 1
+  </select>
+  
+  <select id="getSeqNow" resultType="java.lang.Integer" >
+    select seqNo
+    from sequenceinfo
+    where restId = #{restId,jdbcType=INTEGER} and status = 1
+    order by seqId desc limit 1
+  </select>
+  
+  <select id="getSeqBefore" resultType="java.lang.Integer" >
+    select count(seqNo)
+    from sequenceinfo
+    where restId = #{restId,jdbcType=INTEGER} and peopleNum = #{peopleNum,jdbcType=INTEGER} and status = 0
+  </select>
 </mapper>

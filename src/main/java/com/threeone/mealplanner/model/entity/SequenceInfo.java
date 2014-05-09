@@ -5,7 +5,7 @@ import java.util.Date;
 public class SequenceInfo {
     private Integer seqid;
 
-    private String restid;
+    private Integer restid;
 
     private Integer userid;
 
@@ -25,12 +25,12 @@ public class SequenceInfo {
         this.seqid = seqid;
     }
 
-    public String getRestid() {
+    public Integer getRestid() {
         return restid;
     }
 
-    public void setRestid(String restid) {
-        this.restid = restid == null ? null : restid.trim();
+    public void setRestid(Integer restid) {
+        this.restid = restid;
     }
 
     public Integer getUserid() {
