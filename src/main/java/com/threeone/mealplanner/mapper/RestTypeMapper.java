@@ -1,5 +1,7 @@
 package com.threeone.mealplanner.mapper;
 
+import java.util.List;
+
 import com.threeone.mealplanner.model.entity.RestType;
 
 public interface RestTypeMapper {
@@ -14,4 +16,6 @@ public interface RestTypeMapper {
     int updateByPrimaryKeySelective(RestType record);
 
     int updateByPrimaryKey(RestType record);
+
+	List<RestType> getAllType();
 }
