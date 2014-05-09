@@ -30,7 +30,7 @@
 
     <div class="container">
 		<#include "base/alert.ftl">
-      <form class="form-signin" role="form" action="${rc.contextPath}/web/register"  method="post">
+      <form class="form-signin" role="form" action="${rc.contextPath}/web/registerForRest"  method="post">
         <h2 class="form-signin-heading">Sign up</h2>
         
         <div class="form-group">
@@ -47,6 +47,27 @@
         </div>
         <div class="form-group">
            <input type="password" name="confirmPassword" class="form-control" placeholder="Confirm Password" required>        
+        </div>
+        <div class="form-group">
+           <input type="text" name="restName" class="form-control" placeholder="Rerstaurant Name" required>        
+        </div>
+        <div class="form-group">
+           <input type="text" name="restAddress" class="form-control" placeholder="Rerstaurant Address" required>        
+        </div>
+        <div class="form-group">
+           <input type="text" name="restCity" class="form-control" placeholder="Rerstaurant City" required>        
+        </div>
+        <div class="form-group">
+           <input type="text" name="restWebsite" class="form-control" placeholder="Rerstaurant Web site" option>        
+        </div>
+        <div class="form-group">
+          <select class="form-control" name="restType">
+            <option>Peking Cuisine</option>
+            <option>Sichuan Cuisine</option>
+            <option>Shandong cuisine</option>
+            <option>Guangzhou Cuisine</option>
+            <option>NorthEast Cuisine</option>
+          </select>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
       </form>
