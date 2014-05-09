@@ -8,6 +8,8 @@ public class RestaurantInfo {
     private String restphone;
 
     private Integer restcity;
+    
+    private String restcityname;
 
     private String restaddress;
 
@@ -99,5 +101,13 @@ public class RestaurantInfo {
 
 	public void setRestTypeName(String restTypeName) {
 		this.restTypeName = restTypeName;
+	}
+
+	public String getRestcityname() {
+		return restcityname;
+	}
+
+	public void setRestcityname(String restcityname) {
+		this.restcityname = restcityname;
 	}
 }

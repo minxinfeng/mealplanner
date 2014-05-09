@@ -6,6 +6,7 @@
     <result column="restName" property="restname" jdbcType="VARCHAR" />
     <result column="restPhone" property="restphone" jdbcType="VARCHAR" />
     <result column="restCity" property="restcity" jdbcType="INTEGER" />
+    <result column="cityName" property="restcityname" jdbcType="VARCHAR" />
     <result column="restAddress" property="restaddress" jdbcType="VARCHAR" />
     <result column="restWebsite" property="restwebsite" jdbcType="VARCHAR" />
     <result column="restType" property="resttype" jdbcType="INTEGER" />
@@ -14,14 +15,14 @@
     <result column="hot" property="hot" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    restId, restName, restPhone, restCity, restAddress, restWebsite, restType, restTypeName, restSearchTime, 
+    restId, restName, restPhone, restCity, cityName, restAddress, restWebsite, restType, restTypeName, restSearchTime, 
     hot
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from restaurantinfo, resttype
-    where restId = #{restid,jdbcType=INTEGER} and restaurantinfo.restType = resttype.restTypeId
+    from restaurantinfo, resttype, restcity
+    where restId = #{restid,jdbcType=INTEGER} and restaurantinfo.restType = resttype.restTypeId and restaurantinfo.restCity=restcity.cityId
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from restaurantinfo
@@ -151,23 +152,25 @@
   <select id="getSeveralRestaurantInfos" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
-    from restaurantinfo, resttype
-    where restaurantinfo.restType = resttype.restTypeId
+    from restaurantinfo, resttype, restcity
+    where restaurantinfo.restType = resttype.restTypeId and restaurantinfo.restCity=restcity.cityId
     limit #{startFrom,jdbcType=INTEGER},#{endTo,jdbcType=INTEGER}
   </select>
   
   <select id="getRestInfoByExactName" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
-    from restaurantinfo, resttype
+    from restaurantinfo, resttype, restcity
     where restaurantinfo.restType = resttype.restTypeId and restaurantinfo.restName=#{restName,jdbcType=VARCHAR}
+    and restaurantinfo.restCity=restcity.cityId
   </select>
   
   <select id="getRestsByName" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
-    from restaurantinfo, resttype
-    where restaurantinfo.restType = resttype.restTypeId and restaurantinfo.restName like CONCAT('%',#{restName,jdbcType=VARCHAR},'%' ) 
+    from restaurantinfo, resttype,restcity
+    where restaurantinfo.restType = resttype.restTypeId and restaurantinfo.restName like CONCAT('%',#{restName,jdbcType=VARCHAR},'%' )
+    and restaurantinfo.restCity=restcity.cityId 
   </select>
   
 </mapper>
