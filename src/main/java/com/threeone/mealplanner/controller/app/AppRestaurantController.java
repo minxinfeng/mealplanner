@@ -83,5 +83,38 @@ public class AppRestaurantController {
 			return new JsonResult<RestaurantWithMenu>(flag, message, null);
 		}
 	}
+	
+	@RequestMapping("/getRestWithMenuByName")
+	@ResponseBody
+	public JsonResult<RestaurantWithMenu> getRestWithMenuByName(@RequestParam String restName){
+		Boolean flag = true;
+		String message = "Get restaurants info of " + restName;
+		try {
+			int restId = restaurantService.getRestInfoByExactName(restName).getRestid();
+			RestaurantWithMenu restaurantWithMenu = restaurantService.getRestaurantInfoWithMenu(restId);
+			message += " success!";
+			return new JsonResult<RestaurantWithMenu>(flag, message, restaurantWithMenu);
+		} catch (InternalException e) {
+			flag = false;
+			message = message + " failed! Reason:" + e.getMessage();
+			return new JsonResult<RestaurantWithMenu>(flag, message, null);
+		}
+	}
+	
+	@RequestMapping("/searchByName")
+	@ResponseBody
+	public JsonResult<List<RestaurantInfo>> searchByName(@RequestParam String restName){
+		Boolean flag = true;
+		String message = "Get restaurants info of " + restName;
+		try {
+			List<RestaurantInfo> restaurantInfos = restaurantService.getRestsByName(restName);
+			message += " success!";
+			return new JsonResult<List<RestaurantInfo>>(flag, message, restaurantInfos);
+		} catch (InternalException e) {
+			flag = false;
+			message = message + " failed! Reason:" + e.getMessage();
+			return new JsonResult<List<RestaurantInfo>>(flag, message, null);
+		}
+	}
 
 }

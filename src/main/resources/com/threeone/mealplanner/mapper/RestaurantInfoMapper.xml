@@ -155,4 +155,19 @@
     where restaurantinfo.restType = resttype.restTypeId
     limit #{startFrom,jdbcType=INTEGER},#{endTo,jdbcType=INTEGER}
   </select>
+  
+  <select id="getRestInfoByExactName" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from restaurantinfo, resttype
+    where restaurantinfo.restType = resttype.restTypeId and restaurantinfo.restName=#{restName,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getRestsByName" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from restaurantinfo, resttype
+    where restaurantinfo.restType = resttype.restTypeId and restaurantinfo.restName like CONCAT('%',#{restName,jdbcType=VARCHAR},'%' ) 
+  </select>
+  
 </mapper>

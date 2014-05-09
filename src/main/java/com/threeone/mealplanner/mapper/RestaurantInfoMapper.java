@@ -22,4 +22,8 @@ public interface RestaurantInfoMapper {
     List<RestaurantInfo> getAllRestaurantInfos();
     
     List<RestaurantInfo> getSeveralRestaurantInfos(@Param("startFrom") int startFrom, @Param("endTo") int endTo);
+    
+    RestaurantInfo getRestInfoByExactName(@Param("restName") String restName);
+    
+    List<RestaurantInfo> getRestsByName(@Param("restName") String restName);
 }

@@ -2,6 +2,8 @@ package com.threeone.mealplanner.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.model.RestaurantWithMenu;
 import com.threeone.mealplanner.model.entity.RestaurantInfo;
@@ -32,4 +34,8 @@ public interface RestaurantService {
 	RestaurantInfo getRestaurantInfo(int restId) throws InternalException;
 	
 	RestaurantWithMenu getRestaurantInfoWithMenu(int restId) throws InternalException;
+	
+	RestaurantInfo getRestInfoByExactName(@Param("restName") String restName) throws InternalException;
+    
+    List<RestaurantInfo> getRestsByName(@Param("restName") String restName) throws InternalException;
 }

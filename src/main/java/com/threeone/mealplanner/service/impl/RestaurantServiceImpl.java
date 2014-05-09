@@ -86,4 +86,24 @@ public class RestaurantServiceImpl implements RestaurantService {
 		}
 	}
 
+
+	@Override
+	public RestaurantInfo getRestInfoByExactName(String restName) throws InternalException {
+		try {
+			return restaurantInfoMapper.getRestInfoByExactName(restName);
+		} catch (Exception e) {
+			throw new InternalException(e.getMessage());
+		}
+	}
+
+
+	@Override
+	public List<RestaurantInfo> getRestsByName(String restName) throws InternalException{
+		try {
+			return restaurantInfoMapper.getRestsByName(restName);
+		} catch (Exception e) {
+			throw new InternalException(e.getMessage());
+		}
+	}
+
 }
