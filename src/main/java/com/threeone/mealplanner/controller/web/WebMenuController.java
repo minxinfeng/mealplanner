@@ -2,6 +2,7 @@ package com.threeone.mealplanner.controller.web;
 
 import java.util.List;
 
+import org.apache.commons.collections.functors.IfClosure;
 import org.apache.log4j.lf5.viewer.LogFactor5Dialog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +36,7 @@ public class WebMenuController {
 			model.addAttribute("menuInfos", menuInfos);
 			return "menu/menu.ftl";
 		} catch (Exception e) {
-			return null;
+			return "menu/menu.ftl";
 		}
 	}
 	
@@ -55,26 +56,28 @@ public class WebMenuController {
 	}
 	
 	@RequestMapping("/addMenu")
-	@ResponseBody
-	public JsonResult<String> addMenu(@RequestParam int restid, @RequestParam String menuname, 
-			@RequestParam Double menuprice, @RequestParam Integer foodtype, @RequestParam Integer recommand, @RequestParam Integer hot){
+	public String addMenu(@RequestParam int restId, @RequestParam String foodName, 
+			@RequestParam Double foodPrice, @RequestParam Integer foodType, @RequestParam Boolean recommand){
 		Boolean flag = true;
-		String message = "Add menu of restId=" + restid;
+		String message = "Add menu of restId=" + restId;
 		try {
 			MenuInfo menuInfo = new MenuInfo();
-			menuInfo.setFoodtype(foodtype);
-			menuInfo.setHot(hot);
-			menuInfo.setMenuname(menuname);
-			menuInfo.setMenuprice(menuprice);
-			menuInfo.setRecommand(recommand);
-			menuInfo.setRestid(restid);
+			menuInfo.setFoodtype(foodType);
+			menuInfo.setMenuname(foodName);
+			menuInfo.setMenuprice(foodPrice);
+			if(recommand){
+				menuInfo.setRecommand(1);
+			}else{
+				menuInfo.setRecommand(0);
+			}			
+			menuInfo.setRestid(restId);
 			menuService.addMenu(menuInfo);
 			message += " success!";
-			return new JsonResult<String>(flag, message, null);
+			return "menu/menu.ftl";
 		} catch (Exception e) {
 			message = message + " error! Reason:" + e.getMessage();
 			flag = false;
-			return new JsonResult<String>(flag, message, null);
+			return "menu/menu.ftl";
 		}
 	}
 	
@@ -104,23 +107,24 @@ public class WebMenuController {
 	
 	@RequestMapping("/updateMenuPart")
 	@ResponseBody
-	public String updateMenuPart(@RequestParam int menuid, @RequestParam int restid, @RequestParam String menuname, 
-			@RequestParam Double menuprice, @RequestParam Integer foodtype){
+	public String updateMenuPart(@RequestParam int menuId, @RequestParam int restId, @RequestParam String foodName, 
+			@RequestParam Double foodPrice, @RequestParam Integer foodType, @RequestParam Boolean recommand){
 		Boolean flag = true;
-		Integer recommand = 0;
-		Integer hot = 0;
-		String message = "Update menu of restId=" + restid;
+		String message = "Update menu of restId=" + restId;
 		try {
-			MenuInfo menuInfo = menuService.getMenuInfoDetail(menuid);
-			menuInfo.setFoodtype(foodtype);
-			menuInfo.setHot(hot);
-			menuInfo.setMenuname(menuname);
-			menuInfo.setMenuprice(menuprice);
-			menuInfo.setRecommand(recommand);
-			menuInfo.setRestid(restid);
+			MenuInfo menuInfo = menuService.getMenuInfoDetail(menuId);
+			menuInfo.setFoodtype(foodType);
+			menuInfo.setMenuname(foodName);
+			menuInfo.setMenuprice(foodPrice);
+			if(recommand){
+				menuInfo.setRecommand(1);
+			}else{
+				menuInfo.setRecommand(0);
+			}
+			menuInfo.setRestid(restId);
 			menuService.updateMenu(menuInfo);
 			message += " success!";
-			return "/web/menu/getMenuByRestId?restId=" + restid;
+			return "/web/menu/getMenuByRestId?restId=" + restId;
 		} catch (Exception e) {
 			message = message + " error! Reason:" + e.getMessage();
 			flag = false;

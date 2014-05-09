@@ -9,9 +9,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.threeone.mealplanner.common.InternalException;
+import com.threeone.mealplanner.common.JsonResult;
 import com.threeone.mealplanner.common.Message;
+import com.threeone.mealplanner.model.RestaurantWithMenu;
 import com.threeone.mealplanner.model.entity.RestCity;
 import com.threeone.mealplanner.model.entity.RestType;
 import com.threeone.mealplanner.model.entity.RestUser;
@@ -41,21 +44,27 @@ public class WebUserInfoController {
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String loginPost(@RequestParam String loginName, @RequestParam String password, Model model){
-		UserInfo userInfo = userService.getUserInfoByLogin(loginName);
-//		RestaurantInfo restaurantInfo = restaurantService
-		Message message = new Message();
-		if(userInfo == null || !userInfo.getPassword().equals(password)){
-			message.danger("Username or password is error!");
-			model.addAttribute("messages", message.getMessages());
-			return "auth/login.ftl";
-		}else{
-			message.success("login success!");
-			model.addAttribute("userInfo", userInfo);
-			model.addAttribute("messages", message.getMessages());
-			return "index.ftl";
+	public String loginPost(@RequestParam String loginName, @RequestParam String password, Model model){		
+		try {
+			UserInfo userInfo = userService.getUserInfoByLogin(loginName);
+			RestaurantInfo restaurantInfo = restaurantService.getRestNameByUser(userInfo);
+			Message message = new Message();
+			if(userInfo == null || !userInfo.getPassword().equals(password)){
+				message.danger("Username or password is error!");
+				model.addAttribute("messages", message.getMessages());
+				return "auth/login.ftl";
+			}else{			
+				message.success("login success!");
+				model.addAttribute("userInfo", userInfo);
+				model.addAttribute("restaurantInfo", restaurantInfo);
+				model.addAttribute("messages", message.getMessages());
+				return "index.ftl";
+			}
+		} catch (InternalException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
+		return "auth/login.ftl";
 	}
 	
 	@RequestMapping(value="/register", method=RequestMethod.GET)
@@ -74,7 +83,23 @@ public class WebUserInfoController {
 		return "auth/register.ftl";
 	}
 	
-	@RequestMapping(value="/register", method=RequestMethod.POST)
+	@RequestMapping(value="/getRestauntName", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResult<String> getRestauntName(@RequestParam String loginName){
+		Boolean flag = true;
+		String message = "Get restaurant name success!";
+		try {
+			UserInfo userInfo = userService.getUserInfoByLogin(loginName);
+			String restaurantName = restaurantService.getRestNameByUser(userInfo).getRestname();			
+			return new JsonResult<String>(flag, message, restaurantName);
+		} catch (InternalException e) {
+			flag = false;
+			message = "Get restaurant name failed! Reason:" + e.getMessage();
+			return new JsonResult<String>(flag, message, null);
+		}
+	}
+	
+	@RequestMapping(value="/register", method = RequestMethod.POST)
 	public String registerPost(@RequestParam String username, @RequestParam String phonenum, @RequestParam String email, @RequestParam String password, 
 			@RequestParam String restName, @RequestParam String restAddress, @RequestParam int restCity, @RequestParam String restWebsite, @RequestParam int restType, Model model){
 		UserInfo userInfo = new UserInfo();

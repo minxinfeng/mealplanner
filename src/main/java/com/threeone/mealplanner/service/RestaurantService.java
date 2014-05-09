@@ -9,6 +9,7 @@ import com.threeone.mealplanner.model.RestaurantWithMenu;
 import com.threeone.mealplanner.model.entity.RestCity;
 import com.threeone.mealplanner.model.entity.RestUser;
 import com.threeone.mealplanner.model.entity.RestaurantInfo;
+import com.threeone.mealplanner.model.entity.UserInfo;
 
 
 /**
@@ -54,6 +55,14 @@ public interface RestaurantService {
 	 * @throws InternalException 
 	 */
 	int mapRestaurantUser(RestUser restUser) throws InternalException;
+	
+	/**
+	 * 根据userId获得restaurantInfo
+	 * @param userInfo
+	 * @return
+	 * @throws InternalException 
+	 */
+	RestaurantInfo getRestNameByUser(UserInfo userInfo) throws InternalException;
 	
 	/**
 	 * 获得所有城市

@@ -70,4 +70,10 @@
       restId = #{restid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getRestUserByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from restuser
+    where userId = #{userId,jdbcType=INTEGER}
+  </select>
 </mapper>
