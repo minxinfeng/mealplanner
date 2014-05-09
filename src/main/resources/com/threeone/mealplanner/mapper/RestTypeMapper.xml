@@ -55,4 +55,9 @@
     set restTypeName = #{resttypename,jdbcType=VARCHAR}
     where restTypeId = #{resttypeid,jdbcType=INTEGER}
   </update>
+  <select id="getAllType" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from resttype    
+  </select>
 </mapper>

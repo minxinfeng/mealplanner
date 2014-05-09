@@ -1,6 +1,7 @@
 package com.threeone.mealplanner.controller.web;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.common.Message;
+import com.threeone.mealplanner.model.entity.RestType;
 import com.threeone.mealplanner.model.entity.RestaurantInfo;
 import com.threeone.mealplanner.model.entity.UserInfo;
 import com.threeone.mealplanner.model.entity.UserType;
 import com.threeone.mealplanner.service.RestaurantService;
+import com.threeone.mealplanner.service.RestaurantTypeService;
 import com.threeone.mealplanner.service.UserService;
 
 @Controller
@@ -26,6 +29,9 @@ public class WebUserInfoController {
 	
 	@Autowired
 	private RestaurantService restaurantService;
+	
+	@Autowired
+	private RestaurantTypeService restaurantTypeService;
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String loginGet(){
@@ -50,12 +56,20 @@ public class WebUserInfoController {
 	}
 	
 	@RequestMapping(value="/register", method=RequestMethod.GET)
-	public String registerGet(){
+	public String registerGet(Model model){		
+		List<RestType> restTypes;
+		try {
+			restTypes = restaurantTypeService.getAllType();
+			model.addAttribute("restTypes", restTypes);
+		} catch (InternalException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "auth/register.ftl";
 	}
 	
 	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public String registerForRestPost(@RequestParam String username, @RequestParam String phonenum, @RequestParam String email, @RequestParam String password, 
+	public String registerPost(@RequestParam String username, @RequestParam String phonenum, @RequestParam String email, @RequestParam String password, 
 			@RequestParam String restName, @RequestParam String restAddress, @RequestParam int restCity, @RequestParam String restWebsite, @RequestParam int restType, Model model){
 		UserInfo userInfo = new UserInfo();
 		userInfo.setUsername(username);

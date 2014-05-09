@@ -49,4 +49,8 @@
 		<property name="seatInfoMapper" ref="seatInfoMapper" />
 		<property name="seatStatusMapper" ref="seatStatusMapper" />
 	</bean>
+	
+	<bean id="RestaurantTypeService" class="com.threeone.mealplanner.service.impl.RestaurantTypeServiceImpl">
+		<property name="restTypeMapper" ref="restTypeMapper" />
+	</bean>
 </beans>

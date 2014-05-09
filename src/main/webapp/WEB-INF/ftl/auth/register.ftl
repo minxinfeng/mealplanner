@@ -60,13 +60,11 @@
         <div class="form-group">
            <input type="text" name="restWebsite" class="form-control" placeholder="Rerstaurant Web site" option>        
         </div>
-        <div class="form-group">
+        <div class="form-group">          
           <select class="form-control" name="restType">
-            <option>Peking Cuisine</option>
-            <option>Sichuan Cuisine</option>
-            <option>Shandong cuisine</option>
-            <option>Guangzhou Cuisine</option>
-            <option>NorthEast Cuisine</option>
+          	<#list restTypes as restType>
+          		<option value=${restType.resttypeid}>${restType.resttypename}</option>
+          	</#list>          
           </select>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
