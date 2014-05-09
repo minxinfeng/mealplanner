@@ -1,5 +1,7 @@
 package com.threeone.mealplanner.mapper;
 
+import java.util.List;
+
 import com.threeone.mealplanner.model.entity.RestCity;
 
 public interface RestCityMapper {
@@ -14,4 +16,6 @@ public interface RestCityMapper {
     int updateByPrimaryKeySelective(RestCity record);
 
     int updateByPrimaryKey(RestCity record);
+
+	List<RestCity> getAllCity();
 }

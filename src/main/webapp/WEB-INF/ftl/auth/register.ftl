@@ -54,8 +54,12 @@
         <div class="form-group">
            <input type="text" name="restAddress" class="form-control" placeholder="Rerstaurant Address" required>        
         </div>
-        <div class="form-group">
-           <input type="text" name="restCity" class="form-control" placeholder="Rerstaurant City" required>        
+        <div class="form-group">          
+          <select class="form-control" name="restCity">
+          	<#list restCites as restCity>
+          		<option value=${restCity.getCityid()}>${restCity.getCityname()}</option>
+          	</#list>          
+          </select>
         </div>
         <div class="form-group">
            <input type="text" name="restWebsite" class="form-control" placeholder="Rerstaurant Web site" option>        

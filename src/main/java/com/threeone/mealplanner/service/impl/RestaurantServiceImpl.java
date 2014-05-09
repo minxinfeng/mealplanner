@@ -8,10 +8,12 @@ import org.apache.commons.logging.LogFactory;
 
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.mapper.MenuInfoMapper;
+import com.threeone.mealplanner.mapper.RestCityMapper;
 import com.threeone.mealplanner.mapper.RestUserMapper;
 import com.threeone.mealplanner.mapper.RestaurantInfoMapper;
 import com.threeone.mealplanner.model.RestaurantWithMenu;
 import com.threeone.mealplanner.model.entity.MenuInfo;
+import com.threeone.mealplanner.model.entity.RestCity;
 import com.threeone.mealplanner.model.entity.RestUser;
 import com.threeone.mealplanner.model.entity.RestaurantInfo;
 import com.threeone.mealplanner.service.RestaurantService;
@@ -23,8 +25,13 @@ public class RestaurantServiceImpl implements RestaurantService {
 	private RestaurantInfoMapper restaurantInfoMapper;
 	private MenuInfoMapper menuInfoMapper;
 	private RestUserMapper restUserMapper;
+	private RestCityMapper restCityMapper;
 	
 	
+	public void setRestCityMapper(RestCityMapper restCityMapper) {
+		this.restCityMapper = restCityMapper;
+	}
+
 	public void setRestUserMapper(RestUserMapper restUserMapper) {
 		this.restUserMapper = restUserMapper;
 	}
@@ -128,6 +135,14 @@ public class RestaurantServiceImpl implements RestaurantService {
 	public int mapRestaurantUser(RestUser restUser) throws InternalException {
 		try {
 			return restUserMapper.insert(restUser);
+		} catch (Exception e) {
+			throw new InternalException(e.getMessage());
+		}
+	}
+
+	public List<RestCity> getAllCity() throws InternalException {
+		try {
+			return restCityMapper.getAllCity();
 		} catch (Exception e) {
 			throw new InternalException(e.getMessage());
 		}

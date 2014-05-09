@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.common.Message;
+import com.threeone.mealplanner.model.entity.RestCity;
 import com.threeone.mealplanner.model.entity.RestType;
 import com.threeone.mealplanner.model.entity.RestUser;
 import com.threeone.mealplanner.model.entity.RestaurantInfo;
@@ -60,9 +61,12 @@ public class WebUserInfoController {
 	@RequestMapping(value="/register", method=RequestMethod.GET)
 	public String registerGet(Model model){		
 		List<RestType> restTypes;
+		List<RestCity> restCites;
 		try {
 			restTypes = restaurantTypeService.getAllType();
+			restCites = restaurantService.getAllCity();
 			model.addAttribute("restTypes", restTypes);
+			model.addAttribute("restCites", restCites);
 		} catch (InternalException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

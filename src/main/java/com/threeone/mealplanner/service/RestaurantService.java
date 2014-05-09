@@ -6,13 +6,14 @@ import org.apache.ibatis.annotations.Param;
 
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.model.RestaurantWithMenu;
+import com.threeone.mealplanner.model.entity.RestCity;
 import com.threeone.mealplanner.model.entity.RestUser;
 import com.threeone.mealplanner.model.entity.RestaurantInfo;
 
 
 /**
  * 餐厅信息管理
- * @author fengxiangmin
+ * @author fengxiangmin wangyongbo
  *
  */
 public interface RestaurantService {
@@ -53,4 +54,11 @@ public interface RestaurantService {
 	 * @throws InternalException 
 	 */
 	int mapRestaurantUser(RestUser restUser) throws InternalException;
+	
+	/**
+	 * 获得所有城市
+	 * @return
+	 * @throws InternalException 
+	 */
+	List<RestCity> getAllCity() throws InternalException;
 }
