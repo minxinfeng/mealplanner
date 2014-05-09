@@ -22,4 +22,6 @@ public interface SequenceInfoMapper {
     Integer getSeqNow(@Param("restId") int restId);
     
     int getSeqBefore(@Param("restId") int restId, @Param("peopleNum") int peopleNum);
+    
+    void updateSeqStatus(@Param("seqId") int seqId, @Param("status") int status);
 }

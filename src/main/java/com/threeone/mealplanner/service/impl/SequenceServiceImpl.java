@@ -4,6 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.mapper.SequenceInfoMapper;
 import com.threeone.mealplanner.model.SequenceDetailForRest;
@@ -14,7 +17,12 @@ import com.threeone.mealplanner.service.SequenceService;
 
 public class SequenceServiceImpl implements SequenceService {
 
+	private static final Log LOG = LogFactory.getLog(SequenceServiceImpl.class); 
 	private SequenceInfoMapper sequenceInfoMapper;
+	
+	public void setSequenceInfoMapper(SequenceInfoMapper sequenceInfoMapper) {
+		this.sequenceInfoMapper = sequenceInfoMapper;
+	}
 	
 	@Override
 	public SequenceDetailForUser createSequence(SequenceInfo sequenceInfo) throws InternalException{
@@ -38,10 +46,11 @@ public class SequenceServiceImpl implements SequenceService {
 			sequenceInfo.setSeqno(seqNo);
 			sequenceInfo.setStatus(SequenceStatus.waiting.getValue());
 			sequenceInfoMapper.insertSelective(sequenceInfo);
-			
+			LOG.info("insert seq success!");
 			return sequenceDetailForUser;
 		} catch (Exception e) {
-			String message = "failed.Reason:" + e.getMessage();
+			String message = "insert seq failed.Reason:" + e.getMessage();
+			LOG.error(message);
 			throw new InternalException(message);
 		}
 	}
@@ -83,8 +92,28 @@ public class SequenceServiceImpl implements SequenceService {
 		return null;
 	}
 
-	public void setSequenceInfoMapper(SequenceInfoMapper sequenceInfoMapper) {
-		this.sequenceInfoMapper = sequenceInfoMapper;
+	@Override
+	public void cancleSeq(int seqId) throws InternalException {
+		try {
+			sequenceInfoMapper.updateSeqStatus(seqId, SequenceStatus.cancle.getValue());
+			LOG.info("Cancle seqId=" + seqId + " success!");
+		} catch (Exception e) {
+			String message = "Cancle seqId=" + seqId + " failed!Reason:" + e.getMessage();
+			LOG.error(message);
+			throw new InternalException(message);
+		}
+	}
+
+	@Override
+	public void changeToEating(int seqId) throws InternalException {
+		try {
+			sequenceInfoMapper.updateSeqStatus(seqId, SequenceStatus.eating.getValue());
+			LOG.info("Change to eating seqId=" + seqId + " success!");
+		} catch (Exception e) {
+			String message = "Change to eating seqId=" + seqId + " failed!Reason:" + e.getMessage();
+			LOG.error(message);
+			throw new InternalException(message);
+		}
 	}
 
 }

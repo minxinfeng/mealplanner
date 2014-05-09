@@ -134,4 +134,10 @@
     from sequenceinfo
     where restId = #{restId,jdbcType=INTEGER} and peopleNum = #{peopleNum,jdbcType=INTEGER} and status = 0
   </select>
+  
+  <update id="updateSeqStatus">
+    update sequenceinfo
+    set status = #{status,jdbcType=INTEGER}
+    where seqId = #{seqId,jdbcType=INTEGER}
+  </update>
 </mapper>
