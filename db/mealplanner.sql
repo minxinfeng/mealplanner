@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50515
 File Encoding         : 65001
 
-Date: 2014-05-09 13:06:39
+Date: 2014-05-09 17:05:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -291,7 +291,7 @@ INSERT INTO `seatstatus` VALUES ('6', '4', '1', '2014-05-23', '18', '1');
 DROP TABLE IF EXISTS `sequenceinfo`;
 CREATE TABLE `sequenceinfo` (
   `seqId` int(11) NOT NULL AUTO_INCREMENT,
-  `restId` varchar(45) DEFAULT NULL COMMENT '排队的餐厅ID',
+  `restId` int(11) DEFAULT NULL COMMENT '排队的餐厅ID',
   `userId` int(11) DEFAULT NULL COMMENT '用户ID',
   `peopleNum` int(11) DEFAULT NULL COMMENT '人数',
   `seqNo` int(11) DEFAULT NULL COMMENT '排队编号,1-99',
@@ -299,7 +299,7 @@ CREATE TABLE `sequenceinfo` (
   `status` int(11) DEFAULT NULL COMMENT '排队状态\n0：等待，排队中\n1：等待结束，用餐\n2：取消',
   PRIMARY KEY (`seqId`),
   UNIQUE KEY `seqId_UNIQUE` (`seqId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='排队信息(店内排序)';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='排队信息(店内排序)';
 
 -- ----------------------------
 -- Records of sequenceinfo
@@ -308,6 +308,8 @@ INSERT INTO `sequenceinfo` VALUES ('1', '1', '1', '4', '1', '2014-05-09 13:05:58
 INSERT INTO `sequenceinfo` VALUES ('2', '2', '2', '3', '1', '2014-05-09 13:06:05', '0');
 INSERT INTO `sequenceinfo` VALUES ('3', '1', '3', '3', '2', '2014-05-09 13:06:12', '0');
 INSERT INTO `sequenceinfo` VALUES ('4', '2', '4', '4', '2', '2014-05-09 13:06:15', '0');
+INSERT INTO `sequenceinfo` VALUES ('5', '3', '1', '6', '1', '2014-05-09 17:03:10', '0');
+INSERT INTO `sequenceinfo` VALUES ('6', '3', '2', '6', '2', '2014-05-09 17:03:31', '0');
 
 -- ----------------------------
 -- Table structure for userinfo

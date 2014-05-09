@@ -1,5 +1,7 @@
 package com.threeone.mealplanner.mapper;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.threeone.mealplanner.model.entity.SequenceInfo;
 
 public interface SequenceInfoMapper {
@@ -14,4 +16,10 @@ public interface SequenceInfoMapper {
     int updateByPrimaryKeySelective(SequenceInfo record);
 
     int updateByPrimaryKey(SequenceInfo record);
+    
+    Integer getSeqNo(@Param("restId") int restId, @Param("dateDay") String dateDay);
+    
+    Integer getSeqNow(@Param("restId") int restId);
+    
+    int getSeqBefore(@Param("restId") int restId, @Param("peopleNum") int peopleNum);
 }

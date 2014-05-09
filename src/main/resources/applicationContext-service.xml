@@ -52,6 +52,10 @@
 		<property name="seatStatusMapper" ref="seatStatusMapper" />
 	</bean>
 	
+	<bean id="sequenceService" class="com.threeone.mealplanner.service.impl.SequenceServiceImpl">
+		<property name="sequenceInfoMapper" ref="sequenceInfoMapper" />
+	</bean>
+		
 	<bean id="RestaurantTypeService" class="com.threeone.mealplanner.service.impl.RestaurantTypeServiceImpl">
 		<property name="restTypeMapper" ref="restTypeMapper" />
 	</bean>
