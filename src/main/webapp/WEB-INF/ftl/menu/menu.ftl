@@ -35,41 +35,49 @@
             <div class="panel panel-default">
               <!-- Default panel contents -->
               <div class="panel-heading">
-                <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#addMenuModal">
+                <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#addFoodModal">
                   <span class="glyphicon glyphicon-plus"></span>
                 </button>
-                <div id="addMenuModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                <div id="addFoodModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                   <div class="modal-dialog">
                     <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                        <h4 class="modal-title" id="myModalLabel">New food</h4>
-                      </div>
-                      <div class="modal-body">
-                        <div>
-                          <p>Food name:</p>
-                          <input type="text" id="foodName" name="foodName" class="form-control" placeholder="new name" required autofocus>
-                          <p>Food price:</p>
-                          <input type="text" id="foodPrice" name="foodPrice" class="form-control" placeholder="new price" required autofocus>
-                          <p>Choose food type</p>                
-                          <div class="btn-group">
-                            <button class="btn dropdown-toggle" data-toggle="dropdown" >food type <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                              <li><a href="#">北京菜</a></li>
-                              <li><a href="#">四川菜</a></li>
-                              <li><a href="#">XX菜</a></li>
-                              <li class="divider"></li>
-                              <li><a href="#">Separated link</a></li>
-                            </ul>
+                      <form class="form-addmenu" role="form" action="${rc.contextPath}/web/menu/addMenu" method="post">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                          <h3 class="modal-title" id="myModalLabel">New food</h3>
+                        </div>
+                        <div class="modal-body">                        
+                          <div class="form-group">
+                            <h4>Food name</h4>
+                            <input type="text" id="foodName" name="foodName" class="form-control" placeholder="fish chips" required autofocus>
                           </div>
-                        </div>                   
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
-                        <button type="button" class="btn btn-primary">Save</button>
-                      </div>
-
+                          <div class="form-group">
+                            <h4>Food price</h4>
+                            <div class="input-group">
+                              <span class="input-group-addon">$</span>
+                              <input type="text" id="foodPrice" name="foodPrice" class="form-control" placeholder="100" required autofocus>
+                              <span class="input-group-addon">.00</span>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <h4>Food type</h4>
+                            <select name="foodType" class="form-control">
+                              <#list foodTypes as foodType>
+                                <option value=${foodType.resttypeid}>${foodType.resttypename}</option>
+                              </#list>  
+                            </select>
+                          </div>
+                          <div class="checkbox col-sm-offset-10 form-control">
+                            <label>
+                              <input name="recommand" type="checkbox" class="form-control"> recommand
+                            </label>
+                          </div>                                         
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
+                          <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                      </form>
                     </div><!-- /.modal-content -->
                   </div><!-- /.modal-dialog -->
                 </div>
@@ -91,50 +99,58 @@
                 </thead>
                 <tbody>
                 <#list menuInfos as menuInfo>
-                  <tr id="${menuInfo.menuid}">
+                  <tr id="${menuInfo.menuid}" class="success">
                     <td>${menuInfo.menuid}</td>
                     <td>${menuInfo.menuname}</td>
                     <td>${menuInfo.menuprice} $</td>
                     <td>${menuInfo.foodTypeName}</td>
                     <td>
-                      <button type="button" class="btn btn-default btn-sm editMenu" data-toggle="modal" data-target="#editMenuModal">
+                      <button type="button" class="btn btn-default btn-sm editMenu" data-toggle="modal" data-target="#editFoodModal">
                         <span class="glyphicon glyphicon-pencil"></span>
                       </button>
-                      <div id="editMenuModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-		                  <div class="modal-dialog">
-		                    <div class="modal-content">
-		                      <div class="modal-header">
-		                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-		                        <h4 class="modal-title" id="myModalLabel">Edit food</h4>
-		                      </div>
-		                      <div class="modal-body">
-		                        <div>
-		                          <p>Food name:</p>
-		                          <input type="text" id="foodName" name="foodName" class="form-control" placeholder="${menuInfo.menuname}" required autofocus>
-		                          <p>Food price:</p>
-		                          <input type="text" id="foodPrice" name="foodPrice" class="form-control" placeholder="${menuInfo.menuprice}" required autofocus>
-		                          <p>Choose food type</p>                
-		                          <div class="btn-group">
-		                            <button class="btn dropdown-toggle" data-toggle="dropdown">food type <span class="caret"></span>
-		                            </button>
-		                            <ul class="dropdown-menu">
-		                              <li><a href="#">北京菜</a></li>
-		                              <li><a href="#">四川菜</a></li>
-		                              <li><a href="#">XX菜</a></li>
-		                              <li class="divider"></li>
-		                              <li><a href="#">Separated link</a></li>
-		                            </ul>
-		                          </div>
-		                        </div>                   
-		                      </div>
-		                      <div class="modal-footer">
-		                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
-		                        <button type="button" class="btn btn-primary">Save</button>
-		                      </div>
-		
-		                    </div><!-- /.modal-content -->
-		                  </div><!-- /.modal-dialog -->
-		                </div>
+                      <div id="editFoodModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <form class="form-addmenu" role="form" action="${rc.contextPath}/web/menu/updateMenuPart" method="post">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                                <h3 class="modal-title" id="myModalLabel">Edit menu</h3>
+                              </div>
+                              <div class="modal-body">                        
+                                <div class="form-group">
+                                  <h4>Food name</h4>
+                                  <input type="text" id="foodName" name="foodName" class="form-control" placeholder="fish chips" required autofocus>
+                                </div>
+                                <div class="form-group">
+                                  <h4>Food price</h4>
+                                  <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" id="foodPrice" name="foodPrice" class="form-control" placeholder="100" required autofocus>
+                                    <span class="input-group-addon">.00</span>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <h4>Food type</h4>
+                                  <select name="foodType" class="form-control">
+                                    <#list foodTypes as foodType>
+                                      <option value=${foodType.resttypeid}>${foodType.resttypename}</option>
+                                    </#list>  
+                                  </select>
+                                </div>
+                                <div class="checkbox col-sm-offset-10 form-control">
+                                  <label>
+                                    <input name="recommand" type="checkbox" class="form-control"> recommand
+                                  </label>
+                                </div>                                         
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                              </div>
+                            </form>
+                          </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                      </div>
                       <button type="button" class="deleteMenu btn btn-default btn-sm">
                         <span class="glyphicon glyphicon-trash"></span>
                       </button>

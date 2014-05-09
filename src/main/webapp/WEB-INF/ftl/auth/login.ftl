@@ -4,6 +4,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <#include "/base/base.ftl">
+    <script type="text/javascript">
+    $(document).ready(function(){
+      $('.getRestName').click(function(){
+        $.ajax({
+          type:"POST",
+          url:"${rc.contextPath}/web/getRestauntName",
+          data:{"loginName":$('#loginName').val()},
+          dataType:"json",
+          success:function(result){
+              if(result.success){
+              var rest_name = result.data;
+              console.log("message:", rest_name);
+              $.cookie("rest_name",rest_name);
+              $.alert(message);
+            }
+          }
+        });
+      });
+
+      $('#signin').click(function(){
+          $.cookie("rest_username",$('#loginName').val());                 
+        });
+    })
+    </script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -37,20 +61,13 @@
         <label class="checkbox">
           <input type="checkbox" value="remember-me"> Remember me
         </label>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" id="signin">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block getRestName" type="submit" id="signin">Sign in</button>
       </form>
-    </div> <!-- /container -->
-
+    </div> <!-- /container -->    
       <footer>
         <p class="text-center">&copy; ThreeOne 2014</p>
       </footer>
     </div> <!-- /container -->
-    <script type="text/javascript">
-	    $(document).ready(function () {
-		    $('#signin').click(function(){
-		    	$.cookie("rest_username",$('#loginName').val());
-		    });
-	    });
 	</script>
 </body>
 </html>

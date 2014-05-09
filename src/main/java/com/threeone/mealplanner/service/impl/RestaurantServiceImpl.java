@@ -16,6 +16,7 @@ import com.threeone.mealplanner.model.entity.MenuInfo;
 import com.threeone.mealplanner.model.entity.RestCity;
 import com.threeone.mealplanner.model.entity.RestUser;
 import com.threeone.mealplanner.model.entity.RestaurantInfo;
+import com.threeone.mealplanner.model.entity.UserInfo;
 import com.threeone.mealplanner.service.RestaurantService;
 
 public class RestaurantServiceImpl implements RestaurantService {
@@ -143,6 +144,16 @@ public class RestaurantServiceImpl implements RestaurantService {
 	public List<RestCity> getAllCity() throws InternalException {
 		try {
 			return restCityMapper.getAllCity();
+		} catch (Exception e) {
+			throw new InternalException(e.getMessage());
+		}
+	}
+
+	public RestaurantInfo getRestNameByUser(UserInfo userInfo)
+			throws InternalException {
+		try {
+			RestUser restUser = restUserMapper.getRestUserByUserId(userInfo.getUserid());		
+			return restaurantInfoMapper.selectByPrimaryKey(restUser.getRestid());
 		} catch (Exception e) {
 			throw new InternalException(e.getMessage());
 		}

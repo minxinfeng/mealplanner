@@ -3,7 +3,7 @@
   <title>Meal Planner</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
-    <#include "/base/base.ftl">
+    <#include "/base/base.ftl">    
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -65,7 +65,7 @@
            <input type="text" name="restWebsite" class="form-control" placeholder="Rerstaurant Web site" option>        
         </div>
         <div class="form-group">          
-          <select class="form-control" name="restType">
+          <select name="restType" class="form-control">
           	<#list restTypes as restType>
           		<option value=${restType.resttypeid}>${restType.resttypename}</option>
           	</#list>          

@@ -1,5 +1,7 @@
 package com.threeone.mealplanner.mapper;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.threeone.mealplanner.model.entity.RestUser;
 
 public interface RestUserMapper {
@@ -14,4 +16,6 @@ public interface RestUserMapper {
     int updateByPrimaryKeySelective(RestUser record);
 
     int updateByPrimaryKey(RestUser record);
+
+	RestUser getRestUserByUserId(@Param("userId") Integer userId);
 }
