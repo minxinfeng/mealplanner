@@ -4,13 +4,14 @@
   <resultMap id="BaseResultMap" type="com.threeone.mealplanner.model.entity.SequenceInfo" >
     <id column="seqId" property="seqid" jdbcType="INTEGER" />
     <result column="restId" property="restid" jdbcType="VARCHAR" />
-    <result column="peopleNum" property="peoplenum" jdbcType="INTEGER" />
     <result column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="peopleNum" property="peoplenum" jdbcType="INTEGER" />
+    <result column="seqNo" property="seqno" jdbcType="INTEGER" />
     <result column="seqDate" property="seqdate" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    seqId, restId, peopleNum, userId, seqDate, status
+    seqId, restId, userId, peopleNum, seqNo, seqDate, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -23,12 +24,12 @@
     where seqId = #{seqid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.threeone.mealplanner.model.entity.SequenceInfo" >
-    insert into sequenceinfo (seqId, restId, peopleNum, 
-      userId, seqDate, status
-      )
-    values (#{seqid,jdbcType=INTEGER}, #{restid,jdbcType=VARCHAR}, #{peoplenum,jdbcType=INTEGER}, 
-      #{userid,jdbcType=INTEGER}, #{seqdate,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
-      )
+    insert into sequenceinfo (seqId, restId, userId, 
+      peopleNum, seqNo, seqDate, 
+      status)
+    values (#{seqid,jdbcType=INTEGER}, #{restid,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, 
+      #{peoplenum,jdbcType=INTEGER}, #{seqno,jdbcType=INTEGER}, #{seqdate,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.threeone.mealplanner.model.entity.SequenceInfo" >
     insert into sequenceinfo
@@ -39,11 +40,14 @@
       <if test="restid != null" >
         restId,
       </if>
+      <if test="userid != null" >
+        userId,
+      </if>
       <if test="peoplenum != null" >
         peopleNum,
       </if>
-      <if test="userid != null" >
-        userId,
+      <if test="seqno != null" >
+        seqNo,
       </if>
       <if test="seqdate != null" >
         seqDate,
@@ -59,11 +63,14 @@
       <if test="restid != null" >
         #{restid,jdbcType=VARCHAR},
       </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
       <if test="peoplenum != null" >
         #{peoplenum,jdbcType=INTEGER},
       </if>
-      <if test="userid != null" >
-        #{userid,jdbcType=INTEGER},
+      <if test="seqno != null" >
+        #{seqno,jdbcType=INTEGER},
       </if>
       <if test="seqdate != null" >
         #{seqdate,jdbcType=TIMESTAMP},
@@ -79,11 +86,14 @@
       <if test="restid != null" >
         restId = #{restid,jdbcType=VARCHAR},
       </if>
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
       <if test="peoplenum != null" >
         peopleNum = #{peoplenum,jdbcType=INTEGER},
       </if>
-      <if test="userid != null" >
-        userId = #{userid,jdbcType=INTEGER},
+      <if test="seqno != null" >
+        seqNo = #{seqno,jdbcType=INTEGER},
       </if>
       <if test="seqdate != null" >
         seqDate = #{seqdate,jdbcType=TIMESTAMP},
@@ -97,8 +107,9 @@
   <update id="updateByPrimaryKey" parameterType="com.threeone.mealplanner.model.entity.SequenceInfo" >
     update sequenceinfo
     set restId = #{restid,jdbcType=VARCHAR},
-      peopleNum = #{peoplenum,jdbcType=INTEGER},
       userId = #{userid,jdbcType=INTEGER},
+      peopleNum = #{peoplenum,jdbcType=INTEGER},
+      seqNo = #{seqno,jdbcType=INTEGER},
       seqDate = #{seqdate,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where seqId = #{seqid,jdbcType=INTEGER}

@@ -7,9 +7,11 @@ public class SequenceInfo {
 
     private String restid;
 
+    private Integer userid;
+
     private Integer peoplenum;
 
-    private Integer userid;
+    private Integer seqno;
 
     private Date seqdate;
 
@@ -31,6 +33,14 @@ public class SequenceInfo {
         this.restid = restid == null ? null : restid.trim();
     }
 
+    public Integer getUserid() {
+        return userid;
+    }
+
+    public void setUserid(Integer userid) {
+        this.userid = userid;
+    }
+
     public Integer getPeoplenum() {
         return peoplenum;
     }
@@ -39,12 +49,12 @@ public class SequenceInfo {
         this.peoplenum = peoplenum;
     }
 
-    public Integer getUserid() {
-        return userid;
+    public Integer getSeqno() {
+        return seqno;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setSeqno(Integer seqno) {
+        this.seqno = seqno;
     }
 
     public Date getSeqdate() {

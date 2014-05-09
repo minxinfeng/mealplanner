@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50515
 File Encoding         : 65001
 
-Date: 2014-05-08 08:55:52
+Date: 2014-05-09 13:06:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -121,7 +121,7 @@ CREATE TABLE `menuinfo` (
   `foodUrl` varchar(255) DEFAULT NULL COMMENT '食物图片对应的URL',
   PRIMARY KEY (`menuId`),
   UNIQUE KEY `menuId_UNIQUE` (`menuId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='菜单信息';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='菜单信息';
 
 -- ----------------------------
 -- Records of menuinfo
@@ -193,7 +193,7 @@ CREATE TABLE `restcity` (
   `cityName` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`cityId`),
   UNIQUE KEY `cityId_UNIQUE` (`cityId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='餐馆所在城市信息';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='餐馆所在城市信息';
 
 -- ----------------------------
 -- Records of restcity
@@ -292,17 +292,22 @@ DROP TABLE IF EXISTS `sequenceinfo`;
 CREATE TABLE `sequenceinfo` (
   `seqId` int(11) NOT NULL AUTO_INCREMENT,
   `restId` varchar(45) DEFAULT NULL COMMENT '排队的餐厅ID',
-  `peopleNum` int(11) DEFAULT NULL COMMENT '人数',
   `userId` int(11) DEFAULT NULL COMMENT '用户ID',
+  `peopleNum` int(11) DEFAULT NULL COMMENT '人数',
+  `seqNo` int(11) DEFAULT NULL COMMENT '排队编号,1-99',
   `seqDate` datetime DEFAULT NULL,
   `status` int(11) DEFAULT NULL COMMENT '排队状态\n0：等待，排队中\n1：等待结束，用餐\n2：取消',
   PRIMARY KEY (`seqId`),
   UNIQUE KEY `seqId_UNIQUE` (`seqId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='排队信息(店内排序)';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='排队信息(店内排序)';
 
 -- ----------------------------
 -- Records of sequenceinfo
 -- ----------------------------
+INSERT INTO `sequenceinfo` VALUES ('1', '1', '1', '4', '1', '2014-05-09 13:05:58', '0');
+INSERT INTO `sequenceinfo` VALUES ('2', '2', '2', '3', '1', '2014-05-09 13:06:05', '0');
+INSERT INTO `sequenceinfo` VALUES ('3', '1', '3', '3', '2', '2014-05-09 13:06:12', '0');
+INSERT INTO `sequenceinfo` VALUES ('4', '2', '4', '4', '2', '2014-05-09 13:06:15', '0');
 
 -- ----------------------------
 -- Table structure for userinfo
