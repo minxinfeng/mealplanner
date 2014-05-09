@@ -31,7 +31,7 @@ public class AppMealController {
 		Boolean flag = false;
 		String message = "Create Meal ";
 		try {
-			DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd"); 
+			DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 			Date date = format1.parse(datetime); 
 			MealInfo mealInfo = new MealInfo();
 			mealInfo.setMealorganizeuserid(userId);
