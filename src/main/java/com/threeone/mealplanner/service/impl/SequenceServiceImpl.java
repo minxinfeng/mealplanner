@@ -24,7 +24,7 @@ public class SequenceServiceImpl implements SequenceService {
 		this.sequenceInfoMapper = sequenceInfoMapper;
 	}
 	
-	@Override
+	
 	public SequenceDetailForUser createSequence(SequenceInfo sequenceInfo) throws InternalException{
 		try {
 			SequenceDetailForUser sequenceDetailForUser = new SequenceDetailForUser();
@@ -89,13 +89,13 @@ public class SequenceServiceImpl implements SequenceService {
 		return seqBefore;
 	}
 	
-	@Override
+	
 	public List<SequenceDetailForRest> getAllSeqInfosByRest(int restId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	
 	public void cancleSeq(int seqId) throws InternalException {
 		try {
 			sequenceInfoMapper.updateSeqStatus(seqId, SequenceStatus.cancle.getValue());
@@ -107,7 +107,7 @@ public class SequenceServiceImpl implements SequenceService {
 		}
 	}
 
-	@Override
+	
 	public void changeToEating(int seqId) throws InternalException {
 		try {
 			sequenceInfoMapper.updateSeqStatus(seqId, SequenceStatus.eating.getValue());
