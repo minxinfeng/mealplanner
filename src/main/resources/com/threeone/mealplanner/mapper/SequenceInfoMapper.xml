@@ -6,12 +6,13 @@
     <result column="restId" property="restid" jdbcType="INTEGER" />
     <result column="userId" property="userid" jdbcType="INTEGER" />
     <result column="peopleNum" property="peoplenum" jdbcType="INTEGER" />
+    <result column="seatType" property="seattype" jdbcType="INTEGER" />
     <result column="seqNo" property="seqno" jdbcType="INTEGER" />
     <result column="seqDate" property="seqdate" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    seqId, restId, userId, peopleNum, seqNo, seqDate, status
+    seqId, restId, userId, peopleNum, seatType, seqNo, seqDate, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -25,11 +26,11 @@
   </delete>
   <insert id="insert" parameterType="com.threeone.mealplanner.model.entity.SequenceInfo" >
     insert into sequenceinfo (seqId, restId, userId, 
-      peopleNum, seqNo, seqDate, 
-      status)
+      peopleNum, seatType, seqNo, 
+      seqDate, status)
     values (#{seqid,jdbcType=INTEGER}, #{restid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, 
-      #{peoplenum,jdbcType=INTEGER}, #{seqno,jdbcType=INTEGER}, #{seqdate,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=INTEGER})
+      #{peoplenum,jdbcType=INTEGER}, #{seattype,jdbcType=INTEGER}, #{seqno,jdbcType=INTEGER}, 
+      #{seqdate,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.threeone.mealplanner.model.entity.SequenceInfo" >
     insert into sequenceinfo
@@ -45,6 +46,9 @@
       </if>
       <if test="peoplenum != null" >
         peopleNum,
+      </if>
+      <if test="seattype != null" >
+        seatType,
       </if>
       <if test="seqno != null" >
         seqNo,
@@ -69,6 +73,9 @@
       <if test="peoplenum != null" >
         #{peoplenum,jdbcType=INTEGER},
       </if>
+      <if test="seattype != null" >
+        #{seattype,jdbcType=INTEGER},
+      </if>
       <if test="seqno != null" >
         #{seqno,jdbcType=INTEGER},
       </if>
@@ -92,6 +99,9 @@
       <if test="peoplenum != null" >
         peopleNum = #{peoplenum,jdbcType=INTEGER},
       </if>
+      <if test="seattype != null" >
+        seatType = #{seattype,jdbcType=INTEGER},
+      </if>
       <if test="seqno != null" >
         seqNo = #{seqno,jdbcType=INTEGER},
       </if>
@@ -109,6 +119,7 @@
     set restId = #{restid,jdbcType=INTEGER},
       userId = #{userid,jdbcType=INTEGER},
       peopleNum = #{peoplenum,jdbcType=INTEGER},
+      seatType = #{seattype,jdbcType=INTEGER},
       seqNo = #{seqno,jdbcType=INTEGER},
       seqDate = #{seqdate,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
@@ -132,7 +143,7 @@
   <select id="getSeqBefore" resultType="java.lang.Integer" >
     select count(seqNo)
     from sequenceinfo
-    where restId = #{restId,jdbcType=INTEGER} and peopleNum = #{peopleNum,jdbcType=INTEGER} and status = 0
+    where restId = #{restId,jdbcType=INTEGER} and seatType = #{seatType,jdbcType=INTEGER} and status = 0
     and seqDate &gt; #{dateDay,jdbcType=VARCHAR}
   </select>
   

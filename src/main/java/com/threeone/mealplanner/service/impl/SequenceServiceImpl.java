@@ -38,9 +38,11 @@ public class SequenceServiceImpl implements SequenceService {
 			//2.获取排在当前队列未用餐的第一个人的排队号
 			int seqNow = this.getSeqNow(restId);
 			sequenceDetailForUser.setSeqNow(seqNow);
-			//3. 获取当前队列排队的对数
-			int peopleBefore = this.getSeqBefore(restId, sequenceInfo.getPeoplenum());
+			//3. 获取当前队列排队的队数
+			int seatType = this.getSeatType(sequenceInfo.getPeoplenum());
+			int peopleBefore = this.getSeqBefore(restId, seatType);
 			sequenceDetailForUser.setPeopleBefore(peopleBefore);
+			sequenceDetailForUser.setSeatType(seatType);
 			//插入记录
 			sequenceInfo.setSeqdate(new Date());
 			sequenceInfo.setSeqno(seqNo);
@@ -81,12 +83,27 @@ public class SequenceServiceImpl implements SequenceService {
 		return seqNow;
 	}
 	//获取排在前面的队数
-	private int getSeqBefore(int restId, int peopleNum){
+	private int getSeqBefore(int restId, int seatType){
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String dateString = formatter.format(new Date());
 		String dateDay = dateString.split(" ")[0];
-		int seqBefore = sequenceInfoMapper.getSeqBefore(restId, peopleNum,dateDay);
+		int seqBefore = sequenceInfoMapper.getSeqBefore(restId, seatType,dateDay);
 		return seqBefore;
+	}
+	//获取是几人桌
+	private int getSeatType(int peopleNum){
+		int seatType = 2;
+		if(peopleNum <= 10){
+			if (peopleNum % 2 == 0) {
+				seatType = peopleNum;
+			}else {
+				seatType = peopleNum + 1;
+			}
+		}else {
+			seatType = peopleNum;
+		}
+		
+		return seatType;
 	}
 	
 	

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50515
 File Encoding         : 65001
 
-Date: 2014-05-09 17:05:58
+Date: 2014-05-10 15:17:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -66,7 +66,7 @@ CREATE TABLE `mealfriend` (
   `status` int(11) DEFAULT NULL COMMENT '饭局中被邀请的好友的反馈状态\n0：待接受\n1：已接受\n2：已拒绝\n3：已过期',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='饭局中的好友信息';
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COMMENT='饭局中的好友信息';
 
 -- ----------------------------
 -- Records of mealfriend
@@ -77,8 +77,16 @@ INSERT INTO `mealfriend` VALUES ('3', '1', '5', '2');
 INSERT INTO `mealfriend` VALUES ('4', '1', '6', '0');
 INSERT INTO `mealfriend` VALUES ('5', '2', '4', '0');
 INSERT INTO `mealfriend` VALUES ('6', '2', '5', '0');
-INSERT INTO `mealfriend` VALUES ('7', '5', '2', '0');
-INSERT INTO `mealfriend` VALUES ('8', '5', '3', '0');
+INSERT INTO `mealfriend` VALUES ('17', '10', '3', '0');
+INSERT INTO `mealfriend` VALUES ('18', '10', '4', '0');
+INSERT INTO `mealfriend` VALUES ('19', '11', '4', '0');
+INSERT INTO `mealfriend` VALUES ('20', '12', '2', '0');
+INSERT INTO `mealfriend` VALUES ('21', '12', '3', '0');
+INSERT INTO `mealfriend` VALUES ('22', '13', '2', '0');
+INSERT INTO `mealfriend` VALUES ('23', '13', '4', '0');
+INSERT INTO `mealfriend` VALUES ('24', '14', '3', '0');
+INSERT INTO `mealfriend` VALUES ('25', '14', '4', '0');
+INSERT INTO `mealfriend` VALUES ('26', '15', '4', '0');
 
 -- ----------------------------
 -- Table structure for mealinfo
@@ -93,7 +101,7 @@ CREATE TABLE `mealinfo` (
   `mealStatus` int(11) DEFAULT NULL COMMENT '饭局状态\n0：正在进行\n1：成功，已下订单\n2：过期',
   PRIMARY KEY (`mealId`),
   UNIQUE KEY `mealId_UNIQUE` (`mealId`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='饭局邀请';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='饭局邀请';
 
 -- ----------------------------
 -- Records of mealinfo
@@ -102,7 +110,12 @@ INSERT INTO `mealinfo` VALUES ('1', '1', '1', '2014-05-10 00:00:00', '2014-05-06
 INSERT INTO `mealinfo` VALUES ('2', '1', '2', '2014-05-10 00:00:00', '2014-05-06 00:00:00', '0');
 INSERT INTO `mealinfo` VALUES ('3', '1', '1', '2010-10-01 00:00:00', '2014-05-06 23:55:51', '0');
 INSERT INTO `mealinfo` VALUES ('4', '1', '1', '2010-10-01 00:00:00', '2014-05-07 00:00:10', '0');
-INSERT INTO `mealinfo` VALUES ('5', '1', '1', '2010-10-01 00:00:00', '2014-05-07 00:04:11', '0');
+INSERT INTO `mealinfo` VALUES ('10', '1', '1', '2014-05-09 15:51:00', '2014-05-09 23:51:11', '0');
+INSERT INTO `mealinfo` VALUES ('11', '1', '1', '2014-05-09 15:52:00', '2014-05-09 23:52:52', '0');
+INSERT INTO `mealinfo` VALUES ('12', '1', '1', '2014-05-09 16:06:00', '2014-05-10 00:06:56', '0');
+INSERT INTO `mealinfo` VALUES ('13', '1', '2', '2014-05-16 19:14:00', '2014-05-10 00:14:53', '0');
+INSERT INTO `mealinfo` VALUES ('14', '1', '1', '2014-05-16 16:15:00', '2014-05-10 00:15:42', '0');
+INSERT INTO `mealinfo` VALUES ('15', '1', '1', '2014-05-10 05:17:00', '2014-05-10 13:17:53', '0');
 
 -- ----------------------------
 -- Table structure for menuinfo
@@ -294,22 +307,27 @@ CREATE TABLE `sequenceinfo` (
   `restId` int(11) DEFAULT NULL COMMENT '排队的餐厅ID',
   `userId` int(11) DEFAULT NULL COMMENT '用户ID',
   `peopleNum` int(11) DEFAULT NULL COMMENT '人数',
+  `seatType` int(11) DEFAULT NULL COMMENT '几人桌：2,4,6,8',
   `seqNo` int(11) DEFAULT NULL COMMENT '排队编号,1-99',
   `seqDate` datetime DEFAULT NULL,
   `status` int(11) DEFAULT NULL COMMENT '排队状态\n0：等待，排队中\n1：等待结束，用餐\n2：取消',
   PRIMARY KEY (`seqId`),
   UNIQUE KEY `seqId_UNIQUE` (`seqId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='排队信息(店内排序)';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='排队信息(店内排序)';
 
 -- ----------------------------
 -- Records of sequenceinfo
 -- ----------------------------
-INSERT INTO `sequenceinfo` VALUES ('1', '1', '1', '4', '1', '2014-05-09 13:05:58', '0');
-INSERT INTO `sequenceinfo` VALUES ('2', '2', '2', '3', '1', '2014-05-09 13:06:05', '0');
-INSERT INTO `sequenceinfo` VALUES ('3', '1', '3', '3', '2', '2014-05-09 13:06:12', '0');
-INSERT INTO `sequenceinfo` VALUES ('4', '2', '4', '4', '2', '2014-05-09 13:06:15', '0');
-INSERT INTO `sequenceinfo` VALUES ('5', '3', '1', '6', '1', '2014-05-09 17:03:10', '0');
-INSERT INTO `sequenceinfo` VALUES ('6', '3', '2', '6', '2', '2014-05-09 17:03:31', '0');
+INSERT INTO `sequenceinfo` VALUES ('1', '1', '1', '4', '4', '1', '2014-05-09 13:05:58', '0');
+INSERT INTO `sequenceinfo` VALUES ('2', '2', '2', '3', '4', '1', '2014-05-09 13:06:05', '0');
+INSERT INTO `sequenceinfo` VALUES ('3', '1', '3', '3', '4', '2', '2014-05-09 13:06:12', '0');
+INSERT INTO `sequenceinfo` VALUES ('4', '2', '4', '4', '4', '2', '2014-05-09 13:06:15', '0');
+INSERT INTO `sequenceinfo` VALUES ('5', '3', '1', '6', '6', '1', '2014-05-09 17:03:10', '0');
+INSERT INTO `sequenceinfo` VALUES ('6', '3', '2', '6', '6', '2', '2014-05-09 17:03:31', '0');
+INSERT INTO `sequenceinfo` VALUES ('7', '3', '5', '6', '6', '3', '2014-05-09 20:53:27', '0');
+INSERT INTO `sequenceinfo` VALUES ('8', '3', '6', '3', '4', '4', '2014-05-09 20:55:52', '0');
+INSERT INTO `sequenceinfo` VALUES ('9', '3', '1', '6', '6', '1', '2014-05-10 10:23:05', '0');
+INSERT INTO `sequenceinfo` VALUES ('10', '3', '1', '6', '6', '2', '2014-05-10 10:29:26', '0');
 
 -- ----------------------------
 -- Table structure for userinfo

@@ -11,6 +11,8 @@ public class SequenceInfo {
 
     private Integer peoplenum;
 
+    private Integer seattype;
+
     private Integer seqno;
 
     private Date seqdate;
@@ -47,6 +49,14 @@ public class SequenceInfo {
 
     public void setPeoplenum(Integer peoplenum) {
         this.peoplenum = peoplenum;
+    }
+
+    public Integer getSeattype() {
+        return seattype;
+    }
+
+    public void setSeattype(Integer seattype) {
+        this.seattype = seattype;
     }
 
     public Integer getSeqno() {

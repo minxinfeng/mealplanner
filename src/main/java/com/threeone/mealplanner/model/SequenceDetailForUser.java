@@ -5,6 +5,7 @@ public class SequenceDetailForUser {
 	private int restId;//餐厅ID
 	private int seqNo;// 排队号ID
 	private int seqNow;//现在正在进行的排队号ID
+	private int seatType;//几人桌
 	private int peopleBefore;// 前面排队的队数
 	private int peopleNum;//该排队中的人数
 
@@ -54,5 +55,13 @@ public class SequenceDetailForUser {
 
 	public void setSeqNow(int seqNow) {
 		this.seqNow = seqNow;
+	}
+
+	public int getSeatType() {
+		return seatType;
+	}
+
+	public void setSeatType(int seatType) {
+		this.seatType = seatType;
 	}
 }
