@@ -1,12 +1,12 @@
 package com.threeone.mealplanner.model;
 
 public class SequenceDetailForUser {
-	private int userId;
-	private int restId;
-	private int seqNo;// 排队号
-	private int seqNow;//现在正在进行的排队号
-	private int peopleBefore;// 前面的人数
-	private int peopleNum;
+	private int userId;//用户ID
+	private int restId;//餐厅ID
+	private int seqNo;// 排队号ID
+	private int seqNow;//现在正在进行的排队号ID
+	private int peopleBefore;// 前面排队的队数
+	private int peopleNum;//该排队中的人数
 
 	public int getUserId() {
 		return userId;

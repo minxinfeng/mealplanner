@@ -82,7 +82,10 @@ public class SequenceServiceImpl implements SequenceService {
 	}
 	//获取排在前面的队数
 	private int getSeqBefore(int restId, int peopleNum){
-		int seqBefore = sequenceInfoMapper.getSeqBefore(restId, peopleNum);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dateString = formatter.format(new Date());
+		String dateDay = dateString.split(" ")[0];
+		int seqBefore = sequenceInfoMapper.getSeqBefore(restId, peopleNum,dateDay);
 		return seqBefore;
 	}
 	
