@@ -5,6 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.JApplet;
+
+import org.aspectj.weaver.NewConstructorTypeMunger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -34,6 +37,7 @@ public class UserServiceTest {
 //			  System.err.println(dateString);
 //			  System.err.println(dateString.split(" ")[0]);
 //			  System.err.println(mealtime.getHours());
+			System.err.println(System.currentTimeMillis());
 			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

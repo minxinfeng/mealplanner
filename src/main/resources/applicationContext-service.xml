@@ -59,4 +59,7 @@
 	<bean id="RestaurantTypeService" class="com.threeone.mealplanner.service.impl.RestaurantTypeServiceImpl">
 		<property name="restTypeMapper" ref="restTypeMapper" />
 	</bean>
+	
+	<bean id="pushService" class="com.threeone.mealplanner.push.PushServiceImpl">
+	</bean>
 </beans>
