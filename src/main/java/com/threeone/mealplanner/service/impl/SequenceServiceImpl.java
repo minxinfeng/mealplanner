@@ -44,6 +44,7 @@ public class SequenceServiceImpl implements SequenceService {
 			sequenceDetailForUser.setPeopleBefore(peopleBefore);
 			sequenceDetailForUser.setSeatType(seatType);
 			//²åÈë¼ÇÂ¼
+			sequenceInfo.setSeattype(seatType);
 			sequenceInfo.setSeqdate(new Date());
 			sequenceInfo.setSeqno(seqNo);
 			sequenceInfo.setStatus(SequenceStatus.waiting.getValue());
