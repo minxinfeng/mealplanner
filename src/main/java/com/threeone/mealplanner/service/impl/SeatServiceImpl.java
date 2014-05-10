@@ -32,14 +32,14 @@ public class SeatServiceImpl implements SeatService {
 		this.seatStatusMapper = seatStatusMapper;
 	}	
 	
-	@Override
+	
 	public List<SeatInfo> getAvailableSeats(int restId, String dateDay,
 			int dateClock, int peopleNum) throws InternalException {
 		List<SeatInfo> availableSeats = seatInfoMapper.getAvailableSeatInfos(restId, dateDay, dateClock, peopleNum);
 		return availableSeats;
 	}
 
-	@Override
+	
 	public SeatInfo reserveSeat(int restId, String dateDay, int dateClock,
 			int peopleNum) throws InternalException {
 		List<SeatInfo> availableSeats = seatInfoMapper.getAvailableSeatInfos(restId, dateDay, dateClock, peopleNum);
@@ -52,7 +52,7 @@ public class SeatServiceImpl implements SeatService {
 		return null;
 	}
 
-	@Override
+	
 	public void occupySeat(int seatId, int restId, String dateDay,
 			int dateClock, int peopleNum) throws InternalException {
 		try {
@@ -65,7 +65,7 @@ public class SeatServiceImpl implements SeatService {
 		}
 	}
 
-	@Override
+	
 	public HashMap<Integer, Integer> getStateOfSeatWholeDay(int seatId,
 			int restId, String dateDay) throws InternalException {
 		HashMap<Integer, Integer> stateHashMap = new HashMap<Integer, Integer>();
@@ -83,7 +83,7 @@ public class SeatServiceImpl implements SeatService {
 		return stateHashMap;
 	}
 
-	@Override
+	
 	public void reserveSeatById(int seatId, int restId, String dateDay,
 			int dateClock) throws InternalException {
 		try {
@@ -96,7 +96,7 @@ public class SeatServiceImpl implements SeatService {
 		}
 	}
 
-	@Override
+	
 	public void freeSeatById(int seatId, int restId, String dateDay,
 			int dateClock) throws InternalException {
 		try {
@@ -109,13 +109,13 @@ public class SeatServiceImpl implements SeatService {
 		}
 	}
 
-	@Override
+	
 	public List<SeatInfo> getSeatsByRestId(int restId) throws InternalException {
 		List<SeatInfo> seatInfos = seatInfoMapper.getSeatsByRestId(restId);
 		return seatInfos;
 	}
 
-	@Override
+	
 	public int addSeat(int restId, int seatNo, int peopleNum, String description)
 			throws InternalException {
 		try {
@@ -132,7 +132,7 @@ public class SeatServiceImpl implements SeatService {
 		}
 	}
 
-	@Override
+	
 	public int updateSeat(int seatId, int restId, int seatNo, int peopleNum,
 			String description) throws InternalException {
 		try {
@@ -150,7 +150,7 @@ public class SeatServiceImpl implements SeatService {
 		}
 	}
 
-	@Override
+	
 	public int deleteSeat(int seatId, int restId) throws InternalException {
 		try {
 			return seatInfoMapper.deleteByPrimaryKey(seatId);

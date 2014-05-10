@@ -36,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
 	private SeatService seatService;
 	
 
-	@Override
+	
 	public List<OrderDetail> getOrderByUser(int userId, int status)
 			throws InternalException {
 		try {
@@ -58,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
 		
 	}
 
-	@Override
+	
 	public List<OrderDetail> getOrderByRest(int restId, String dateFrom,
 			String dateTo) throws InternalException {
 		try {
@@ -79,7 +79,7 @@ public class OrderServiceImpl implements OrderService {
 		}
 	}
 
-	@Override
+	
 	public OrderDetail createOrder(OrderInfo orderInfo) throws InternalException {
 		try {
 			// 1.根据时间，restId,人数获得freeSeat的Id
@@ -118,7 +118,7 @@ public class OrderServiceImpl implements OrderService {
 		
 	}
 
-	@Override
+	
 	public int updateOrder(OrderInfo orderInfo) throws InternalException {
 		try {
 			orderInfoMapper.updateByPrimaryKeySelective(orderInfo);
@@ -162,7 +162,7 @@ public class OrderServiceImpl implements OrderService {
 		return orderDetail;
 	}
 	
-	@Override
+	
 	public OrderInfo getOrderInfoById(int orderId) throws InternalException {
 		try {
 			return orderInfoMapper.selectByPrimaryKey(orderId);

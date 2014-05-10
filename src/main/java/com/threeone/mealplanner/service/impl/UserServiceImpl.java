@@ -14,19 +14,19 @@ public class UserServiceImpl implements UserService {
 	
 	private UserInfoMapper userInfoMapper;
 	
-	@Override
+	
 	public UserInfo getUserInfoById(int id) {
 		UserInfo userInfo = userInfoMapper.selectByPrimaryKey(id);
 		return userInfo;
 	}
 
-	@Override
+	
 	public UserInfo getUserInfoByLogin(String loginName) {
 		UserInfo userInfo = userInfoMapper.getUserInfoByLogin(loginName);
 		return userInfo;
 	}
 	
-	@Override
+	
 	public void register(UserInfo userInfo) throws InternalException {
 		//判断用户填写信息是否已经被注册了
 		UserInfo userInfoByName = userInfoMapper.getUserInfoForCheck(userInfo.getUsername(), null, null);
@@ -64,9 +64,6 @@ public class UserServiceImpl implements UserService {
 	
 	public void setUserInfoMapper(UserInfoMapper userInfoMapper) {
 		this.userInfoMapper = userInfoMapper;
-	}
-
-	
-	
+	}	
 
 }

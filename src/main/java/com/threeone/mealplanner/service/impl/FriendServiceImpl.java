@@ -22,7 +22,7 @@ public class FriendServiceImpl implements FriendService {
 	private FriendInfoMapper friendInfoMapper;
 	private UserInfoMapper userInfoMapper;
 	
-	@Override
+	
 	public UserInfoWithFriends getFriendRequestsByStatus(int friendId, int status) throws InternalException {
 		try {
 			UserInfoWithFriends userInfoWithFriends = new UserInfoWithFriends();
@@ -43,7 +43,7 @@ public class FriendServiceImpl implements FriendService {
 		}
 	}
 
-	@Override
+	
 	public UserInfoWithFriends getAllFriendInfos(int userId) throws InternalException {
 		try {
 			List<Integer> friendIds = friendInfoMapper.getAllFriendIds(userId);
@@ -65,7 +65,7 @@ public class FriendServiceImpl implements FriendService {
 		}
 	}
 
-	@Override
+	
 	public int addFriendRequest(int userId, int friendId)
 			throws InternalException {
 		try {
@@ -81,7 +81,7 @@ public class FriendServiceImpl implements FriendService {
 		}
 	}
 
-	@Override
+	
 	public int handleFriendRequest(int friendId, int userId, int status)
 			throws InternalException {
 		try {
