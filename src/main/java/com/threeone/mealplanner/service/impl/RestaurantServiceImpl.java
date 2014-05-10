@@ -28,15 +28,6 @@ public class RestaurantServiceImpl implements RestaurantService {
 	private RestUserMapper restUserMapper;
 	private RestCityMapper restCityMapper;
 	
-	
-	public void setRestCityMapper(RestCityMapper restCityMapper) {
-		this.restCityMapper = restCityMapper;
-	}
-
-	public void setRestUserMapper(RestUserMapper restUserMapper) {
-		this.restUserMapper = restUserMapper;
-	}
-
 	public List<RestaurantWithMenu> getAllRestaurantWithMenus() throws InternalException{
 		List<RestaurantWithMenu> restaurantWithMenus = new ArrayList<RestaurantWithMenu>();
 		List<RestaurantInfo> restaurantInfos = restaurantInfoMapper.getAllRestaurantInfos();
@@ -48,9 +39,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 			restaurantWithMenus.add(restaurantWithMenu);
 		}
 		return restaurantWithMenus;
-	}
-
-	
+	}	
 	
 	public List<RestaurantWithMenu> getSeveralRestaurantWithMenus(int start,
 			int end) throws InternalException {
@@ -65,16 +54,6 @@ public class RestaurantServiceImpl implements RestaurantService {
 		}
 		return restaurantWithMenus;
 	}
-	
-	public void setRestaurantInfoMapper(RestaurantInfoMapper restaurantInfoMapper) {
-		this.restaurantInfoMapper = restaurantInfoMapper;
-	}
-
-	public void setMenuInfoMapper(MenuInfoMapper menuInfoMapper) {
-		this.menuInfoMapper = menuInfoMapper;
-	}
-
-
 	
 	public RestaurantInfo getRestaurantInfo(int restId)
 			throws InternalException {
@@ -157,5 +136,34 @@ public class RestaurantServiceImpl implements RestaurantService {
 		} catch (Exception e) {
 			throw new InternalException(e.getMessage());
 		}
+	}
+	
+
+	public int getRestIdByUserId(int userId) throws InternalException {
+		try {
+			return restUserMapper.getRestUserByUserId(userId).getRestid();
+		} catch (Exception e) {
+			String message = "Error to get restId by userId : " + userId + ", Reason: " + e.getMessage();
+			LOG.error(message);
+			throw new InternalException(message);
+		}
+	}
+	
+	
+	public void setRestCityMapper(RestCityMapper restCityMapper) {
+		this.restCityMapper = restCityMapper;
+	}
+
+	public void setRestUserMapper(RestUserMapper restUserMapper) {
+		this.restUserMapper = restUserMapper;
+	}
+
+	
+	public void setRestaurantInfoMapper(RestaurantInfoMapper restaurantInfoMapper) {
+		this.restaurantInfoMapper = restaurantInfoMapper;
+	}
+
+	public void setMenuInfoMapper(MenuInfoMapper menuInfoMapper) {
+		this.menuInfoMapper = menuInfoMapper;
 	}
 }

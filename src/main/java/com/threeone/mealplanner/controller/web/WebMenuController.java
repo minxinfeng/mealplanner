@@ -15,7 +15,11 @@ import com.mysql.jdbc.log.Log;
 import com.threeone.mealplanner.common.JsonResult;
 import com.threeone.mealplanner.model.entity.FoodType;
 import com.threeone.mealplanner.model.entity.MenuInfo;
+import com.threeone.mealplanner.model.entity.RestCity;
+import com.threeone.mealplanner.model.entity.RestType;
 import com.threeone.mealplanner.service.MenuService;
+import com.threeone.mealplanner.service.RestaurantService;
+import com.threeone.mealplanner.service.RestaurantTypeService;
 
 /**
  * Need to update for the web side
@@ -29,10 +33,25 @@ public class WebMenuController {
 	@Autowired
 	private MenuService menuService;
 	
-	@RequestMapping("/getMenuByRestId")
-	public String getMenuInfoByRestId(@RequestParam int restId, Model model){
+	@Autowired
+	private RestaurantService restaurantService;
+	
+	@Autowired
+	private RestaurantTypeService restaurantTypeService;
+	
+	@RequestMapping("/menu")
+	public String getMenuInfo(){
+		return "menu/menu.ftl";
+	}
+	
+	@RequestMapping("/getMenuByUserId")
+	public String getMenuInfoByRestId(@RequestParam int userId, Model model){
+		List<RestType> foodTypes;
 		try {
+			int restId = restaurantService.getRestIdByUserId(userId);
 			List<MenuInfo> menuInfos = menuService.getMenuInfoByRestId(restId);
+			foodTypes = restaurantTypeService.getAllType();			
+			model.addAttribute("foodTypes", foodTypes);
 			model.addAttribute("menuInfos", menuInfos);
 			return "menu/menu.ftl";
 		} catch (Exception e) {
@@ -41,6 +60,7 @@ public class WebMenuController {
 	}
 	
 	@RequestMapping("/getMenuByFoodType")
+	@ResponseBody
 	public JsonResult<List<MenuInfo>> getMenuByFoodType(@RequestParam int foodTypeId){
 		Boolean flag = true;
 		String message = "Get menu info of the foodTypeId=" + foodTypeId;
@@ -56,11 +76,12 @@ public class WebMenuController {
 	}
 	
 	@RequestMapping("/addMenu")
-	public String addMenu(@RequestParam int restId, @RequestParam String foodName, 
+	public String addMenu(@RequestParam int userId, @RequestParam String foodName, 
 			@RequestParam Double foodPrice, @RequestParam Integer foodType, @RequestParam Boolean recommand){
 		Boolean flag = true;
-		String message = "Add menu of restId=" + restId;
+		String message = "Add menu of userId=" + userId;
 		try {
+			int restId = restaurantService.getRestIdByUserId(userId);
 			MenuInfo menuInfo = new MenuInfo();
 			menuInfo.setFoodtype(foodType);
 			menuInfo.setMenuname(foodName);
@@ -83,11 +104,12 @@ public class WebMenuController {
 	
 	@RequestMapping("/updateMenu")
 	@ResponseBody
-	public JsonResult<String> updateMenu(@RequestParam int menuid, @RequestParam int restid, @RequestParam String menuname, 
+	public JsonResult<String> updateMenu(@RequestParam int menuid, @RequestParam int userId, @RequestParam String menuname, 
 			@RequestParam Double menuprice, @RequestParam Integer foodtype, @RequestParam Integer recommand, @RequestParam Integer hot){
 		Boolean flag = true;
-		String message = "Update menu of restId=" + restid;
+		String message = "Update menu of restId=" + userId;
 		try {
+			int restid = restaurantService.getRestIdByUserId(userId);
 			MenuInfo menuInfo = menuService.getMenuInfoDetail(menuid);
 			menuInfo.setFoodtype(foodtype);
 			menuInfo.setHot(hot);
@@ -106,12 +128,12 @@ public class WebMenuController {
 	}
 	
 	@RequestMapping("/updateMenuPart")
-	@ResponseBody
-	public String updateMenuPart(@RequestParam int menuId, @RequestParam int restId, @RequestParam String foodName, 
+	public String updateMenuPart(@RequestParam int menuId, @RequestParam int userId, @RequestParam String foodName, 
 			@RequestParam Double foodPrice, @RequestParam Integer foodType, @RequestParam Boolean recommand){
 		Boolean flag = true;
-		String message = "Update menu of restId=" + restId;
+		String message = "Update menu of restId=" + userId;
 		try {
+			int restId = restaurantService.getRestIdByUserId(userId);
 			MenuInfo menuInfo = menuService.getMenuInfoDetail(menuId);
 			menuInfo.setFoodtype(foodType);
 			menuInfo.setMenuname(foodName);
@@ -124,7 +146,7 @@ public class WebMenuController {
 			menuInfo.setRestid(restId);
 			menuService.updateMenu(menuInfo);
 			message += " success!";
-			return "/web/menu/getMenuByRestId?restId=" + restId;
+			return "/web/menu/getMenuByUserId?userId=" + userId;
 		} catch (Exception e) {
 			message = message + " error! Reason:" + e.getMessage();
 			flag = false;
