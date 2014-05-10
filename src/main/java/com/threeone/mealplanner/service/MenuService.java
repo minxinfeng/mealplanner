@@ -25,5 +25,4 @@ public interface MenuService {
 	int addFoodType(FoodType foodType) throws InternalException;
 	
 	int deleteFoodType(int foodtypeid) throws InternalException;
-
 }

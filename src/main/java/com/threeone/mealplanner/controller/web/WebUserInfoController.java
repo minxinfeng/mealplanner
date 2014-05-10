@@ -83,29 +83,15 @@ public class WebUserInfoController {
 		return "auth/register.ftl";
 	}
 	
-	@RequestMapping(value="/getRestauntName", method = RequestMethod.POST)
-	@ResponseBody
-	public JsonResult<String> getRestauntName(@RequestParam String loginName){
-		Boolean flag = true;
-		String message = "Get restaurant name success!";
-		try {
-			UserInfo userInfo = userService.getUserInfoByLogin(loginName);
-			String restaurantName = restaurantService.getRestNameByUser(userInfo).getRestname();			
-			return new JsonResult<String>(flag, message, restaurantName);
-		} catch (InternalException e) {
-			flag = false;
-			message = "Get restaurant name failed! Reason:" + e.getMessage();
-			return new JsonResult<String>(flag, message, null);
-		}
-	}
-	
+
 	@RequestMapping(value="/getRestauntId", method = RequestMethod.POST)
 	@ResponseBody
 	public JsonResult<String> getRestauntIByName(@RequestParam String restName){
 		Boolean flag = true;
 		String message = "Get restaurant ID success!";
 		try {
-			String restId = restaurantService.getRestsByName(restName).get(0).getRestid().toString();		
+			String restId = restaurantService.getRestsByName(restName).get(0).getRestid().toString();
+			System.out.println("restId:"+ restId);
 			return new JsonResult<String>(flag, message, restId);
 		} catch (InternalException e) {
 			flag = false;
@@ -119,8 +105,17 @@ public class WebUserInfoController {
 	public JsonResult<String> getUserIdByName(@RequestParam String userName){
 		Boolean flag = true;
 		String message = "Get restaurant ID success!";
-		String userId = userService.getUserInfoByLogin(userName).getUserid().toString();		
-		return new JsonResult<String>(flag, message, userId);		
+		String userId;
+		try {
+			userId = userService.getUserInfoByLogin(userName).getUserid().toString();
+			System.out.println("userId:"+ userId);
+			return new JsonResult<String>(flag, message, userId);	
+		} catch (Exception e) {
+			flag = false;
+			message = "Get restaurant ID failed! Reason:" + e.getMessage();
+			return new JsonResult<String>(flag, message, null);
+		}
+			
 	}
 	
 	@RequestMapping(value="/register", method = RequestMethod.POST)

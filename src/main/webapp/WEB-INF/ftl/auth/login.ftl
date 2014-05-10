@@ -5,27 +5,21 @@
     <!-- Bootstrap -->
     <#include "/base/base.ftl">
     <script type="text/javascript">
-    $(document).ready(function(){
-      $('.getRestName').click(function(){
+    $(document).ready(function(){  	
+      $('#signin').click(function(){
+        $.cookie("rest_username",$('#loginName').val());
         $.ajax({
           type:"POST",
-          url:"${rc.contextPath}/web/getRestauntName",
-          data:{"loginName":$('#loginName').val()},
-          contentType:"text/html; charset=utf-8", 
-          dataType:"json",
+          url:"${rc.contextPath}/web/getUserId",
+          data:{"userName":$('#loginName').val()},
           success:function(result){
-              if(result.success){
-              var rest_name = result.data;
-              console.log("rest_name:", rest_name);
-              $.cookie("rest_name",rest_name);
+            if(result.success){               
+              $.cookie("rest_userid", result.data);
+              $.cookie("login","yes");   
             }
-          }
-        });
+          }                    
+        });                         
       });
-
-      $('#signin').click(function(){
-          $.cookie("rest_username",$('#loginName').val());                 
-        });
     })
     </script>
 </head>

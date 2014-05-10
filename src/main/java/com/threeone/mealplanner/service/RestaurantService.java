@@ -70,4 +70,13 @@ public interface RestaurantService {
 	 * @throws InternalException 
 	 */
 	List<RestCity> getAllCity() throws InternalException;
+	
+
+	/**
+	 * 通过用户Id获取餐厅Id
+	 * @param userId
+	 * @return restId
+	 * @throws InternalException 
+	 */
+	int getRestIdByUserId(int userId) throws InternalException;
 }

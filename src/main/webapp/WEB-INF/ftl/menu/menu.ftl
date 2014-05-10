@@ -5,29 +5,8 @@
     <!-- Bootstrap -->
     <#include "/base/base.ftl">
     <script type="text/javascript">
-    $(document).ready(function () {
-      $.ajax({
-        type:"POST"
-        url:"${rc.contextPath}/web/getUserId",
-        data:"userName":$.cookie('rest_username'),
-        dataType:"json",
-        success:function(result){
-              if(result.success){
-              #("rest_userid").html(result.data);
-            }
-          }
-      });
-      $.ajax({
-        type:"POST"
-        url:"${rc.contextPath}/web/getRestauntId",
-        data:"restName":$.cookie('rest_name'),
-        dataType:"json",
-        success:function(result){
-              if(result.success){
-              #("rest_id").html(result.data);
-            }
-          }
-      });
+    $(document).ready(function () {    
+      $('#userId').val($.cookie("rest_userid"));
     	$('.dropdown-toggle').dropdown();
 	    $(".deleteMenu").click(function(){
 	    	var id = $(this).parent().parent().attr("id");
@@ -41,10 +20,12 @@
 	    	});
 	    	
 	    });
+      $(".editMenu").click(function(){
+        var mId = $(this).parent().parent().attr("id");
+        $('#menuId').val(mId);
+      });
     })   
-    </script>    
-    <input id="rest_userid" type="hidden">
-    <input id="rest_id" type="hidden">
+    </script>
 </head>
 <body>
     <#include "/base/header.ftl">
@@ -65,6 +46,7 @@
                     <div class="modal-content">
                       <form class="form-addmenu" role="form" action="${rc.contextPath}/web/menu/addMenu" method="post">
                         <div class="modal-header">
+                          <input id="userId" name="userId" class="form-control" type="hidden">
                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                           <h3 class="modal-title" id="myModalLabel">New food</h3>
                         </div>
@@ -121,7 +103,7 @@
                 </thead>
                 <tbody>
                 <#list menuInfos as menuInfo>
-                  <tr id="${menuInfo.menuid}" class="success">
+                  <tr id="${menuInfo.menuid}" class="success menuItem">
                     <td>${menuInfo.menuid}</td>
                     <td>${menuInfo.menuname}</td>
                     <td>${menuInfo.menuprice} $</td>
@@ -135,6 +117,8 @@
                           <div class="modal-content">
                             <form class="form-addmenu" role="form" action="${rc.contextPath}/web/menu/updateMenuPart" method="post">
                               <div class="modal-header">
+                                <input id="menuId" name="menuId" class="form-control" type="hidden">
+                                <input id="userId" name="userId" class="form-control" type="hidden">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                                 <h3 class="modal-title" id="myModalLabel">Edit menu</h3>
                               </div>

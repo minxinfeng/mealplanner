@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.mapper.FoodTypeMapper;
 import com.threeone.mealplanner.mapper.MenuInfoMapper;
+import com.threeone.mealplanner.mapper.RestUserMapper;
 import com.threeone.mealplanner.model.entity.FoodType;
 import com.threeone.mealplanner.model.entity.MenuInfo;
 import com.threeone.mealplanner.service.MenuService;
@@ -16,7 +17,7 @@ public class MenuServiceImpl implements MenuService {
 
 	private FoodTypeMapper foodTypeMapper;
 	private MenuInfoMapper menuInfoMapper;
-	
+
 	private static final Log LOG = LogFactory.getLog(MenuServiceImpl.class);
 	
 	
@@ -116,7 +117,8 @@ public class MenuServiceImpl implements MenuService {
 			LOG.error(message);
 			throw new InternalException(message);
 		}
-	}
+	}	
+
 
 	public void setFoodTypeMapper(FoodTypeMapper foodTypeMapper) {
 		this.foodTypeMapper = foodTypeMapper;
@@ -125,6 +127,5 @@ public class MenuServiceImpl implements MenuService {
 	public void setMenuInfoMapper(MenuInfoMapper menuInfoMapper) {
 		this.menuInfoMapper = menuInfoMapper;
 	}
-
 
 }
