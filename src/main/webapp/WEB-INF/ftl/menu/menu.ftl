@@ -6,6 +6,28 @@
     <#include "/base/base.ftl">
     <script type="text/javascript">
     $(document).ready(function () {
+      $.ajax({
+        type:"POST"
+        url:"${rc.contextPath}/web/getUserId",
+        data:"userName":$.cookie('rest_username'),
+        dataType:"json",
+        success:function(result){
+              if(result.success){
+              #("rest_userid").html(result.data);
+            }
+          }
+      });
+      $.ajax({
+        type:"POST"
+        url:"${rc.contextPath}/web/getRestauntId",
+        data:"restName":$.cookie('rest_name'),
+        dataType:"json",
+        success:function(result){
+              if(result.success){
+              #("rest_id").html(result.data);
+            }
+          }
+      });
     	$('.dropdown-toggle').dropdown();
 	    $(".deleteMenu").click(function(){
 	    	var id = $(this).parent().parent().attr("id");
@@ -19,10 +41,10 @@
 	    	});
 	    	
 	    });
-    }) 
-    
-    
-    </script>
+    })   
+    </script>    
+    <input id="rest_userid" type="hidden">
+    <input id="rest_id" type="hidden">
 </head>
 <body>
     <#include "/base/header.ftl">

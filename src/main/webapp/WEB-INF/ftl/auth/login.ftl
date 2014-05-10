@@ -11,13 +11,13 @@
           type:"POST",
           url:"${rc.contextPath}/web/getRestauntName",
           data:{"loginName":$('#loginName').val()},
+          contentType:"text/html; charset=utf-8", 
           dataType:"json",
           success:function(result){
               if(result.success){
               var rest_name = result.data;
-              console.log("message:", rest_name);
+              console.log("rest_name:", rest_name);
               $.cookie("rest_name",rest_name);
-              $.alert(message);
             }
           }
         });

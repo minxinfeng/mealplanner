@@ -24,7 +24,7 @@ public class MealServiceImpl implements MealService {
 	private MealFriendMapper mealFriendMapper;
 	private RestaurantInfoMapper restaurantInfoMapper;
 	
-	@Override
+	
 	public int createMeal(MealInfo mealInfo, String friendIds) throws InternalException {
 		try {
 			
@@ -51,7 +51,7 @@ public class MealServiceImpl implements MealService {
 		
 	}
 	
-	@Override
+	
 	public List<MealWithDetail> getMealDetailByUserId(int userId, int status)
 			throws InternalException {
 		try {
@@ -76,7 +76,7 @@ public class MealServiceImpl implements MealService {
 		
 	}
 
-	@Override
+	
 	public List<MealInfo> getMealRequest(int userId, int status)
 			throws InternalException {
 		try {
@@ -97,7 +97,7 @@ public class MealServiceImpl implements MealService {
 		}
 	}
 
-	@Override
+	
 	public int handleAMeal(int mealId, int userId, int status) throws InternalException {
 		try {
 			return mealFriendMapper.handleAMeal(mealId, userId, status);
@@ -106,7 +106,7 @@ public class MealServiceImpl implements MealService {
 		}
 	}
 
-	@Override
+	
 	public MealWithDetail getMealDetail(int mealId) throws InternalException {
 		try {
 			MealWithDetail mealWithDetail = new MealWithDetail();

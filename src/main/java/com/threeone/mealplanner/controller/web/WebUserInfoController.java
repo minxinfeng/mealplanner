@@ -99,6 +99,30 @@ public class WebUserInfoController {
 		}
 	}
 	
+	@RequestMapping(value="/getRestauntId", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResult<String> getRestauntIByName(@RequestParam String restName){
+		Boolean flag = true;
+		String message = "Get restaurant ID success!";
+		try {
+			String restId = restaurantService.getRestsByName(restName).get(0).getRestid().toString();		
+			return new JsonResult<String>(flag, message, restId);
+		} catch (InternalException e) {
+			flag = false;
+			message = "Get restaurant ID failed! Reason:" + e.getMessage();
+			return new JsonResult<String>(flag, message, null);
+		}
+	}
+	
+	@RequestMapping(value="/getUserId", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResult<String> getUserIdByName(@RequestParam String userName){
+		Boolean flag = true;
+		String message = "Get restaurant ID success!";
+		String userId = userService.getUserInfoByLogin(userName).getUserid().toString();		
+		return new JsonResult<String>(flag, message, userId);		
+	}
+	
 	@RequestMapping(value="/register", method = RequestMethod.POST)
 	public String registerPost(@RequestParam String username, @RequestParam String phonenum, @RequestParam String email, @RequestParam String password, 
 			@RequestParam String restName, @RequestParam String restAddress, @RequestParam int restCity, @RequestParam String restWebsite, @RequestParam int restType, Model model){
