@@ -115,7 +115,7 @@
                       <div id="editFoodModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                         <div class="modal-dialog">
                           <div class="modal-content">
-                            <form class="form-addmenu" role="form" action="${rc.contextPath}/web/menu/updateMenuPart" method="post">
+                            <form class="form-addmenu" role="form" action="${rc.contextPath}/web/menu/updateMenu" method="post">
                               <div class="modal-header">
                                 <input id="menuId" name="menuId" class="form-control" type="hidden">
                                 <input id="userId" name="userId" class="form-control" type="hidden">
