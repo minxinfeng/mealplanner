@@ -8,11 +8,15 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="${rc.contextPath}/web/index">Home</a></li>
+            <li><a class="menuHref" href="#">Home</a></li>
             <li class="active"><a class="menuHref" href="#">Menu</a></li>
-            <li><a href="${rc.contextPath}/web/seat/seat">Seat</a></li>
-            <li><a href="${rc.contextPath}/web/order/order">Order</a></li>
-            <li><a href="${rc.contextPath}/web/sequence/sequence">Sequence</a></li>
+            <li><a class="dropdown-toggle seatHref" href="#"  style="margin-bottom:-5px" data-toggle="dropdown">Seat</a>
+            	 <ul class="dropdown-menu">
+	              <li><a class="seatHref" href="seat.html">Seat</a></li>
+	              <li><a class="seatManagerHref" href="seatManager.html">Seat Manager</a></li>
+	            </ul></li>
+            <li><a class="menuHref" href="#">Order</a></li>
+            <li><a class="menuHref" href="#">Sequence</a></li>
           </ul>          
           <ul class="nav navbar-nav navbar-right">
           	<li> <span class='hello-name' style='line-height:20px;position:relative;display:block;padding:15px 15px;color:#fff'></span> </li>
@@ -30,6 +34,8 @@
 <script type="text/javascript">
     $(document).ready(function () { 
       $(".menuHref").attr("href","${rc.contextPath}/web/menu/getMenuByUserId?userId=" +$.cookie("rest_userid"));
+      $(".seatHref").attr("href","${rc.contextPath}/web/seat/getSeatByUserId?userId=" +$.cookie("rest_userid"));
+      $(".seatManagerHref").attr("href","${rc.contextPath}/web/seat/getSeatByUserId?userId=" +$.cookie("rest_userid"));
       $.ajax({
           type:"POST",
           url:"${rc.contextPath}/web/getUserId",

@@ -56,7 +56,7 @@
 		<property name="sequenceInfoMapper" ref="sequenceInfoMapper" />
 	</bean>
 		
-	<bean id="RestaurantTypeService" class="com.threeone.mealplanner.service.impl.RestaurantTypeServiceImpl">
+	<bean id="restaurantTypeService" class="com.threeone.mealplanner.service.impl.RestaurantTypeServiceImpl">
 		<property name="restTypeMapper" ref="restTypeMapper" />
 	</bean>
 	
