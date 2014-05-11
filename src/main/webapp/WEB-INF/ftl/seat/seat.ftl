@@ -21,7 +21,7 @@
       	tabDate.setDate(curDate.getDate() + 1);
       	if(i == 0){
       		$('#dateTab').append(
-	      		$('<li>').attr('class','active').append(
+	      		$('<li>').attr('class','active dateTabLi').append(
 	      			$('<a>').attr({
 	      				'id':tabDate.getFullYear() + '-' + tabDate.getMonth() + '-' + tabDate.getDate(),
 	      				'href':'#tables',
@@ -33,7 +33,7 @@
       	}
       	else{
       		$('#dateTab').append(
-	      		$('<li>').append(
+	      		$('<li>').attr('class','dateTabLi').append(
 	      			$('<a>').attr({
 	      				'id':tabDate.getFullYear() + '-' + tabDate.getMonth() + '-' + tabDate.getDate(),
 	      				'href':'#tables',
@@ -48,31 +48,35 @@
 	  //complete 7 tabs for next 7 dates 
 
 	  //set click event to get staus of a seat
-      $('.seat-grid').click(function(){
-      	//var seatId = $(this).attr("id");
-      	//var userId = $.cookie("rest_userid");
-      	//var dateDay = $('#dateTab .active').attr("id");
+      $(".seat-grid").click(function(){
+      	var seatId = $(this).attr("id").substr(2);
+      	var userId = $.cookie("rest_userid");
+      	var dateDay = $(".dateTabLi.active").children("a").attr("id");
       	$.ajax({
-      		type:"POST",
-      		url:"${rc.contextPath}/web/sear/getSeatStatusBySeatId",
-      		//data:{"seatId":seatId, "userId":userId, "dateDay":dateDay}, 
-      		data:{"seatId":$(this).attr("id"), "userId":$.cookie("rest_userid"), "dateDay": $('#dateTab .active').attr("id")},       		
+      		type:"GET",
+      		url:"${rc.contextPath}/web/seat/getSeatStatusBySeatId",
+      		data:{"seatId":seatId, "userId":userId, "dateDay":dateDay}, 
+      		// data:{"seatId":$(this).attr("id"), "userId":$.cookie("rest_userid"), "dateDay": $('#dateTab .active').attr("id")},       		
       		success:function(result){
       			if(result.success){
       				var clockState = result.data;
+      				var count = 10;
       				var state;
-      				for(int i = 10; i <= 22; i++){
-      					state = clockState.get(i);
+      				for(var key in clockState){
+      					state = clockState[key];
       					switch(state){
-      						case 0: $('#'+ i + '.btn').attr("class").append(' btn-success');// AVAILABLE
-      						break;
-      						case 1: $('#'+ i + '.btn').attr("class").append(' btn-warning');// RESERVED
-      						break;
-      						case 2: $('#'+ i + '.btn').attr("class").append(' btn-error');// OCCUPIED
-      						break;
-      						default:  $('#'+ i + '.btn').attr("class").append(' btn-success'); // AVAILABLE
-      						break;
+      						case 0: $('#'+ count + '.btn').addClass("btn-error");// AVAILABLE
+      							console.log("0");
+      							break;
+      						case 1: $('#'+ count + '.btn').addClass("btn-success");// RESERVED
+      							console.log("1");
+      							break;
+      						case 2: $('#'+ count + '.btn').addClass("btn-error");// OCCUPIED
+      							console.log("2");
+      							break;
+      						
       					}
+      					count++;
       				}
       			}
 
@@ -142,7 +146,7 @@
 				          		<#if (column % 5) != 0>
 				          		<div class="col-md-3">
 							      	<div class="container">
-							      		<button id=${seatInfo.getSeatid()} type="button" class="btn btn-default btn-lg seat-grid" data-toggle="modal" data-target="#seatInfoModal" data-placement="left" title="contain"+${seatInfo.getPeoplenum()}}>No ${seatInfo.getSeatno()}</button>		
+							      		<button id="No${seatInfo.getSeatid()}" type="button" class="btn btn-default btn-lg seat-grid" data-toggle="modal" data-target="#seatInfoModal" data-placement="left" title="contain ${seatInfo.getPeoplenum()} people"}>No ${seatInfo.getSeatid()}</button>								      			
 									</div>
 							    </div>
 							    <#else>
@@ -151,7 +155,7 @@
 							<hr>
 							    <div class="col-md-3">
 							      	<div class="container">
-							      		<button id=${seatInfo.getSeatid()} type="button" class="btn btn-default btn-lg seat-grid" data-toggle="modal" data-target="#seatInfoModal" data-placement="left" title="contain"+${seatInfo.getPeoplenum()}}>No ${seatInfo.getSeatno()}</button>		
+							      		<button id="No${seatInfo.getSeatid()}" type="button" class="btn btn-default btn-lg seat-grid" data-toggle="modal" data-target="#seatInfoModal" data-placement="left" title="contain ${seatInfo.getPeoplenum()} people"}>No ${seatInfo.getSeatid()}</button>		
 									</div>
 							    </div>
 							    </#if>

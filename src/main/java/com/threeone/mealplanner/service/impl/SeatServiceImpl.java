@@ -73,7 +73,7 @@ public class SeatServiceImpl implements SeatService {
 		List<SeatStatus> notAvailableSeats = seatStatusMapper.getNotAvailableOfSeatWholeDay(seatId, restId, dateDay);
 		for(SeatStatus seatStatus : notAvailableSeats){
 			stateHashMap.put(seatStatus.getDateclock(), seatStatus.getState());
-			clockState[seatStatus.getDateclock()] = 1;
+			clockState[seatStatus.getDateclock()-10] = 1;
 		}
 		for(int i = 0; i < clockState.length; i++){
 			if(clockState[i] != 1){

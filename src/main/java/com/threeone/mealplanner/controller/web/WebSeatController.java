@@ -40,15 +40,15 @@ public class WebSeatController {
 			return "seat/seat.ftl";
 		}
 	}
-	@RequestMapping(value="/getSeatStatusBySeatId", method = RequestMethod.POST)
+	@RequestMapping(value="/getSeatStatusBySeatId", method = RequestMethod.GET)
 	@ResponseBody
 	public JsonResult<HashMap<Integer, Integer>> getSeatStatusBySeatId(@RequestParam int seatId, 
 			@RequestParam int userId, @RequestParam String dateDay) {
 		Boolean flag = false;
-		String message = "Get seat status of userId = " + userId + " and seatId=" + seatId + " at day =" + dateDay;	
+		String message = "Get seat status of userId = " + userId + " and seatId=" + seatId + " at day =" + dateDay;			
 		try {
 			int restId = restaurantService.getRestIdByUserId(userId);
-			HashMap<Integer, Integer> status =  seatService.getStateOfSeatWholeDay(seatId, restId, dateDay);
+			HashMap<Integer, Integer> status =  seatService.getStateOfSeatWholeDay(seatId, restId, dateDay);		
 			message += " success!";
 			flag = true;
 			return new JsonResult<HashMap<Integer,Integer>>(flag, message, status);
