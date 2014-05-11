@@ -147,6 +147,13 @@
     and seqDate &gt; #{dateDay,jdbcType=VARCHAR}
   </select>
   
+  <select id="getLatestSeqId" resultType="java.lang.Integer" >
+    select seqId
+    from sequenceinfo
+    where restId = #{restId,jdbcType=INTEGER} and seatType = #{seatType,jdbcType=INTEGER}
+    order by seqId desc limit 1
+  </select>
+  
   <update id="updateSeqStatus">
     update sequenceinfo
     set status = #{status,jdbcType=INTEGER}

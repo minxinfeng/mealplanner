@@ -24,4 +24,6 @@ public interface SequenceInfoMapper {
     int getSeqBefore(@Param("restId") int restId, @Param("seatType") int seatType, @Param("dateDay") String dateDay);
     
     void updateSeqStatus(@Param("seqId") int seqId, @Param("status") int status);	
+    //刚刚插入的记录的seqId
+    int getLatestSeqId(@Param("restId") int restId, @Param("seatType") int seatType);
 }

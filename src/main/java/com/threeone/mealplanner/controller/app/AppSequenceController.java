@@ -1,7 +1,5 @@
 package com.threeone.mealplanner.controller.app;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,19 +31,29 @@ public class AppSequenceController {
 			sequenceInfo.setUserid(userId);
 			sequenceDetailForUser = sequenceService.createSequence(sequenceInfo);
 			flag = true;
-			message = "success!";
+			message = message + "success!";
 		} catch (Exception e) {
-			message = "failed. Reason:" +e.getMessage();
+			message = message + "failed. Reason:" +e.getMessage();
 			
 		}
 		
 		return new JsonResult<SequenceDetailForUser>(flag, message, sequenceDetailForUser);
 	}
 	
-	@RequestMapping("/getInfos")
+	@RequestMapping("/cancle")
 	@ResponseBody
-	public JsonResult<List<SequenceInfo>> getInfos(){
-		return new JsonResult<List<SequenceInfo>>(true, "get by group ", null);
+	public JsonResult<String> cancle(@RequestParam int userId, @RequestParam int seqId){
+		String message = "cancle seqId = " + seqId + " ";
+		Boolean flag = false;
+		try {
+			sequenceService.cancleSeq(seqId);
+			flag = true;
+			message = message + "success!";
+		} catch (Exception e) {
+			message = message + "failed. Reason:" +e.getMessage();
+			
+		}
+		
+		return new JsonResult<String>(flag, message, null);
 	}
-
 }

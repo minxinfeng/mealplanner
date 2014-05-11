@@ -1,6 +1,7 @@
 package com.threeone.mealplanner.model;
 
 public class SequenceDetailForUser {
+	private int seqId; //排队唯一标识ID
 	private int userId;//用户ID
 	private int restId;//餐厅ID
 	private int seqNo;// 排队号ID
@@ -63,5 +64,13 @@ public class SequenceDetailForUser {
 
 	public void setSeatType(int seatType) {
 		this.seatType = seatType;
+	}
+
+	public int getSeqId() {
+		return seqId;
+	}
+
+	public void setSeqId(int seqId) {
+		this.seqId = seqId;
 	}
 }

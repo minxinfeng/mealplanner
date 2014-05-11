@@ -28,6 +28,7 @@ public class SequenceServiceImpl implements SequenceService {
 	public SequenceDetailForUser createSequence(SequenceInfo sequenceInfo) throws InternalException{
 		try {
 			SequenceDetailForUser sequenceDetailForUser = new SequenceDetailForUser();
+			
 			sequenceDetailForUser.setPeopleNum(sequenceInfo.getPeoplenum());
 			sequenceDetailForUser.setRestId(sequenceInfo.getRestid());
 			sequenceDetailForUser.setUserId(sequenceInfo.getUserid());
@@ -49,6 +50,7 @@ public class SequenceServiceImpl implements SequenceService {
 			sequenceInfo.setSeqno(seqNo);
 			sequenceInfo.setStatus(SequenceStatus.waiting.getValue());
 			sequenceInfoMapper.insertSelective(sequenceInfo);
+			sequenceDetailForUser.setSeqId(sequenceInfoMapper.getLatestSeqId(restId, seatType));
 			LOG.info("insert seq success!");
 			return sequenceDetailForUser;
 		} catch (Exception e) {
