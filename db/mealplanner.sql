@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50515
 File Encoding         : 65001
 
-Date: 2014-05-12 10:16:33
+Date: 2014-05-12 10:35:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -360,16 +360,16 @@ INSERT INTO `sequenceinfo` VALUES ('23', '3', '2', '3', '4', '2', '2014-05-11 19
 -- ----------------------------
 DROP TABLE IF EXISTS `userbind`;
 CREATE TABLE `userbind` (
-  `userId` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) DEFAULT NULL COMMENT '数据库中的userId',
   `baiduUserId` varchar(255) DEFAULT NULL COMMENT '百度云推送中手机端的UserId',
   `channelId` bigint(255) DEFAULT NULL COMMENT '手机端的ChannelId',
-  PRIMARY KEY (`userId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of userbind
 -- ----------------------------
-INSERT INTO `userbind` VALUES ('2', '924401985', '4236885180925384783');
 
 -- ----------------------------
 -- Table structure for userinfo

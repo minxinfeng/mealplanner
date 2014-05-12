@@ -4,7 +4,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.threeone.mealplanner.common.InternalException;
+import com.threeone.mealplanner.mapper.UserBindMapper;
 import com.threeone.mealplanner.mapper.UserInfoMapper;
+import com.threeone.mealplanner.model.entity.UserBind;
 import com.threeone.mealplanner.model.entity.UserInfo;
 import com.threeone.mealplanner.service.UserService;
 
@@ -13,7 +15,15 @@ public class UserServiceImpl implements UserService {
 	private static final Log LOG = LogFactory.getLog(UserServiceImpl.class);
 	
 	private UserInfoMapper userInfoMapper;
+	private UserBindMapper userBindMapper;
 	
+	public void setUserInfoMapper(UserInfoMapper userInfoMapper) {
+		this.userInfoMapper = userInfoMapper;
+	}
+	
+	public void setUserBindMapper(UserBindMapper userBindMapper) {
+		this.userBindMapper = userBindMapper;
+	}	
 	
 	public UserInfo getUserInfoById(int id) {
 		UserInfo userInfo = userInfoMapper.selectByPrimaryKey(id);
@@ -61,9 +71,17 @@ public class UserServiceImpl implements UserService {
 		}
 		
 	}
-	
-	public void setUserInfoMapper(UserInfoMapper userInfoMapper) {
-		this.userInfoMapper = userInfoMapper;
-	}	
+
+	public void addUserChannel(UserBind userBind) throws InternalException {
+		String message = "Register userId=" + userBind.getUserid() + " into baidu userId=" + userBind.getBaiduuserid() + " and channel=" + userBind.getChannelid();
+		try {
+			userBindMapper.insertSelective(userBind);
+			LOG.info(message + " success!");
+		} catch (Exception e) {
+			LOG.error(message + " failed!");
+			throw new InternalException(message + " failed!");
+		}
+		
+	}
 
 }

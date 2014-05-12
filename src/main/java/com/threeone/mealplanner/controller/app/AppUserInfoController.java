@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.common.JsonResult;
+import com.threeone.mealplanner.model.entity.UserBind;
 import com.threeone.mealplanner.model.entity.UserInfo;
 import com.threeone.mealplanner.model.entity.UserType;
 import com.threeone.mealplanner.service.UserService;
@@ -74,6 +75,27 @@ public class AppUserInfoController {
 		String message = "success";
 		
 		return new JsonResult<UserInfo>(flag, message, userInfo);
+	}
+	
+	@RequestMapping("/userBinding")
+	@ResponseBody
+	public JsonResult<UserInfo> userBinding(@RequestParam int userId, @RequestParam String baiduUserId, @RequestParam long channelId) {
+		Boolean flag = true;
+		String message = "Register userId=" + userId + " into baidu userId=" + baiduUserId + " and channel=" + channelId;
+		
+		try {
+			UserBind userBind = new UserBind();
+			userBind.setUserid(userId);
+			userBind.setBaiduuserid(baiduUserId);
+			userBind.setChannelid(channelId);
+			userService.addUserChannel(userBind);
+			message = " success!";
+		} catch (Exception e) {
+			flag = false;
+			message = " failed! Reason:" + e.getMessage();
+		}
+		
+		return new JsonResult<UserInfo>(flag, message, null);
 	}
 
 }

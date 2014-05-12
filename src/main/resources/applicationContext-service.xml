@@ -17,6 +17,7 @@
 
 	<bean id="userService" class="com.threeone.mealplanner.service.impl.UserServiceImpl">
 		<property name="userInfoMapper" ref="userInfoMapper" />
+		<property name="userBindMapper" ref="userBindMapper" />
 	</bean>
 	
 	<bean id="FriendService" class="com.threeone.mealplanner.service.impl.FriendServiceImpl">
