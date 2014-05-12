@@ -8,17 +8,6 @@
     $(document).ready(function(){  	
       $('#signin').click(function(){
         $.cookie("rest_username",$('#loginName').val());
-        $.ajax({
-          type:"POST",
-          url:"${rc.contextPath}/web/getUserId",
-          data:{"userName":$('#loginName').val()},
-          success:function(result){
-            if(result.success){               
-              $.cookie("rest_userid", result.data);
-              $.cookie("login","yes");   
-            }
-          }                    
-        });                         
       });
     })
     </script>
