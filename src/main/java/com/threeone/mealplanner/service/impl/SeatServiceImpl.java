@@ -46,7 +46,7 @@ public class SeatServiceImpl implements SeatService {
 		if(!availableSeats.isEmpty()){
 			SeatInfo avSeat = availableSeats.get(0);
 			seatStatusMapper.insertSeatStatus(avSeat.getSeatid(), restId, dateDay, dateClock, RESERVED);
-			seatStatusMapper.insertSeatStatus(avSeat.getSeatid(), restId, dateDay, dateClock + 1, RESERVED);// default use time is 2 hours
+//			seatStatusMapper.insertSeatStatus(avSeat.getSeatid(), restId, dateDay, dateClock + 1, RESERVED);// default use time is 2 hours
 			return avSeat;
 		}
 		return null;
@@ -54,10 +54,10 @@ public class SeatServiceImpl implements SeatService {
 
 	
 	public void occupySeat(int seatId, int restId, String dateDay,
-			int dateClock, int peopleNum) throws InternalException {
+			int dateClock) throws InternalException {
 		try {
 			seatStatusMapper.insertSeatStatus(seatId, restId, dateDay, dateClock, OCCUPIED);
-			seatStatusMapper.insertSeatStatus(seatId, restId, dateDay, dateClock + 1, OCCUPIED);
+//			seatStatusMapper.insertSeatStatus(seatId, restId, dateDay, dateClock + 1, OCCUPIED);
 		} catch (Exception e) {
 			String message = "Error to occupy of seatId = " + seatId + " with dateClock=" + dateClock + ". Reason:" + e.getMessage();
 			LOG.error(message);
@@ -66,21 +66,14 @@ public class SeatServiceImpl implements SeatService {
 	}
 
 	
-	public HashMap<Integer, Integer> getStateOfSeatWholeDay(int seatId,
+	public int[] getStateOfSeatWholeDay(int seatId,
 			int restId, String dateDay) throws InternalException {
-		HashMap<Integer, Integer> stateHashMap = new HashMap<Integer, Integer>();
 		int[] clockState = new int[13];
 		List<SeatStatus> notAvailableSeats = seatStatusMapper.getNotAvailableOfSeatWholeDay(seatId, restId, dateDay);
 		for(SeatStatus seatStatus : notAvailableSeats){
-			stateHashMap.put(seatStatus.getDateclock(), seatStatus.getState());
-			clockState[seatStatus.getDateclock()-10] = 1;
+			clockState[seatStatus.getDateclock()-10] = seatStatus.getState();			
 		}
-		for(int i = 0; i < clockState.length; i++){
-			if(clockState[i] != 1){
-				stateHashMap.put(i + 10, AVAILABLE);
-			}
-		}
-		return stateHashMap;
+		return clockState;
 	}
 
 	
@@ -88,7 +81,7 @@ public class SeatServiceImpl implements SeatService {
 			int dateClock) throws InternalException {
 		try {
 			seatStatusMapper.insertSeatStatus(seatId, restId, dateDay, dateClock, RESERVED);
-			seatStatusMapper.insertSeatStatus(seatId, restId, dateDay, dateClock + 1, RESERVED);
+//			seatStatusMapper.insertSeatStatus(seatId, restId, dateDay, dateClock + 1, RESERVED);
 		} catch (Exception e) {
 			String message = "Error to reserve of seatId = " + seatId + "with dateDay" + dateDay + " with dateClock=" + dateClock + ". Reason:" + e.getMessage();
 			LOG.error(message);
@@ -101,7 +94,7 @@ public class SeatServiceImpl implements SeatService {
 			int dateClock) throws InternalException {
 		try {
 			seatStatusMapper.deleteBySeatIdClock(seatId, restId, dateDay, dateClock);
-			seatStatusMapper.deleteBySeatIdClock(seatId, restId, dateDay, dateClock + 1);
+//			seatStatusMapper.deleteBySeatIdClock(seatId, restId, dateDay, dateClock + 1);
 		} catch (Exception e) {
 			String message = "Error to free of seatId = " + seatId + "with dateDay" + dateDay + " with dateClock=" + dateClock + ". Reason:" + e.getMessage();
 			LOG.error(message);

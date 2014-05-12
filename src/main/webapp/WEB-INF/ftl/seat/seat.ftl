@@ -13,7 +13,6 @@
     $(document).ready(function () {    
       $('#userId').val($.cookie("rest_userid"));
       $('.dropdown-toggle').dropdown();
-      
       //get 7 tabs for next 7 dates 
       var curDate = new Date();
       curDate.setDate(curDate.getDate() + 30);
@@ -60,7 +59,12 @@
       	var strArrayId = $(this).attr("id").split("_");
       	var seatId = strArrayId[0].substr(2);
       	var userId = $.cookie("rest_userid");
-      	var dateDay = strArrayId[1];
+      	var dateDay = strArrayId[1];			
+
+      	$('#seatId').val(seatId);
+		$('#userId').val(userId);
+		$('#dateDay').val(dateDay);		
+
       	$.ajax({
       		type:"GET",
       		url:"${rc.contextPath}/web/seat/getSeatStatusBySeatId",
@@ -88,6 +92,40 @@
       		}
       	});//ajax
       });//click
+
+	$('.chooseTimeBtn').click(function(){
+		var classes = $(this).attr('class').split(' ');
+		var params = $(this).attr('id').split('_');
+		var clock = params[0];
+		var seatId = params[1];
+		var dateDay = params[2];
+		var userId = $.cookie("rest_userid");
+		var state = 0;
+		$(this).removeClass(classes[2]);
+		if(classes[2]=="btn-success"){
+			$(this).addClass("btn-warning");
+			state = 2;			
+		}else if(classes[2]=="btn-warning"){
+			$(this).addClass("btn-error");
+			state = 0;
+		}else if(classes[2]=="btn-error"){
+			$(this).addClass("btn-success");
+			state = 1;
+		}
+		
+		$.ajax({
+      		type:"GET",
+      		url:"${rc.contextPath}/web/seat/changeSeatStatusById",
+      		data:{"seatId":seatId, "userId":userId, "dateDay":dateDay, "dateClock":clock, "state":state},      		
+      		success:function(result){
+      			if(result.success){
+ 					alert(result.data);
+      					}
+      				}
+      	});//ajax
+
+
+	});
 
 	var dateCopy = new Date();   
     dateCopy.setDate(dateCopy.getDate() + 31); 
@@ -157,8 +195,7 @@
 					  	<div class="bs-docs-grid">				    
 						    <div class="row show-grid">					  		
 					  		<#assign column = 1/>
-					  		<#assign testseatInfos = seatInfos/>
-					  		<#list testseatInfos as seatInfo>					  				
+					  		<#list seatInfos as seatInfo>					  				
 				          		<#if (column % 5) != 0>
 				          		<div class="col-md-3">
 							      	<div class="container">	
