@@ -16,15 +16,23 @@
       
       //get 7 tabs for next 7 dates 
       var curDate = new Date();
+      curDate.setDate(curDate.getDate() + 30);
       var tabDate = curDate;
+      var dateActive = tabDate.getFullYear() + '-' + tabDate.getMonth() + '-' + tabDate.getDate();
       for(var i = 0; i < 7; i++){
       	tabDate.setDate(curDate.getDate() + 1);
+      	if( tabDate.getMonth() < 10){
+      		dateActive = tabDate.getFullYear() + '-0' + tabDate.getMonth() + '-' + tabDate.getDate();
+      	}else{
+      		dateActive = tabDate.getFullYear() + '-' + tabDate.getMonth() + '-' + tabDate.getDate();
+      	}
+      	
       	if(i == 0){
       		$('#dateTab').append(
 	      		$('<li>').attr('class','active dateTabLi').append(
 	      			$('<a>').attr({
-	      				'id':tabDate.getFullYear() + '-' + tabDate.getMonth() + '-' + tabDate.getDate(),
-	      				'href':'#tables',
+	      				'id':dateActive,
+	      				'href':'#tables_' + dateActive,
 	      				'data-toggle':'tab'
 	      				}).append(tabDate.getMonth() + '-' + tabDate.getDate()
 	      			)
@@ -35,8 +43,8 @@
       		$('#dateTab').append(
 	      		$('<li>').attr('class','dateTabLi').append(
 	      			$('<a>').attr({
-	      				'id':tabDate.getFullYear() + '-' + tabDate.getMonth() + '-' + tabDate.getDate(),
-	      				'href':'#tables',
+	      				'id':dateActive,
+	      				'href':'#tables_' + dateActive,
 	      				'data-toggle':'tab'
 	      				}).append(tabDate.getMonth() + '-' + tabDate.getDate()
 	      			)
@@ -49,14 +57,14 @@
 
 	  //set click event to get staus of a seat
       $(".seat-grid").click(function(){
-      	var seatId = $(this).attr("id").substr(2);
+      	var strArrayId = $(this).attr("id").split("_");
+      	var seatId = strArrayId[0].substr(2);
       	var userId = $.cookie("rest_userid");
-      	var dateDay = $(".dateTabLi.active").children("a").attr("id");
+      	var dateDay = strArrayId[1];
       	$.ajax({
       		type:"GET",
       		url:"${rc.contextPath}/web/seat/getSeatStatusBySeatId",
-      		data:{"seatId":seatId, "userId":userId, "dateDay":dateDay}, 
-      		// data:{"seatId":$(this).attr("id"), "userId":$.cookie("rest_userid"), "dateDay": $('#dateTab .active').attr("id")},       		
+      		data:{"seatId":seatId, "userId":userId, "dateDay":dateDay},      		
       		success:function(result){
       			if(result.success){
       				var clockState = result.data;
@@ -65,14 +73,11 @@
       				for(var key in clockState){
       					state = clockState[key];
       					switch(state){
-      						case 0: $('#'+ count + '.btn').addClass("btn-error");// AVAILABLE
-      							console.log("0");
+      						case 0: $('#'+ count + '_' + seatId + '_' + dateDay + '.btn').addClass("btn-error");// AVAILABLE
       							break;
-      						case 1: $('#'+ count + '.btn').addClass("btn-success");// RESERVED
-      							console.log("1");
+      						case 1: $('#'+ count + '_' + seatId + '_' + dateDay + '.btn').addClass("btn-success");// RESERVED
       							break;
-      						case 2: $('#'+ count + '.btn').addClass("btn-error");// OCCUPIED
-      							console.log("2");
+      						case 2: $('#'+ count + '_' + seatId + '_' + dateDay + '.btn').addClass("btn-warning");// OCCUPIED
       							break;
       						
       					}
@@ -84,7 +89,14 @@
       	});//ajax
       });//click
 
-	  
+	var dateCopy = new Date();   
+    dateCopy.setDate(dateCopy.getDate() + 31); 
+    if(dateCopy.getMonth() < 10){
+    	dateTemp = dateCopy.getFullYear() + '-0' + dateCopy.getMonth() + '-' + dateCopy.getDate();
+    }else{
+    	dateTemp = dateCopy.getFullYear() + '-' + dateCopy.getMonth() + '-' + dateCopy.getDate();
+    }    
+	$('#tables_' + dateTemp).addClass("active");
     })   
     </script>
 </head>
@@ -135,18 +147,28 @@
         <div class="row">
           	<div class="col-sm-12">
             	<div class="panel panel-default">
-	              	<ul id="dateTab" class="nav nav-tabs">					 
+	              	<ul id="dateTab" class="nav nav-tabs">
+	              						 
 					</ul>
 					<div class="tab-content">
-						<div class="tab-pane active" id="tables"><!-- grid -->
+						<#list nextWeeks as dateOffset>
+						<!--set 7 days tab -->
+						<div class="tab-pane" id="tables_${dateOffset}"><!-- grid -->
 					  	<div class="bs-docs-grid">				    
 						    <div class="row show-grid">					  		
 					  		<#assign column = 1/>
-					  		<#list seatInfos as seatInfo>					  				
+					  		<#assign testseatInfos = seatInfos/>
+					  		<#list testseatInfos as seatInfo>					  				
 				          		<#if (column % 5) != 0>
 				          		<div class="col-md-3">
-							      	<div class="container">
-							      		<button id="No${seatInfo.getSeatid()}" type="button" class="btn btn-default btn-lg seat-grid" data-toggle="modal" data-target="#seatInfoModal" data-placement="left" title="contain ${seatInfo.getPeoplenum()} people"}>No ${seatInfo.getSeatid()}</button>								      			
+							      	<div class="container">	
+							      		<button id="No${seatInfo.getSeatid()}_${dateOffset}" 
+							      		type="button" class="btn btn-default btn-lg seat-grid" 
+							      		data-toggle="modal" 
+							      		data-target="#seatInfoModal_${seatInfo.getSeatid()}_${dateOffset}" 
+							      		data-placement="left" 
+							      		title="contain ${seatInfo.getPeoplenum()} people"}>No ${seatInfo.getSeatid()}</button>
+							      		<#include "/base/seatModal.ftl">						      			
 									</div>
 							    </div>
 							    <#else>
@@ -155,7 +177,11 @@
 							<hr>
 							    <div class="col-md-3">
 							      	<div class="container">
-							      		<button id="No${seatInfo.getSeatid()}" type="button" class="btn btn-default btn-lg seat-grid" data-toggle="modal" data-target="#seatInfoModal" data-placement="left" title="contain ${seatInfo.getPeoplenum()} people"}>No ${seatInfo.getSeatid()}</button>		
+							      		<button id="No${seatInfo.getSeatid()}_${dateOffset}}" 
+							      		type="button" class="btn btn-default btn-lg seat-grid" 
+							      		data-toggle="modal" data-target="#seatInfoModal_${seatInfo.getSeatid()} ${dateOffset}" 
+							      		data-placement="left" title="contain ${seatInfo.getPeoplenum()} people"}>No ${seatInfo.getSeatid()}</button>
+							      		<#include "/base/seatModal.ftl">
 									</div>
 							    </div>
 							    </#if>
@@ -164,8 +190,9 @@
 				          	</div>
 				          	<hr>
 						</div>
-						</div><!-- /grid -->
-					</div>				
+						</div><!-- /grid -->				
+						</#list>
+					</div>			
 	            </div>
         	</div><!-- /.col-sm-12 -->
       </div>
@@ -181,79 +208,7 @@
           </ul>
       </div>
       <hr>
-	  
-	  <div id="seatInfoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="seatInfoModalLabel" aria-hidden="true" style="display: none;">
-	  	<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-				    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-				     <h4 class="modal-title" id="seatInfoModalLabel">Choose Time</h4>
-				</div>
-				<div class="modal-body">
-				    <div class="bs-docs-grid">					    
-						<div class="row show-grid">
-							<div class="col-md-3">
-								<button id="10" type="button" class="btn" data-toggle="tooltip" data-placement="bottom" title="No 3, contain 2 people">10:00</button>
-							</div>
-							<div class="col-md-3">
-								<button id="11" type="button" class="btn" data-toggle="tooltip" data-placement="bottom" title="No 3, contain 2 people">11:00</button>
-							</div>
-							<div class="col-md-3">
-								<button id="12" type="button" class="btn" data-toggle="tooltip" data-placement="bottom" title="No 3, contain 2 people">12:00</button>
-							</div>
-							<div class="col-md-3">
-								<button id="13" type="button" class="btn" data-toggle="tooltip" data-placement="bottom" title="No 3, contain 2 people">13:00</button>
-							</div>
-						</div>
-						<hr>
-						<div class="row show-grid">
-							<div class="col-md-3">
-								<button id="14" type="button" class="btn" data-toggle="tooltip" data-placement="bottom" title="No 3, contain 2 people">14:00</button>
-							</div>
-							<div class="col-md-3">
-								<button id="15" type="button" class="btn" data-toggle="tooltip" data-placement="bottom" title="No 3, contain 2 people">15:00</button>
-							</div>
-							<div class="col-md-3">
-								<button id="16" type="button" class="btn" data-toggle="tooltip" data-placement="bottom" title="No 3, contain 2 people">16:00</button>
-							</div>
-							<div class="col-md-3">
-								<button id="17" type="button" class="btn" data-toggle="tooltip" data-placement="bottom" title="No 3, contain 2 people">17:00</button>
-							</div>
-						</div>
-						<hr>
-						<div class="row show-grid">
-							<div class="col-md-3">
-								<button id="18" type="button" class="btn" data-toggle="tooltip" data-placement="bottom" title="No 3, contain 2 people">18:00</button>
-							</div>
-							<div class="col-md-3">
-								<button id="19" type="button" class="btn" data-toggle="tooltip" data-placement="bottom" title="No 3, contain 2 people">19:00</button>
-							</div>
-							<div class="col-md-3">
-								 <button id="20" type="button" class="btn" data-toggle="tooltip" data-placement="bottom" title="No 3, contain 2 people">20:00</button>
-							</div>
-							<div class="col-md-3">
-								<button id="21" type="button" class="btn" data-toggle="tooltip" data-placement="bottom" title="No 3, contain 2 people">21:00</button>
-							</div>
-						</div>
-						<hr>
-						<div class="row show-grid">
-							<div class="col-md-3">
-								<button id="22" type="button" class="btn" data-toggle="tooltip" data-placement="bottom" title="No 3, contain 2 people">22:00</button>
-							</div>										      
-						</div>
-					</div>              
-				</div>
-				<div class="modal-footer">
-				    <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
-				    <button type="submit" class="btn btn-primary">Save</button>
-				</div>
 
-			</div><!-- /.modal-content -->
-		</div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->
-
-				                  
-	  
       <footer>
         <p class="text-center">&copy; ThreeOne 2014</p>
       </footer>

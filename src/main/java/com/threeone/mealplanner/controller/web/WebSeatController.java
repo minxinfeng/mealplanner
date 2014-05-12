@@ -1,5 +1,8 @@
 package com.threeone.mealplanner.controller.web;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +36,9 @@ public class WebSeatController {
 		try {
 			int restId = restaurantService.getRestIdByUserId(userId);
 			List<SeatInfo> seatInfos = seatService.getSeatsByRestId(restId);
+			List<String> nextWeeks = getNextWeek();
 			model.addAttribute("seatInfos", seatInfos);
+			model.addAttribute("nextWeeks", nextWeeks);
 			return "seat/seat.ftl";
 		} catch (InternalException e) {
 			e.printStackTrace();
@@ -58,4 +63,16 @@ public class WebSeatController {
 		}
 		
 	}
+	
+	private List<String> getNextWeek() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		List<String> dateStrings = new ArrayList();		
+		for(int i = 0; i < 7; i++){
+			date.setDate(date.getDate()+1);
+			dateStrings.add(dateFormat.format(date).toString());
+		}		
+		return dateStrings;
+	}
+	
 }
