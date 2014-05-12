@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50515
 File Encoding         : 65001
 
-Date: 2014-05-10 15:17:25
+Date: 2014-05-12 10:16:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -66,7 +66,7 @@ CREATE TABLE `mealfriend` (
   `status` int(11) DEFAULT NULL COMMENT '饭局中被邀请的好友的反馈状态\n0：待接受\n1：已接受\n2：已拒绝\n3：已过期',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COMMENT='饭局中的好友信息';
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT='饭局中的好友信息';
 
 -- ----------------------------
 -- Records of mealfriend
@@ -87,6 +87,11 @@ INSERT INTO `mealfriend` VALUES ('23', '13', '4', '0');
 INSERT INTO `mealfriend` VALUES ('24', '14', '3', '0');
 INSERT INTO `mealfriend` VALUES ('25', '14', '4', '0');
 INSERT INTO `mealfriend` VALUES ('26', '15', '4', '0');
+INSERT INTO `mealfriend` VALUES ('27', '16', '2', '0');
+INSERT INTO `mealfriend` VALUES ('28', '17', '4', '0');
+INSERT INTO `mealfriend` VALUES ('29', '18', '2', '0');
+INSERT INTO `mealfriend` VALUES ('30', '18', '3', '0');
+INSERT INTO `mealfriend` VALUES ('31', '19', '2', '0');
 
 -- ----------------------------
 -- Table structure for mealinfo
@@ -101,7 +106,7 @@ CREATE TABLE `mealinfo` (
   `mealStatus` int(11) DEFAULT NULL COMMENT '饭局状态\n0：正在进行\n1：成功，已下订单\n2：过期',
   PRIMARY KEY (`mealId`),
   UNIQUE KEY `mealId_UNIQUE` (`mealId`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='饭局邀请';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='饭局邀请';
 
 -- ----------------------------
 -- Records of mealinfo
@@ -116,6 +121,10 @@ INSERT INTO `mealinfo` VALUES ('12', '1', '1', '2014-05-09 16:06:00', '2014-05-1
 INSERT INTO `mealinfo` VALUES ('13', '1', '2', '2014-05-16 19:14:00', '2014-05-10 00:14:53', '0');
 INSERT INTO `mealinfo` VALUES ('14', '1', '1', '2014-05-16 16:15:00', '2014-05-10 00:15:42', '0');
 INSERT INTO `mealinfo` VALUES ('15', '1', '1', '2014-05-10 05:17:00', '2014-05-10 13:17:53', '0');
+INSERT INTO `mealinfo` VALUES ('16', '1', '1', '2014-05-17 08:13:00', '2014-05-10 16:13:53', '0');
+INSERT INTO `mealinfo` VALUES ('17', '1', '2', '2014-05-10 14:51:00', '2014-05-10 22:51:37', '0');
+INSERT INTO `mealinfo` VALUES ('18', '1', '1', '2014-05-11 12:03:00', '2014-05-10 23:03:53', '0');
+INSERT INTO `mealinfo` VALUES ('19', '1', '1', '2014-05-11 00:27:00', '2014-05-11 00:27:19', '0');
 
 -- ----------------------------
 -- Table structure for menuinfo
@@ -189,13 +198,14 @@ CREATE TABLE `restaurantinfo` (
   `hot` int(11) DEFAULT NULL COMMENT '是否是热门餐厅\n1 热门\n0 非热门',
   PRIMARY KEY (`restId`),
   UNIQUE KEY `restId_UNIQUE` (`restId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='餐厅信息';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='餐厅信息';
 
 -- ----------------------------
 -- Records of restaurantinfo
 -- ----------------------------
 INSERT INTO `restaurantinfo` VALUES ('1', '阿里食府', '010-12345678', '1', '交大东路', 'http://www.baidu.com', '1', '1', '1');
 INSERT INTO `restaurantinfo` VALUES ('2', '西贝', '010-12345679', '1', '学苑公寓', 'http://www.google.com', '1', '1', '1');
+INSERT INTO `restaurantinfo` VALUES ('3', 'dd', null, '1', 'dd', 'dd', '1', null, null);
 
 -- ----------------------------
 -- Table structure for restcity
@@ -243,11 +253,14 @@ CREATE TABLE `restuser` (
   `restId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户与餐厅对应关系';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='用户与餐厅对应关系';
 
 -- ----------------------------
 -- Records of restuser
 -- ----------------------------
+INSERT INTO `restuser` VALUES ('1', '1', '1');
+INSERT INTO `restuser` VALUES ('2', '2', '2');
+INSERT INTO `restuser` VALUES ('7', '7', '3');
 
 -- ----------------------------
 -- Table structure for seatinfo
@@ -313,7 +326,7 @@ CREATE TABLE `sequenceinfo` (
   `status` int(11) DEFAULT NULL COMMENT '排队状态\n0：等待，排队中\n1：等待结束，用餐\n2：取消',
   PRIMARY KEY (`seqId`),
   UNIQUE KEY `seqId_UNIQUE` (`seqId`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='排队信息(店内排序)';
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COMMENT='排队信息(店内排序)';
 
 -- ----------------------------
 -- Records of sequenceinfo
@@ -328,6 +341,35 @@ INSERT INTO `sequenceinfo` VALUES ('7', '3', '5', '6', '6', '3', '2014-05-09 20:
 INSERT INTO `sequenceinfo` VALUES ('8', '3', '6', '3', '4', '4', '2014-05-09 20:55:52', '0');
 INSERT INTO `sequenceinfo` VALUES ('9', '3', '1', '6', '6', '1', '2014-05-10 10:23:05', '0');
 INSERT INTO `sequenceinfo` VALUES ('10', '3', '1', '6', '6', '2', '2014-05-10 10:29:26', '0');
+INSERT INTO `sequenceinfo` VALUES ('11', '3', '1', '6', null, '3', '2014-05-10 18:04:39', '0');
+INSERT INTO `sequenceinfo` VALUES ('12', '1', '1', '3', null, '1', '2014-05-11 00:03:48', '0');
+INSERT INTO `sequenceinfo` VALUES ('13', '1', '1', '3', null, '2', '2014-05-11 00:20:56', '0');
+INSERT INTO `sequenceinfo` VALUES ('14', '1', '1', '3', null, '3', '2014-05-11 00:22:22', '0');
+INSERT INTO `sequenceinfo` VALUES ('15', '1', '1', '3', null, '4', '2014-05-11 00:23:30', '0');
+INSERT INTO `sequenceinfo` VALUES ('16', '1', '1', '3', null, '5', '2014-05-11 00:33:30', '0');
+INSERT INTO `sequenceinfo` VALUES ('17', '1', '1', '3', '4', '6', '2014-05-11 00:35:25', '0');
+INSERT INTO `sequenceinfo` VALUES ('18', '1', '1', '3', '4', '7', '2014-05-11 00:36:43', '0');
+INSERT INTO `sequenceinfo` VALUES ('19', '1', '1', '3', '4', '8', '2014-05-11 00:38:09', '0');
+INSERT INTO `sequenceinfo` VALUES ('20', '1', '1', '3', '4', '9', '2014-05-11 00:41:58', '2');
+INSERT INTO `sequenceinfo` VALUES ('21', '1', '1', '3', '4', '10', '2014-05-11 00:42:33', '0');
+INSERT INTO `sequenceinfo` VALUES ('22', '3', '2', '3', '4', '1', '2014-05-11 18:56:02', '0');
+INSERT INTO `sequenceinfo` VALUES ('23', '3', '2', '3', '4', '2', '2014-05-11 19:01:02', '0');
+
+-- ----------------------------
+-- Table structure for userbind
+-- ----------------------------
+DROP TABLE IF EXISTS `userbind`;
+CREATE TABLE `userbind` (
+  `userId` int(11) NOT NULL,
+  `baiduUserId` varchar(255) DEFAULT NULL COMMENT '百度云推送中手机端的UserId',
+  `channelId` bigint(255) DEFAULT NULL COMMENT '手机端的ChannelId',
+  PRIMARY KEY (`userId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of userbind
+-- ----------------------------
+INSERT INTO `userbind` VALUES ('2', '924401985', '4236885180925384783');
 
 -- ----------------------------
 -- Table structure for userinfo
@@ -343,7 +385,7 @@ CREATE TABLE `userinfo` (
   `userType` int(11) DEFAULT NULL COMMENT '用户类型，1是系统管理员，2是餐厅管理员，3是普通用户',
   PRIMARY KEY (`userId`),
   UNIQUE KEY `userId_UNIQUE` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of userinfo
@@ -354,3 +396,4 @@ INSERT INTO `userinfo` VALUES ('3', 'mm', 'mm@qq.com', '15310582675', 'mm', '201
 INSERT INTO `userinfo` VALUES ('4', 'gg', 'gg@qq.com', '15310582670', 'gg', '2014-05-05 14:17:20', '3');
 INSERT INTO `userinfo` VALUES ('5', 'yr', 'yr@qq.com', '15310582673', 'yr', '2014-05-05 14:17:20', '3');
 INSERT INTO `userinfo` VALUES ('6', 'cyt', 'cyt@qq.com', '15310582674', 'cyt', '2014-05-05 14:17:20', '3');
+INSERT INTO `userinfo` VALUES ('7', 'dd', 'dd@qq.com', '11111111111', 'dd', '2014-05-12 09:57:26', '2');
