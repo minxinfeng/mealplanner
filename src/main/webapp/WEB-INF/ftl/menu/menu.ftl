@@ -6,7 +6,7 @@
     <#include "/base/base.ftl">
     <script type="text/javascript">
     $(document).ready(function () {    
-      $('#userId').val($.cookie("rest_userid"));
+      $('#userId.addFoodModal').val($.cookie("rest_userid"));
     	$('.dropdown-toggle').dropdown();
 	    $(".deleteMenu").click(function(){
 	    	var id = $(this).parent().parent().attr("id");
@@ -22,6 +22,7 @@
 	    });
       $(".editMenu").click(function(){
         var mId = $(this).parent().parent().attr("id");
+        $('#userId.editFoodModal').val($.cookie("rest_userid"));
         $('#menuId').val(mId);
       });
     })   
@@ -46,7 +47,7 @@
                     <div class="modal-content">
                       <form class="form-addmenu" role="form" action="${rc.contextPath}/web/menu/addMenu" method="post">
                         <div class="modal-header">
-                          <input id="userId" name="userId" class="form-control" type="hidden">
+                          <input id="userId" name="userId" class="form-control addFoodModal" type="hidden">
                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                           <h3 class="modal-title" id="myModalLabel">New food</h3>
                         </div>
@@ -115,10 +116,10 @@
                       <div id="editFoodModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                         <div class="modal-dialog">
                           <div class="modal-content">
-                            <form class="form-addmenu" role="form" action="${rc.contextPath}/web/menu/updateMenu" method="post">
+                            <form class="form-addmenu" role="form" action="${rc.contextPath}/web/menu/updateMenuPart" method="get">
                               <div class="modal-header">
                                 <input id="menuId" name="menuId" class="form-control" type="hidden">
-                                <input id="userId" name="userId" class="form-control" type="hidden">
+                                <input id="userId" name="userId" class="form-control editFoodModal" type="hidden">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                                 <h3 class="modal-title" id="myModalLabel">Edit menu</h3>
                               </div>

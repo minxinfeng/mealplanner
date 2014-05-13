@@ -33,9 +33,10 @@
 </script>
 <script type="text/javascript">
     $(document).ready(function () { 
+      $('.dropdown-toggle').dropdown();
       $(".menuHref").attr("href","${rc.contextPath}/web/menu/getMenuByUserId?userId=" +$.cookie("rest_userid"));
       $(".seatHref").attr("href","${rc.contextPath}/web/seat/getSeatByUserId?userId=" +$.cookie("rest_userid"));
-      $(".seatManagerHref").attr("href","${rc.contextPath}/web/seat/getSeatByUserId?userId=" +$.cookie("rest_userid"));
+      $(".seatManagerHref").attr("href","${rc.contextPath}/web/seat/getSeatInfosByUserId?userId=" +$.cookie("rest_userid"));
       $.ajax({
           type:"POST",
           url:"${rc.contextPath}/web/getUserId",

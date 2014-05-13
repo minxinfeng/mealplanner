@@ -12,7 +12,6 @@
 	<script type="text/javascript">
     $(document).ready(function () {    
       $('#userId').val($.cookie("rest_userid"));
-      $('.dropdown-toggle').dropdown();
       //get 7 tabs for next 7 dates 
       var curDate = new Date();
       curDate.setDate(curDate.getDate() + 30);

@@ -123,7 +123,8 @@ public class WebMenuController {
 		}
 	}
 	
-	@RequestMapping("/updateMenuPart")
+	@RequestMapping(value = "/updateMenuPart", method = RequestMethod.GET)
+	@ResponseBody
 	public String updateMenuPart(@RequestParam int menuId, @RequestParam int userId, @RequestParam String foodName, 
 			@RequestParam Double foodPrice, @RequestParam Integer foodType, @RequestParam Boolean recommand){
 		String message = "Update menu of restId=" + userId;

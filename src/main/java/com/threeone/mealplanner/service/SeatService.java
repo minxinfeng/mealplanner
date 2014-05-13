@@ -82,5 +82,5 @@ public interface SeatService {
 	 * @return
 	 * @throws InternalException 
 	 */
-	int deleteSeat(int seatId, int restId) throws InternalException;
+	int deleteSeat(int seatId) throws InternalException;
 }

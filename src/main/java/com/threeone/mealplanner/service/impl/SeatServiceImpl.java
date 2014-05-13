@@ -143,11 +143,11 @@ public class SeatServiceImpl implements SeatService {
 	}
 
 	
-	public int deleteSeat(int seatId, int restId) throws InternalException {
+	public int deleteSeat(int seatId) throws InternalException {
 		try {
 			return seatInfoMapper.deleteByPrimaryKey(seatId);
 		} catch (Exception e) {
-			String message = "Error to delete Seat of seatId = " + seatId + "with restId" + restId + ". Reason:" + e.getMessage();
+			String message = "Error to delete Seat of seatId = " + seatId + ". Reason:" + e.getMessage();
 			LOG.error(message);
 			throw new InternalException(message);
 		}
