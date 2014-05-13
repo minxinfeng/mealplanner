@@ -30,9 +30,6 @@
       #{channelid,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.threeone.mealplanner.model.entity.UserBind" >
-    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into userbind
     <trim prefix="(" suffix=")" suffixOverrides="," >
       id,
@@ -80,5 +77,19 @@
       baiduUserId = #{baiduuserid,jdbcType=VARCHAR},
       channelId = #{channelid,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getUserBind" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from userbind
+    where userId = #{userId,jdbcType=INTEGER}
+  </select>
+  
+  <update id="updateUserBind" parameterType="com.threeone.mealplanner.model.entity.UserBind" >
+    update userbind
+    set baiduUserId = #{baiduuserid,jdbcType=VARCHAR},
+      channelId = #{channelid,jdbcType=BIGINT}
+    where userId = #{userid,jdbcType=INTEGER}
   </update>
 </mapper>

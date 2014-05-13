@@ -61,6 +61,8 @@
 		<property name="restTypeMapper" ref="restTypeMapper" />
 	</bean>
 	
-	<bean id="pushService" class="com.threeone.mealplanner.push.PushServiceImpl">
+	<bean id="pushService" class="com.threeone.mealplanner.push.PushService">
+		<property name="userBindMapper" ref="userBindMapper" />
 	</bean>
+	
 </beans>

@@ -89,10 +89,10 @@ public class AppUserInfoController {
 			userBind.setBaiduuserid(baiduUserId);
 			userBind.setChannelid(channelId);
 			userService.addUserChannel(userBind);
-			message = " success!";
+			message = message + " success!";
 		} catch (Exception e) {
 			flag = false;
-			message = " failed! Reason:" + e.getMessage();
+			message = message + " failed! Reason:" + e.getMessage();
 		}
 		
 		return new JsonResult<UserInfo>(flag, message, null);

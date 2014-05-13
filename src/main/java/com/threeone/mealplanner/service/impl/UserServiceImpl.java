@@ -75,8 +75,14 @@ public class UserServiceImpl implements UserService {
 	public void addUserChannel(UserBind userBind) throws InternalException {
 		String message = "Register userId=" + userBind.getUserid() + " into baidu userId=" + userBind.getBaiduuserid() + " and channel=" + userBind.getChannelid();
 		try {
-			userBindMapper.insertSelective(userBind);
-			LOG.info(message + " success!");
+			UserBind userBindSelect = userBindMapper.getUserBind(userBind.getUserid());
+			if(userBindSelect == null){
+				userBindMapper.insertSelective(userBind);
+				LOG.info(message + " success!");
+			}else {
+				userBindMapper.updateUserBind(userBind);
+				LOG.info("Update the bind info of userId=" + userBind.getUserid());
+			}
 		} catch (Exception e) {
 			LOG.error(message + " failed!");
 			throw new InternalException(message + " failed!");

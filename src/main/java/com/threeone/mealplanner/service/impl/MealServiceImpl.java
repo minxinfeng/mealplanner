@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.mapper.MealFriendMapper;
@@ -14,6 +15,7 @@ import com.threeone.mealplanner.model.MealFriendStatus;
 import com.threeone.mealplanner.model.MealWithDetail;
 import com.threeone.mealplanner.model.entity.MealFriend;
 import com.threeone.mealplanner.model.entity.MealInfo;
+import com.threeone.mealplanner.push.PushService;
 import com.threeone.mealplanner.service.MealService;
 
 public class MealServiceImpl implements MealService {
@@ -24,10 +26,13 @@ public class MealServiceImpl implements MealService {
 	private MealFriendMapper mealFriendMapper;
 	private RestaurantInfoMapper restaurantInfoMapper;
 	
+	@Autowired
+	private PushService pushService;
+	
 	
 	public int createMeal(MealInfo mealInfo, String friendIds) throws InternalException {
 		try {
-			
+			//PushService pushService = new PushService();
 			// 1.´´½¨mealinfo
 			 mealInfoMapper.insertSelective(mealInfo);
 			 mealInfo.setMealid(mealInfoMapper.getNewestMealId(mealInfo.getMealorganizeuserid()));
@@ -43,6 +48,16 @@ public class MealServiceImpl implements MealService {
 				mealFriendMapper.insertSelective(mealFriend);
 				LOG.info("Create mealInfo's friend = " + id + " where mealId=" + mealInfo.getMealid());
 			}
+			for (String string : ids) {
+				int id = Integer.parseInt(string);
+				pushService.setUserId(id);
+				pushService.setTitle("test");
+				pushService.setDescription("test");
+				Thread thread = new Thread(pushService);
+				thread.run();
+				LOG.info("Send meal invitation to friend=" + id + " success!");
+			}
+			
 			return 0;
 		} catch (Exception e) {
 			LOG.error("Fail to create meal info, reason:" + e.getMessage());
