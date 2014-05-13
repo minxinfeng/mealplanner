@@ -2,8 +2,6 @@ package com.threeone.mealplanner.controller.web;
 
 import java.util.List;
 
-import org.apache.commons.collections.functors.IfClosure;
-import org.apache.log4j.lf5.viewer.LogFactor5Dialog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,11 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.mysql.jdbc.log.Log;
 import com.threeone.mealplanner.common.JsonResult;
 import com.threeone.mealplanner.model.entity.FoodType;
 import com.threeone.mealplanner.model.entity.MenuInfo;
-import com.threeone.mealplanner.model.entity.RestCity;
 import com.threeone.mealplanner.model.entity.RestType;
 import com.threeone.mealplanner.service.MenuService;
 import com.threeone.mealplanner.service.RestaurantService;
@@ -80,7 +76,6 @@ public class WebMenuController {
 	public String addMenu(@RequestParam int userId, @RequestParam String foodName, 
 			@RequestParam Double foodPrice, @RequestParam Integer foodType, @RequestParam Boolean recommand){
 		System.out.println("add menu");
-		Boolean flag = true;
 		String message = "Add menu of userId=" + userId;
 		try {
 			int restId = restaurantService.getRestIdByUserId(userId);
@@ -99,7 +94,6 @@ public class WebMenuController {
 			return "menu/menu.ftl";
 		} catch (Exception e) {
 			message = message + " error! Reason:" + e.getMessage();
-			flag = false;
 			return "menu/menu.ftl";
 		}
 	}
@@ -132,7 +126,6 @@ public class WebMenuController {
 	@RequestMapping("/updateMenuPart")
 	public String updateMenuPart(@RequestParam int menuId, @RequestParam int userId, @RequestParam String foodName, 
 			@RequestParam Double foodPrice, @RequestParam Integer foodType, @RequestParam Boolean recommand){
-		Boolean flag = true;
 		String message = "Update menu of restId=" + userId;
 		try {
 			int restId = restaurantService.getRestIdByUserId(userId);
@@ -151,7 +144,6 @@ public class WebMenuController {
 			return "/web/menu/getMenuByUserId?userId=" + userId;
 		} catch (Exception e) {
 			message = message + " error! Reason:" + e.getMessage();
-			flag = false;
 			return "web/menu/error";
 		}
 	}
@@ -159,7 +151,6 @@ public class WebMenuController {
 	@RequestMapping("/deleteMenu")
 	@ResponseBody
 	public String deleteMenu(@RequestParam int menuid){
-		Boolean flag = true;
 		String message = "deleteMenu menu of menuId=" + menuid;
 		try {
 			menuService.deleteMenu(menuid);
@@ -167,7 +158,6 @@ public class WebMenuController {
 			return message;
 		} catch (Exception e) {
 			message = message + " error! Reason:" + e.getMessage();
-			flag = false;
 			return message;
 		}
 	}

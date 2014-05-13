@@ -8,7 +8,6 @@ import org.apache.commons.logging.LogFactory;
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.mapper.FoodTypeMapper;
 import com.threeone.mealplanner.mapper.MenuInfoMapper;
-import com.threeone.mealplanner.mapper.RestUserMapper;
 import com.threeone.mealplanner.model.entity.FoodType;
 import com.threeone.mealplanner.model.entity.MenuInfo;
 import com.threeone.mealplanner.service.MenuService;

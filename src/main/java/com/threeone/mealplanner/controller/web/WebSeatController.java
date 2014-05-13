@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +66,6 @@ public class WebSeatController {
 	@RequestMapping(value="/changeSeatStatus", method = RequestMethod.POST)
 	@ResponseBody
 	public String changeSeatStatus(@RequestParam int[] submitHashmap, @RequestParam int seatId, @RequestParam int userId, @RequestParam String dateDay) {
-		Boolean flag = false;
 		String message = "Change seat status of userId = " + userId + " and seatId=" + seatId + " at day =" + dateDay ;			
 		try {
 			int restId = restaurantService.getRestIdByUserId(userId);
@@ -86,7 +84,6 @@ public class WebSeatController {
 			}
 				
 			message += " success!";
-			flag = true;
 			return message;
 		} catch (InternalException e) {
 			message += "failed. Reason :" + e.getMessage();
@@ -99,7 +96,6 @@ public class WebSeatController {
 	@ResponseBody
 	public String changeSeatStatusById(@RequestParam int seatId, @RequestParam int userId, @RequestParam String dateDay,
 			@RequestParam int dateClock,@RequestParam int state) {
-		Boolean flag = false;
 		String message = "Change seat status of userId = " + userId + " and seatId=" + seatId + " at day =" + dateDay 
 				+ " at clock " + dateClock + " for state " + state;			
 		try {
@@ -118,7 +114,6 @@ public class WebSeatController {
 			}			
 				
 			message += " success!";
-			flag = true;
 			return message;
 		} catch (InternalException e) {
 			message += "failed. Reason :" + e.getMessage();
@@ -130,7 +125,7 @@ public class WebSeatController {
 	private List<String> getNextWeek() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
-		List<String> dateStrings = new ArrayList();		
+		List<String> dateStrings = new ArrayList<String>();		
 		for(int i = 0; i < 7; i++){
 			date.setDate(date.getDate()+1);
 			dateStrings.add(dateFormat.format(date).toString());

@@ -1,6 +1,5 @@
 package com.threeone.mealplanner.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -19,7 +18,7 @@ public class SeatServiceImpl implements SeatService {
 	
 	private static int RESERVED = 1;
 	private static int OCCUPIED = 2;
-	private static Integer AVAILABLE = 0;
+	//private static Integer AVAILABLE = 0;
 	
 	private SeatInfoMapper seatInfoMapper;
 	private SeatStatusMapper seatStatusMapper;

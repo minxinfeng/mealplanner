@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.common.JsonResult;
 import com.threeone.mealplanner.common.Message;
-import com.threeone.mealplanner.model.RestaurantWithMenu;
 import com.threeone.mealplanner.model.entity.RestCity;
 import com.threeone.mealplanner.model.entity.RestType;
 import com.threeone.mealplanner.model.entity.RestUser;
