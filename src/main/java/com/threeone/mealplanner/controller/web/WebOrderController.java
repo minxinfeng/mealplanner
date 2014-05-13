@@ -43,10 +43,7 @@ public class WebOrderController {
 		Boolean flag = false;
 		String message = "userId" + userId + " cancle the orderId=" + orderId;
 		try {
-			OrderInfo orderInfo = orderService.getOrderInfoById(orderId);
-			orderInfo.setOperationuserid(userId);
-			orderInfo.setStatus(OrderStatus.cancled.getValue());
-			orderService.updateOrder(orderInfo);
+			orderService.cancleOrder(orderId, userId);
 			message += " success!";
 			flag = true;
 		} catch (Exception e) {
@@ -61,10 +58,7 @@ public class WebOrderController {
 		Boolean flag = false;
 		String message = "userId" + userId + "confirm the orderId=" + orderId;
 		try {
-			OrderInfo orderInfo = orderService.getOrderInfoById(orderId);
-			orderInfo.setOperationuserid(userId);
-			orderInfo.setStatus(OrderStatus.comfirmed.getValue());
-			orderService.updateOrder(orderInfo);
+			orderService.confirmOrder(orderId, userId);
 			message += " success!";
 			flag = true;
 		} catch (Exception e) {

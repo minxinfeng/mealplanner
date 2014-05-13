@@ -18,6 +18,7 @@ import com.threeone.mealplanner.model.OrderStatus;
 import com.threeone.mealplanner.model.entity.MenuInfo;
 import com.threeone.mealplanner.model.entity.OrderInfo;
 import com.threeone.mealplanner.model.entity.SeatInfo;
+import com.threeone.mealplanner.push.PushService;
 import com.threeone.mealplanner.service.MealService;
 import com.threeone.mealplanner.service.OrderService;
 import com.threeone.mealplanner.service.SeatService;
@@ -34,6 +35,8 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private SeatService seatService;
+	@Autowired
+	private PushService pushService;
 	
 	public List<OrderDetail> getOrderByUser(int userId, int status)
 			throws InternalException {
@@ -116,6 +119,42 @@ public class OrderServiceImpl implements OrderService {
 		
 	}
 
+	public void confirmOrder(int orderId, int operationUserId) throws InternalException{
+		try {
+			OrderInfo orderInfo = orderInfoMapper.selectByPrimaryKey(orderId);
+			int userId = orderInfo.getUserid();
+			orderInfoMapper.updateOrderStatus(orderId, operationUserId, OrderStatus.comfirmed.getValue());
+			
+			pushService.setUserId(userId);
+			pushService.setTitle("Order confirmed");
+			pushService.setDescription("Your order " + orderId + " has confirmed by restanurant");
+			Thread thread = new Thread(pushService);
+			thread.run();
+			LOG.info("Confirm order " + orderId);
+		} catch (Exception e) {
+			LOG.info("Confirm order " + orderId + " failed");
+			throw new InternalException(e.getMessage());
+		}
+	}
+	
+	public void cancleOrder(int orderId, int userId) throws InternalException{
+		try {
+			String message = "Cancle order " + orderId + " by user " + userId;
+			OrderInfo orderInfo = orderInfoMapper.selectByPrimaryKey(orderId);
+			if(orderInfo.getStatus() == OrderStatus.comfirmed.getValue()){
+				message += " failed! Your order has confirmed by the restaurant, please call and canlcle this order!";
+				LOG.error(message);
+				throw new InternalException(message);
+			}else{
+				orderInfoMapper.updateOrderStatus(orderId, userId, OrderStatus.cancled.getValue());
+				message += " success!";
+				LOG.info(message);
+			}
+		} catch (Exception e) {
+			LOG.info("Cancle order " + orderId + " failed");
+			throw new InternalException(e.getMessage());
+		}
+	}
 	
 	public int updateOrder(OrderInfo orderInfo) throws InternalException {
 		try {

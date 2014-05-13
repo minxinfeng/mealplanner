@@ -42,4 +42,8 @@ public interface OrderService {
 	
 	OrderInfo getOrderInfoById(int orderId) throws InternalException;
 	
+	void confirmOrder(int orderId, int operationUserId) throws InternalException;
+	
+	void cancleOrder(int orderId, int userId) throws InternalException;
+	
 }

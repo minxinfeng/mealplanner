@@ -194,4 +194,11 @@
     order by orderId desc limit 1
   </select>
   
+   <update id="updateOrderStatus">
+    update orderinfo
+    set status = #{status,jdbcType=INTEGER},
+    operationUserId = #{operationUserId,jdbcType=INTEGER}
+    where orderId = #{orderId,jdbcType=INTEGER}
+  </update>
+  
 </mapper>

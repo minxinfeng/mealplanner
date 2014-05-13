@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.threeone.mealplanner.common.JsonResult;
 import com.threeone.mealplanner.model.OrderDetail;
-import com.threeone.mealplanner.model.OrderStatus;
 import com.threeone.mealplanner.model.entity.OrderInfo;
 import com.threeone.mealplanner.service.OrderService;
 
@@ -76,17 +75,9 @@ public class AppOrderController {
 		Boolean flag = false;
 		String message = "userId=" + userId + " cancle the orderId=" + orderId;
 		try {
-			OrderInfo orderInfo = orderService.getOrderInfoById(orderId);
-			if(orderInfo.getStatus() == OrderStatus.comfirmed.getValue()){
-				message += " failed! Your order has confirmed by the restaurant, please call and canlcle this order!";
-			}else{
-				orderInfo.setOperationuserid(userId);
-				orderInfo.setStatus(OrderStatus.cancled.getValue());
-				orderService.updateOrder(orderInfo);
-				message += " success!";
-				flag = true;
-			}
-			
+			orderService.cancleOrder(orderId, userId);
+			message += " success!";
+			flag = true;
 		} catch (Exception e) {
 			message = message + " failed. Reason:" + e.getMessage();
 		}

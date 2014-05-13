@@ -24,4 +24,6 @@ public interface OrderInfoMapper {
     List<OrderInfo> getOrderByRest(@Param("restId") int restId, @Param("dateFrom") String dateFrom, @Param("dateTo") String dateTo);
     //获取用户最新提交的订单ID
     int getNewestOrderIdByUser(@Param("userId") int userId);
+    
+    int updateOrderStatus(@Param("orderId") int orderId, @Param("operationUserId") int operationUserId, @Param("status") int status);
 }
