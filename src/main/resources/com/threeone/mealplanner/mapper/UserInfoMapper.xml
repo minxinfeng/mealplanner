@@ -138,4 +138,11 @@
     </if>
   </select>
   
+  <select id="getUserInfoById" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from userinfo
+    where userId = #{userId,jdbcType=INTEGER}
+  </select>
+  
 </mapper>

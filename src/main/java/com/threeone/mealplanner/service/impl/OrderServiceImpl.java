@@ -35,8 +35,6 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private SeatService seatService;
 	
-
-	
 	public List<OrderDetail> getOrderByUser(int userId, int status)
 			throws InternalException {
 		try {

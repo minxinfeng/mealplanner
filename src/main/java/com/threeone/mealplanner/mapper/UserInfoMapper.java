@@ -18,6 +18,8 @@ public interface UserInfoMapper {
     
     //获取用户登录相关信息
     UserInfo getUserInfoByLogin(@Param("loginName") String loginName);
+    
+    UserInfo getUserInfoById(@Param("userId") int userId);
 
     int updateByPrimaryKeySelective(UserInfo record);
 

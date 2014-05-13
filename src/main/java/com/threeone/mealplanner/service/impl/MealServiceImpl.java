@@ -11,10 +11,12 @@ import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.mapper.MealFriendMapper;
 import com.threeone.mealplanner.mapper.MealInfoMapper;
 import com.threeone.mealplanner.mapper.RestaurantInfoMapper;
+import com.threeone.mealplanner.mapper.UserInfoMapper;
 import com.threeone.mealplanner.model.MealFriendStatus;
 import com.threeone.mealplanner.model.MealWithDetail;
 import com.threeone.mealplanner.model.entity.MealFriend;
 import com.threeone.mealplanner.model.entity.MealInfo;
+import com.threeone.mealplanner.model.entity.UserInfo;
 import com.threeone.mealplanner.push.PushService;
 import com.threeone.mealplanner.service.MealService;
 
@@ -25,6 +27,7 @@ public class MealServiceImpl implements MealService {
 	private MealInfoMapper mealInfoMapper;
 	private MealFriendMapper mealFriendMapper;
 	private RestaurantInfoMapper restaurantInfoMapper;
+	private UserInfoMapper userInfoMapper;
 	
 	@Autowired
 	private PushService pushService;
@@ -32,11 +35,12 @@ public class MealServiceImpl implements MealService {
 	
 	public int createMeal(MealInfo mealInfo, String friendIds) throws InternalException {
 		try {
-			//PushService pushService = new PushService();
 			// 1.创建mealinfo
 			 mealInfoMapper.insertSelective(mealInfo);
 			 mealInfo.setMealid(mealInfoMapper.getNewestMealId(mealInfo.getMealorganizeuserid()));
 			 LOG.info("Create mealInfo menuId= " + mealInfo.getMealid());
+			 UserInfo userInfo = userInfoMapper.getUserInfoById(mealInfo.getMealorganizeuserid());
+			 String userName = userInfo.getUsername();
 			// 2.向表mealfriend中添加相应的对应关系,friendIds用英文逗号分隔
 			String[] ids = friendIds.split(",");
 			for (String string : ids) {
@@ -51,8 +55,8 @@ public class MealServiceImpl implements MealService {
 			for (String string : ids) {
 				int id = Integer.parseInt(string);
 				pushService.setUserId(id);
-				pushService.setTitle("test");
-				pushService.setDescription("test");
+				pushService.setTitle("Meal Invitation");
+				pushService.setDescription(userName + " invite you have a meal!");
 				Thread thread = new Thread(pushService);
 				thread.run();
 				LOG.info("Send meal invitation to friend=" + id + " success!");
@@ -115,7 +119,22 @@ public class MealServiceImpl implements MealService {
 	
 	public int handleAMeal(int mealId, int userId, int status) throws InternalException {
 		try {
-			return mealFriendMapper.handleAMeal(mealId, userId, status);
+			int code = mealFriendMapper.handleAMeal(mealId, userId, status);
+			MealInfo mealInfo = mealInfoMapper.selectByPrimaryKey(mealId);
+			int organizedId = mealInfo.getMealorganizeuserid();
+			UserInfo userInfo = userInfoMapper.getUserInfoById(userId);
+			String userName = userInfo.getUsername();
+			pushService.setUserId(organizedId);
+			pushService.setTitle("Invitation feedback");
+			if(status == MealFriendStatus.accept.getValue()){
+				pushService.setDescription(userName + " accept your meal invitation!");
+			}else{
+				pushService.setDescription(userName + " reject your meal invitation!");
+			}
+			Thread thread = new Thread(pushService);
+			thread.run();
+			LOG.info("Handle meal success!");
+			return code;
 		} catch (Exception e) {
 			throw new InternalException(e.getMessage());
 		}
@@ -147,6 +166,11 @@ public class MealServiceImpl implements MealService {
 
 	public void setRestaurantInfoMapper(RestaurantInfoMapper restaurantInfoMapper) {
 		this.restaurantInfoMapper = restaurantInfoMapper;
+	}
+
+
+	public void setUserInfoMapper(UserInfoMapper userInfoMapper) {
+		this.userInfoMapper = userInfoMapper;
 	}
 
 }
