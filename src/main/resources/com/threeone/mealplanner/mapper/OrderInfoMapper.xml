@@ -178,10 +178,10 @@
     <include refid="Base_Column_List" />
     from orderinfo
     where restId = #{restId,jdbcType=INTEGER}
-    <if test="dateFrom != null" >
+    <if test="dateFrom != null and dateFrom != 'null' " >
         and mealTime &gt; #{dateFrom,jdbcType=VARCHAR},
      </if>
-    <if test="dateTo != null" >
+    <if test="dateTo != null  and dateFrom != 'null'" >
         mealTime &lt; #{dateTo,jdbcType=VARCHAR}
      </if>
   </select>
