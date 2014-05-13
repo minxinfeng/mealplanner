@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -75,9 +76,10 @@ public class WebMenuController {
 		}
 	}
 	
-	@RequestMapping("/addMenu")
+	@RequestMapping(value="/addMenu", method = RequestMethod.POST)
 	public String addMenu(@RequestParam int userId, @RequestParam String foodName, 
 			@RequestParam Double foodPrice, @RequestParam Integer foodType, @RequestParam Boolean recommand){
+		System.out.println("add menu");
 		Boolean flag = true;
 		String message = "Add menu of userId=" + userId;
 		try {

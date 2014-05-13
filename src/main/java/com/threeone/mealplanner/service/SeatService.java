@@ -39,7 +39,7 @@ public interface SeatService {
 	 * @return
 	 * @throws InternalException 
 	 */
-	void occupySeat(int seatId, int restId, String dateDay, int dateClock, int peopleNum) throws InternalException;
+	void occupySeat(int seatId, int restId, String dateDay, int dateClock) throws InternalException;
 	
 	/**
 	 * 释放指定时间段指定座位
@@ -54,7 +54,7 @@ public interface SeatService {
 	 * @return
 	 * @throws InternalException 
 	 */
-	HashMap<Integer, Integer> getStateOfSeatWholeDay(int seatId, int restId, String dateDay) throws InternalException;
+	int[] getStateOfSeatWholeDay(int seatId, int restId, String dateDay) throws InternalException;
 	
 	/**
 	 * 获取某餐厅的所有座位信息
