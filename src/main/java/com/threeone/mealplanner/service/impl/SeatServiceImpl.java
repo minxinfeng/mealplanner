@@ -68,10 +68,10 @@ public class SeatServiceImpl implements SeatService {
 	public int[] getStateOfSeatWholeDay(int seatId,
 			int restId, String dateDay) throws InternalException {
 		int[] clockState = new int[13];
-		List<SeatStatus> notAvailableSeats = seatStatusMapper.getNotAvailableOfSeatWholeDay(seatId, restId, dateDay);
+		List<SeatStatus> notAvailableSeats = seatStatusMapper.getNotAvailableOfSeatWholeDay(seatId, restId, dateDay);		
 		for(SeatStatus seatStatus : notAvailableSeats){
-			clockState[seatStatus.getDateclock()-10] = seatStatus.getState();			
-		}
+			clockState[seatStatus.getDateclock()-10] = seatStatus.getState();	
+		}		
 		return clockState;
 	}
 

@@ -9,7 +9,7 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a class="menuHref" href="#">Home</a></li>
-            <li class="active"><a class="menuHref" href="#">Menu</a></li>
+            <li><a class="menuHref" href="#">Menu</a></li>
             <li><a class="dropdown-toggle seatHref" href="#"  style="margin-bottom:-5px" data-toggle="dropdown">Seat</a>
             	 <ul class="dropdown-menu">
 	              <li><a class="seatHref" href="seat.html">Seat</a></li>

@@ -119,13 +119,13 @@
     from seatstatus
     where seatId = #{seatId,jdbcType=INTEGER} and
     restId = #{restId,jdbcType=INTEGER} and 
-    dateDay = #{dateDay,jdbcType=VARCHAR}
+    dateDay = #{dateDay,jdbcType=VARCHAR} 
   </select>
   <delete id="deleteBySeatIdClock" parameterType="java.lang.Integer" >
     delete from seatstatus
     where seatId = #{seatId,jdbcType=INTEGER} and
-    dateDay = #{dateClock,jdbcType=VARCHAR} and
-    dateClock = #{dateClock,jdbcType=INTEGER} and
-    restId = #{restId,jdbcType=INTEGER}
+    restId = #{restId,jdbcType=INTEGER} and
+    dateDay = #{dateDay,jdbcType=VARCHAR} and
+    dateClock = #{dateClock,jdbcType=INTEGER}    
   </delete>
 </mapper>

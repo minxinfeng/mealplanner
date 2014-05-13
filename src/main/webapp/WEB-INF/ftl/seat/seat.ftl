@@ -61,10 +61,6 @@
       	var userId = $.cookie("rest_userid");
       	var dateDay = strArrayId[1];			
 
-      	$('#seatId').val(seatId);
-		$('#userId').val(userId);
-		$('#dateDay').val(dateDay);		
-
       	$.ajax({
       		type:"GET",
       		url:"${rc.contextPath}/web/seat/getSeatStatusBySeatId",
@@ -139,45 +135,7 @@
     </script>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-	    <div class="container">
-	        <div class="navbar-header">
-		        <button type="button" class="navbar-toggle" data-toggle="collapse">
-		            <span class="sr-only">Toggle navigation</span>
-		        </button>
-		        <a class="navbar-brand" href="#">Plan your meal</a>
-	        </div>
-	        <div class="navbar-collapse collapse">
-		        <ul class="nav navbar-nav">
-		        	<li><a href="home.html">Home</a></li>
-		            <li><a href="menu.html">Menu</a></li>
-		            <li class="active"><a href="seat.html" class="dropdown-toggle" style="margin-bottom:-5px" data-toggle="dropdown">Seat</a>
-		            	<ul class="dropdown-menu">
-				            <li><a href="seat.html">Seat</a></li>
-				            <li><a href="seatManager.html">Seat Manager</a></li>
-			            </ul>
-		            </li>
-		            <li><a href="order.html">Order</a></li>
-		            <li><a href="squence.html">Sequence</a></li>
-		        </ul>  
-		        <ul id="navBar-right" class="nav navbar-nav navbar-right">
-		            <li class="dropdown">
-		            <a href="#" class="dropdown-toggle" style="margin-bottom:-5px" data-toggle="dropdown">
-		              <img src="http://www.gravatar.com/avatar/626ea913a31dadcfa8e27ec663fca996?s=25" />&nbsp&nbspUsername
-		            </a>
-		            <ul class="dropdown-menu">
-			            <li><a href="/discuss/user/username">My Discuss</a></li>
-			            <li><a href="/profile/">Profile</a></li>
-			            <!-- TODO:  Dashboard  -->
-			            <li><a href="/accounts/password/change/">Change Password</a></li>
-			            <li class="divider"></li>
-			            <li><a href="/accounts/logout/">Sign out</a></li>
-		            </ul>
-		            </li>
-		        </ul>     
-	        </div><!--/.nav-collapse -->
-	    </div>
-    </div>
+    <#include "/base/header.ftl">
      <div class="container theme-showcase">     
         <div class="page-header">
           <h1>Seats</h1>
@@ -214,10 +172,12 @@
 							<hr>
 							    <div class="col-md-3">
 							      	<div class="container">
-							      		<button id="No${seatInfo.getSeatid()}_${dateOffset}}" 
+							      		<button id="No${seatInfo.getSeatid()}_${dateOffset}" 
 							      		type="button" class="btn btn-default btn-lg seat-grid" 
-							      		data-toggle="modal" data-target="#seatInfoModal_${seatInfo.getSeatid()} ${dateOffset}" 
-							      		data-placement="left" title="contain ${seatInfo.getPeoplenum()} people"}>No ${seatInfo.getSeatid()}</button>
+							      		data-toggle="modal" 
+							      		data-target="#seatInfoModal_${seatInfo.getSeatid()}_${dateOffset}" 
+							      		data-placement="left" 
+							      		title="contain ${seatInfo.getPeoplenum()} people"}>No ${seatInfo.getSeatid()}</button>
 							      		<#include "/base/seatModal.ftl">
 									</div>
 							    </div>
