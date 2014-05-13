@@ -47,6 +47,7 @@
 	<bean id="orderService" class="com.threeone.mealplanner.service.impl.OrderServiceImpl">
 		<property name="orderInfoMapper" ref="orderInfoMapper" />
 		<property name="menuInfoMapper" ref="menuInfoMapper" />
+		<property name="restaurantInfoMapper" ref="restaurantInfoMapper" />
 	</bean>
 	
 	<bean id="seatService" class="com.threeone.mealplanner.service.impl.SeatServiceImpl">

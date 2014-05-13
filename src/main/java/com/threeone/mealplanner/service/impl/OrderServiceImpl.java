@@ -13,10 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.mapper.MenuInfoMapper;
 import com.threeone.mealplanner.mapper.OrderInfoMapper;
+import com.threeone.mealplanner.mapper.RestaurantInfoMapper;
 import com.threeone.mealplanner.model.OrderDetail;
 import com.threeone.mealplanner.model.OrderStatus;
 import com.threeone.mealplanner.model.entity.MenuInfo;
 import com.threeone.mealplanner.model.entity.OrderInfo;
+import com.threeone.mealplanner.model.entity.RestaurantInfo;
 import com.threeone.mealplanner.model.entity.SeatInfo;
 import com.threeone.mealplanner.push.PushService;
 import com.threeone.mealplanner.service.MealService;
@@ -29,6 +31,7 @@ public class OrderServiceImpl implements OrderService {
 	
 	private OrderInfoMapper orderInfoMapper;
 	private MenuInfoMapper menuInfoMapper;
+	private RestaurantInfoMapper restaurantInfoMapper;
 	
 	@Autowired
 	private MealService mealService;
@@ -196,6 +199,9 @@ public class OrderServiceImpl implements OrderService {
 				
 			}
 		}
+		//3.获取restaurant信息
+		RestaurantInfo restaurantInfo = restaurantInfoMapper.selectByPrimaryKey(orderInfo.getRestid());
+		orderDetail.setRestaurantInfo(restaurantInfo);
 		return orderDetail;
 	}
 	
@@ -214,6 +220,11 @@ public class OrderServiceImpl implements OrderService {
 
 	public void setMenuInfoMapper(MenuInfoMapper menuInfoMapper) {
 		this.menuInfoMapper = menuInfoMapper;
+	}
+
+
+	public void setRestaurantInfoMapper(RestaurantInfoMapper restaurantInfoMapper) {
+		this.restaurantInfoMapper = restaurantInfoMapper;
 	}
 
 
