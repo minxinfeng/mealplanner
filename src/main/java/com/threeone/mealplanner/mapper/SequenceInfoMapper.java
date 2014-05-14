@@ -1,5 +1,7 @@
 package com.threeone.mealplanner.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.threeone.mealplanner.model.entity.SequenceInfo;
@@ -26,4 +28,7 @@ public interface SequenceInfoMapper {
     void updateSeqStatus(@Param("seqId") int seqId, @Param("status") int status);	
     //刚刚插入的记录的seqId
     int getLatestSeqId(@Param("restId") int restId, @Param("seatType") int seatType);
+    
+    //获取排队队列中需要提醒的用户排队信息
+    List<SequenceInfo> getPushSeqInfos(@Param("restId") int restId, @Param("seqId") int seqId, @Param("seatType") int seatType);
 }

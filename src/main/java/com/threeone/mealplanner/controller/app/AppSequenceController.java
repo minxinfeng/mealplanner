@@ -56,4 +56,22 @@ public class AppSequenceController {
 		
 		return new JsonResult<String>(flag, message, null);
 	}
+	
+	@RequestMapping("/getSeqInfo")
+	@ResponseBody
+	public JsonResult<SequenceInfo> getSeqInfo( @RequestParam int seqId){
+		String message = "Get seqId = " + seqId + " detail info ";
+		Boolean flag = false;
+		SequenceInfo sequenceInfo = new SequenceInfo();
+		try {
+			sequenceInfo = sequenceService.getSequenceInfo(seqId);
+			flag = true;
+			message = message + "success!";
+		} catch (Exception e) {
+			message = message + "failed. Reason:" +e.getMessage();
+			
+		}
+		
+		return new JsonResult<SequenceInfo>(flag, message, sequenceInfo);
+	}
 }

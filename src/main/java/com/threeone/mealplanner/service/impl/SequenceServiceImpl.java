@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.mapper.SequenceInfoMapper;
@@ -13,12 +14,16 @@ import com.threeone.mealplanner.model.SequenceDetailForRest;
 import com.threeone.mealplanner.model.SequenceDetailForUser;
 import com.threeone.mealplanner.model.SequenceStatus;
 import com.threeone.mealplanner.model.entity.SequenceInfo;
+import com.threeone.mealplanner.push.PushService;
 import com.threeone.mealplanner.service.SequenceService;
 
 public class SequenceServiceImpl implements SequenceService {
 
 	private static final Log LOG = LogFactory.getLog(SequenceServiceImpl.class); 
 	private SequenceInfoMapper sequenceInfoMapper;
+	
+	@Autowired
+	private PushService pushService;
 	
 	public void setSequenceInfoMapper(SequenceInfoMapper sequenceInfoMapper) {
 		this.sequenceInfoMapper = sequenceInfoMapper;
@@ -55,6 +60,68 @@ public class SequenceServiceImpl implements SequenceService {
 			return sequenceDetailForUser;
 		} catch (Exception e) {
 			String message = "insert seq failed.Reason:" + e.getMessage();
+			LOG.error(message);
+			throw new InternalException(message);
+		}
+	}
+	
+
+	
+	public List<SequenceDetailForRest> getAllSeqInfosByRest(int restId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	public void cancleSeq(int seqId) throws InternalException {
+		try {
+			sequenceInfoMapper.updateSeqStatus(seqId, SequenceStatus.cancle.getValue());
+			LOG.info("Cancle seqId=" + seqId + " success!");
+			SequenceInfo sequenceInfo = sequenceInfoMapper.selectByPrimaryKey(seqId);
+			int userId = sequenceInfo.getUserid();
+			String restName = sequenceInfo.getRestname();
+			pushService.setUserId(userId);
+			pushService.setTitle("Sequence cancled");
+			pushService.setDescription("Your sequence in " + restName + " has cancled success");
+			Thread thread = new Thread(pushService);
+			thread.run();
+		} catch (Exception e) {
+			String message = "Cancle seqId=" + seqId + " failed!Reason:" + e.getMessage();
+			LOG.error(message);
+			throw new InternalException(message);
+		}
+	}
+
+	
+	public void changeToEating(int seqId) throws InternalException {
+		try {
+			sequenceInfoMapper.updateSeqStatus(seqId, SequenceStatus.eating.getValue());
+			LOG.info("Change to eating seqId=" + seqId + " success!");
+			
+			SequenceInfo sequenceInfo = sequenceInfoMapper.selectByPrimaryKey(seqId);
+			int userId = this.getPushUserId(sequenceInfo);
+			if(userId != 0){
+				System.err.println("userId=" + userId);
+				pushService.setUserId(userId);
+				pushService.setTitle("Eating time coming");
+				pushService.setDescription("There only two tables before you, please return to the restaurant on time!");
+				Thread thread = new Thread(pushService);
+				thread.run();
+			}
+		} catch (Exception e) {
+			String message = "Change to eating seqId=" + seqId + " failed!Reason:" + e.getMessage();
+			LOG.error(message);
+			throw new InternalException(message);
+		}
+	}
+	
+	public SequenceInfo getSequenceInfo(int seqId) throws InternalException{
+		try {
+			SequenceInfo sequenceInfo = sequenceInfoMapper.selectByPrimaryKey(seqId);
+			LOG.info("Get seqId=" + seqId + " detail info success!");
+			return sequenceInfo;
+		} catch (Exception e) {
+			String message = "Get seqId=" + seqId + " detail info failed!Reason:" + e.getMessage();
 			LOG.error(message);
 			throw new InternalException(message);
 		}
@@ -109,34 +176,17 @@ public class SequenceServiceImpl implements SequenceService {
 		return seatType;
 	}
 	
-	
-	public List<SequenceDetailForRest> getAllSeqInfosByRest(int restId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	public void cancleSeq(int seqId) throws InternalException {
-		try {
-			sequenceInfoMapper.updateSeqStatus(seqId, SequenceStatus.cancle.getValue());
-			LOG.info("Cancle seqId=" + seqId + " success!");
-		} catch (Exception e) {
-			String message = "Cancle seqId=" + seqId + " failed!Reason:" + e.getMessage();
-			LOG.error(message);
-			throw new InternalException(message);
+	//获取排队队列中待提醒的用户信息（当前服务的人相应队列后面的第二组）
+	private int getPushUserId(SequenceInfo sequenceInfo){
+		int userId = 0;
+		int seqId = sequenceInfo.getSeqid();
+		int restId = sequenceInfo.getRestid();
+		int seatType = sequenceInfo.getSeattype();
+		List<SequenceInfo> sequenceInfos = sequenceInfoMapper.getPushSeqInfos(restId, seqId, seatType);
+		if(sequenceInfos != null){
+			userId = sequenceInfos.get(sequenceInfos.size()-1).getUserid();
 		}
-	}
-
-	
-	public void changeToEating(int seqId) throws InternalException {
-		try {
-			sequenceInfoMapper.updateSeqStatus(seqId, SequenceStatus.eating.getValue());
-			LOG.info("Change to eating seqId=" + seqId + " success!");
-		} catch (Exception e) {
-			String message = "Change to eating seqId=" + seqId + " failed!Reason:" + e.getMessage();
-			LOG.error(message);
-			throw new InternalException(message);
-		}
+		return userId;
 	}
 
 }
