@@ -191,17 +191,17 @@ public class OrderServiceImpl implements OrderService {
 			}
 		}
 		orderDetail.setMenuInfos(menuInfos);
-		// 2. 根据mealId获取meal详细信息
-		if (orderInfo.getMealid() != -1) {
-			try {
-				orderDetail.setMealWithDetail(mealService.getMealDetail(orderInfo.getMealid()));
-			} catch (InternalException e) {
-				
-			}
-		}
+//		// 2. 根据mealId获取meal详细信息
+//		if (orderInfo.getMealid() != -1) {
+//			try {
+//				orderDetail.setMealWithDetail(mealService.getMealDetail(orderInfo.getMealid()));
+//			} catch (InternalException e) {
+//				
+//			}
+//		}
 		//3.获取restaurant信息
 		RestaurantInfo restaurantInfo = restaurantInfoMapper.selectByPrimaryKey(orderInfo.getRestid());
-		orderDetail.setRestaurantInfo(restaurantInfo);
+		orderDetail.setRestName(restaurantInfo.getRestname());
 		return orderDetail;
 	}
 	
