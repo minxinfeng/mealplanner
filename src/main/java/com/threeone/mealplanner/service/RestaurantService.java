@@ -26,7 +26,7 @@ public interface RestaurantService {
 	 */
 	List<RestaurantWithMenu> getAllRestaurantWithMenus() throws InternalException;
 	
-	List<RestaurantWithMenu> getSeveralRestaurantWithMenus(int start, int end) throws InternalException;
+	List<RestaurantWithMenu> getSeveralRestaurantWithMenus(int start, int limit) throws InternalException;
 	
 	/**
 	 * 获取餐厅基本信息

@@ -38,11 +38,11 @@ public class AppRestaurantController {
 	
 	@RequestMapping("/getSeveralRestWithMenu")
 	@ResponseBody
-	public JsonResult<List<RestaurantWithMenu>> getSeveralRestaurantWithMenus(@RequestParam int start, int end){
+	public JsonResult<List<RestaurantWithMenu>> getSeveralRestaurantWithMenus(@RequestParam int start, int limit){
 		Boolean flag = true;
-		String message = "Get restaurants info from " + start + " to " + end;
+		String message = "Get restaurants info from " + start + "  limit to " + limit;
 		try {
-			List<RestaurantWithMenu> restaurantWithMenus = restaurantService.getSeveralRestaurantWithMenus(start,end);
+			List<RestaurantWithMenu> restaurantWithMenus = restaurantService.getSeveralRestaurantWithMenus(start,limit);
 			message += " success!";
 			return new JsonResult<List<RestaurantWithMenu>>(flag, message, restaurantWithMenus);
 		} catch (InternalException e) {

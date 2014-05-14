@@ -154,7 +154,7 @@
     <include refid="Base_Column_List" />
     from restaurantinfo, resttype, restcity
     where restaurantinfo.restType = resttype.restTypeId and restaurantinfo.restCity=restcity.cityId
-    limit #{startFrom,jdbcType=INTEGER},#{endTo,jdbcType=INTEGER}
+    limit #{startFrom,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
   </select>
   
   <select id="getRestInfoByExactName" resultMap="BaseResultMap" >

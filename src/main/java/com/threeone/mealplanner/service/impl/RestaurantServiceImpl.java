@@ -42,9 +42,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}	
 	
 	public List<RestaurantWithMenu> getSeveralRestaurantWithMenus(int start,
-			int end) throws InternalException {
+			int limit) throws InternalException {
 		List<RestaurantWithMenu> restaurantWithMenus = new ArrayList<RestaurantWithMenu>();
-		List<RestaurantInfo> restaurantInfos = restaurantInfoMapper.getSeveralRestaurantInfos(start, end);
+		List<RestaurantInfo> restaurantInfos = restaurantInfoMapper.getSeveralRestaurantInfos(start, limit);
 		for (RestaurantInfo restaurantInfo : restaurantInfos) {
 			RestaurantWithMenu restaurantWithMenu = new RestaurantWithMenu();
 			List<MenuInfo> menuInfos = menuInfoMapper.getMenuByRestId(restaurantInfo.getRestid());
