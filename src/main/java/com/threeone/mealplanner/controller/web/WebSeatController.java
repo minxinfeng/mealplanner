@@ -174,16 +174,13 @@ public class WebSeatController {
 	
 	@RequestMapping(value = "/updateSeat", method = RequestMethod.GET)
 	@ResponseBody
-	public String updateSeat(@RequestParam int seatId, @RequestParam int userId, @RequestParam int seatNo, @RequestParam String description,
+	public String updateSeat(@RequestParam int seatId, @RequestParam int userId, @RequestParam int seatNo, @RequestParam(defaultValue="Nothing to describe") String description,
 			@RequestParam int peopleNum){
 		System.out.println("update seat");
 		String message = "Update seat of userId=" + userId + " seatId = " + seatId;
 		String defaultDes = "no description";
 		try {
 			int restId = restaurantService.getRestIdByUserId(userId);
-			if("".equals(description)){
-				description = defaultDes;
-			}	
 			seatService.updateSeat(seatId, restId, seatNo, peopleNum, description);			
 			message += " success!";
 			return "seat/seatManager.ftl";

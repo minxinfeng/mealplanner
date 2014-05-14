@@ -227,5 +227,4 @@ public class OrderServiceImpl implements OrderService {
 		this.restaurantInfoMapper = restaurantInfoMapper;
 	}
 
-
 }
