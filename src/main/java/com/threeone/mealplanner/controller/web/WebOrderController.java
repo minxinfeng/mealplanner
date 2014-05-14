@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -13,6 +15,7 @@ import com.threeone.mealplanner.model.OrderDetail;
 import com.threeone.mealplanner.model.OrderStatus;
 import com.threeone.mealplanner.model.entity.OrderInfo;
 import com.threeone.mealplanner.service.OrderService;
+import com.threeone.mealplanner.service.RestaurantService;
 
 @Controller
 @RequestMapping("/web/order")
@@ -21,19 +24,24 @@ public class WebOrderController {
 	@Autowired
 	private OrderService orderService;
 	
-	@RequestMapping("/getOrderByRest")
+	@Autowired
+	private RestaurantService restaurantService;
+	
+	@RequestMapping(value = "/getOrderByUserId", method = RequestMethod.GET)
 	@ResponseBody
-	public JsonResult<List<OrderDetail>> getOrderByRest(@RequestParam int restId, @RequestParam(defaultValue="null") String dateFrom, @RequestParam(defaultValue="null") String dateTo){
+	public String getOrderByUsrId(@RequestParam int userId, Model model){
 		Boolean flag = false;
-		String message = "Get orderDetail of restId = " + restId + " from datefrom=" + dateFrom + " to dateTo=" + dateTo;
+		String message = "Get orderDetail of userId = " + userId;
 		try {
-			List<OrderDetail> orderDetails = orderService.getOrderByRest(restId, dateFrom, dateTo);
+			int restId = restaurantService.getRestIdByUserId(userId);
+			List<OrderDetail> orderDetails = orderService.getOrderByRest(restId, null, null);
+			model.addAttribute("orderDetails", orderDetails);
 			message += " success!";
 			flag = true;
-			return new JsonResult<List<OrderDetail>>(flag, message, orderDetails);
+			return "order/order.ftl";
 		} catch (Exception e) {
 			message = message + " failed. Reason:" + e.getMessage();
-			return new JsonResult<List<OrderDetail>>(flag, message, null);
+			return "order/order.ftl";
 		}
 	}
 	

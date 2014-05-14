@@ -19,8 +19,8 @@ public interface OrderService {
 	/**
 	 * 获取某个餐厅的订单信息
 	 * @param restId
-	 * @param dateFrom
-	 * @param dateTo
+	 * @param dateFrom 
+	 * @param dateTo 
 	 * @return
 	 */
 	List<OrderDetail> getOrderByRest(int restId, String dateFrom, String dateTo) throws InternalException;
