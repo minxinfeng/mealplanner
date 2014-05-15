@@ -40,7 +40,7 @@ public class AppRestaurantController {
 	
 	@RequestMapping("/getSeveralRestWithMenu")
 	@ResponseBody
-	public JsonResult<List<RestaurantWithMenu>> getSeveralRestaurantWithMenus(@RequestParam int start, int limit){
+	public JsonResult<List<RestaurantWithMenu>> getSeveralRestaurantWithMenus(@RequestParam int start, @RequestParam int limit){
 		Boolean flag = true;
 		String message = "Get restaurants info from " + start + "  limit to " + limit;
 		try {

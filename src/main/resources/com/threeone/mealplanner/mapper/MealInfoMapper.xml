@@ -4,7 +4,9 @@
   <resultMap id="BaseResultMap" type="com.threeone.mealplanner.model.entity.MealInfo" >
     <id column="mealId" property="mealid" jdbcType="INTEGER" />
     <result column="mealOrganizeUserId" property="mealorganizeuserid" jdbcType="INTEGER" />
+    <result column="userName" property="mealorganizeusername" jdbcType="VARCHAR" />
     <result column="restId" property="restid" jdbcType="INTEGER" />
+    <result column="restName" property="restname" jdbcType="VARCHAR" />
     <result column="mealTime" property="mealtime" jdbcType="TIMESTAMP" />
     <result column="organizationTime" property="organizationtime" jdbcType="TIMESTAMP" />
     <result column="mealStatus" property="mealstatus" jdbcType="INTEGER" />
@@ -26,13 +28,13 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    mealId, mealOrganizeUserId, restId, mealTime, organizationTime, mealStatus
+    mealId, mealOrganizeUserId, userName, mealinfo.restId as restId, restName, mealTime, organizationTime, mealStatus
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from mealinfo
-    where mealId = #{mealid,jdbcType=INTEGER}
+    from mealinfo, userinfo, restaurantinfo
+    where mealId = #{mealid,jdbcType=INTEGER} and mealinfo.mealOrganizeUserId=userinfo.userId and mealinfo.restId=restaurantinfo.restId
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from mealinfo
@@ -136,8 +138,9 @@
    <select id="getMealListByUserId" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
-    from mealinfo
+    from mealinfo, userinfo, restaurantinfo
     where mealorganizeuserid = #{userId,jdbcType=INTEGER}
+    and mealinfo.mealOrganizeUserId=userinfo.userId and mealinfo.restId=restaurantinfo.restId
     <if test="mealstatus != -1" >
     	and mealStatus = #{mealstatus, jdbcType=INTEGER}
     </if>

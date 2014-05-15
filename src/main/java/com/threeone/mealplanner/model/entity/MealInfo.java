@@ -6,8 +6,12 @@ public class MealInfo {
     private Integer mealid;
 
     private Integer mealorganizeuserid;
+    
+    private String mealorganizeusername;
 
     private Integer restid;
+    
+    private String restname;
 
     private Date mealtime;
 
@@ -61,6 +65,22 @@ public class MealInfo {
 
 	public void setMealstatus(Integer mealstatus) {
 		this.mealstatus = mealstatus;
+	}
+
+	public String getMealorganizeusername() {
+		return mealorganizeusername;
+	}
+
+	public void setMealorganizeusername(String mealorganizeusername) {
+		this.mealorganizeusername = mealorganizeusername;
+	}
+
+	public String getRestname() {
+		return restname;
+	}
+
+	public void setRestname(String restname) {
+		this.restname = restname;
 	}
 
 }
