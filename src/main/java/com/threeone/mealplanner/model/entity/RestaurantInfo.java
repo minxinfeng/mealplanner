@@ -19,9 +19,13 @@ public class RestaurantInfo {
     
     private String restTypeName;
 
-    private String restsearchtime;
+    private Integer restsearchtime;
 
     private Integer hot;
+
+    private Double longitude;
+
+    private Double latitude;
 
     public Integer getRestid() {
         return restid;
@@ -79,12 +83,12 @@ public class RestaurantInfo {
         this.resttype = resttype;
     }
 
-    public String getRestsearchtime() {
+    public Integer getRestsearchtime() {
         return restsearchtime;
     }
 
-    public void setRestsearchtime(String restsearchtime) {
-        this.restsearchtime = restsearchtime == null ? null : restsearchtime.trim();
+    public void setRestsearchtime(Integer restsearchtime) {
+        this.restsearchtime = restsearchtime;
     }
 
     public Integer getHot() {
@@ -95,13 +99,21 @@ public class RestaurantInfo {
         this.hot = hot;
     }
 
-	public String getRestTypeName() {
-		return restTypeName;
-	}
+    public Double getLongitude() {
+        return longitude;
+    }
 
-	public void setRestTypeName(String restTypeName) {
-		this.restTypeName = restTypeName;
-	}
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
 
 	public String getRestcityname() {
 		return restcityname;
@@ -109,5 +121,13 @@ public class RestaurantInfo {
 
 	public void setRestcityname(String restcityname) {
 		this.restcityname = restcityname;
+	}
+
+	public String getRestTypeName() {
+		return restTypeName;
+	}
+
+	public void setRestTypeName(String restTypeName) {
+		this.restTypeName = restTypeName;
 	}
 }

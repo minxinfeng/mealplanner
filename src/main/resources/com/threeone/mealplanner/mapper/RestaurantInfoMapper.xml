@@ -6,18 +6,32 @@
     <result column="restName" property="restname" jdbcType="VARCHAR" />
     <result column="restPhone" property="restphone" jdbcType="VARCHAR" />
     <result column="restCity" property="restcity" jdbcType="INTEGER" />
-    <result column="cityName" property="restcityname" jdbcType="VARCHAR" />
+	<result column="cityName" property="restcityname" jdbcType="VARCHAR" />
     <result column="restAddress" property="restaddress" jdbcType="VARCHAR" />
     <result column="restWebsite" property="restwebsite" jdbcType="VARCHAR" />
     <result column="restType" property="resttype" jdbcType="INTEGER" />
     <result column="restTypeName" property="restTypeName" jdbcType="VARCHAR" />
-    <result column="restSearchTime" property="restsearchtime" jdbcType="VARCHAR" />
+    <result column="restSearchTime" property="restsearchtime" jdbcType="INTEGER" />
     <result column="hot" property="hot" jdbcType="INTEGER" />
+    <result column="longitude" property="longitude" jdbcType="DOUBLE" />
+    <result column="latitude" property="latitude" jdbcType="DOUBLE" />
   </resultMap>
   <sql id="Base_Column_List" >
     restId, restName, restPhone, restCity, cityName, restAddress, restWebsite, restType, restTypeName, restSearchTime, 
-    hot
+    hot, longitude, latitude
   </sql>
+  
+  <!-- For restInfoForMap -->
+  <resultMap id="MapRestInfo" type="com.threeone.mealplanner.model.RestInfoForMap" >
+    <id column="restId" property="restId" jdbcType="INTEGER" />
+    <result column="restName" property="restName" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="DOUBLE" />
+    <result column="latitude" property="latitude" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="MapRestInfoList" >
+    restId, restName, longitude, latitude
+  </sql>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -31,12 +45,12 @@
   <insert id="insert" parameterType="com.threeone.mealplanner.model.entity.RestaurantInfo" >
     insert into restaurantinfo (restId, restName, restPhone, 
       restCity, restAddress, restWebsite, 
-      restType, restSearchTime, hot
-      )
+      restType, restSearchTime, hot, 
+      longitude, latitude)
     values (#{restid,jdbcType=INTEGER}, #{restname,jdbcType=VARCHAR}, #{restphone,jdbcType=VARCHAR}, 
       #{restcity,jdbcType=INTEGER}, #{restaddress,jdbcType=VARCHAR}, #{restwebsite,jdbcType=VARCHAR}, 
-      #{resttype,jdbcType=INTEGER}, #{restsearchtime,jdbcType=VARCHAR}, #{hot,jdbcType=INTEGER}
-      )
+      #{resttype,jdbcType=INTEGER}, #{restsearchtime,jdbcType=INTEGER}, #{hot,jdbcType=INTEGER}, 
+      #{longitude,jdbcType=DOUBLE}, #{latitude,jdbcType=DOUBLE})
   </insert>
   <insert id="insertSelective" parameterType="com.threeone.mealplanner.model.entity.RestaurantInfo" >
     insert into restaurantinfo
@@ -68,6 +82,12 @@
       <if test="hot != null" >
         hot,
       </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="restid != null" >
@@ -92,10 +112,16 @@
         #{resttype,jdbcType=INTEGER},
       </if>
       <if test="restsearchtime != null" >
-        #{restsearchtime,jdbcType=VARCHAR},
+        #{restsearchtime,jdbcType=INTEGER},
       </if>
       <if test="hot != null" >
         #{hot,jdbcType=INTEGER},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=DOUBLE},
       </if>
     </trim>
   </insert>
@@ -121,10 +147,16 @@
         restType = #{resttype,jdbcType=INTEGER},
       </if>
       <if test="restsearchtime != null" >
-        restSearchTime = #{restsearchtime,jdbcType=VARCHAR},
+        restSearchTime = #{restsearchtime,jdbcType=INTEGER},
       </if>
       <if test="hot != null" >
         hot = #{hot,jdbcType=INTEGER},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=DOUBLE},
       </if>
     </set>
     where restId = #{restid,jdbcType=INTEGER}
@@ -137,16 +169,18 @@
       restAddress = #{restaddress,jdbcType=VARCHAR},
       restWebsite = #{restwebsite,jdbcType=VARCHAR},
       restType = #{resttype,jdbcType=INTEGER},
-      restSearchTime = #{restsearchtime,jdbcType=VARCHAR},
-      hot = #{hot,jdbcType=INTEGER}
+      restSearchTime = #{restsearchtime,jdbcType=INTEGER},
+      hot = #{hot,jdbcType=INTEGER},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      latitude = #{latitude,jdbcType=DOUBLE}
     where restId = #{restid,jdbcType=INTEGER}
   </update>
   
   <select id="getAllRestaurantInfos" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
-    from restaurantinfo, resttype
-    where restaurantinfo.restType = resttype.restTypeId
+    from restaurantinfo, resttype, restcity
+    where restaurantinfo.restType = resttype.restTypeId and restaurantinfo.restCity=restcity.cityId
   </select>
   
   <select id="getSeveralRestaurantInfos" resultMap="BaseResultMap" >
@@ -171,6 +205,13 @@
     from restaurantinfo, resttype,restcity
     where restaurantinfo.restType = resttype.restTypeId and restaurantinfo.restName like CONCAT('%',#{restName,jdbcType=VARCHAR},'%' )
     and restaurantinfo.restCity=restcity.cityId 
+  </select>
+  
+   <select id="getRestInfoForMaps" resultMap="MapRestInfo">
+    select 
+    <include refid="MapRestInfoList" />
+    from restaurantinfo
+    where restName=#{restName,jdbcType=VARCHAR}
   </select>
   
 </mapper>
