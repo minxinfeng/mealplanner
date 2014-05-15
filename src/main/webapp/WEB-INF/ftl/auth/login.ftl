@@ -12,7 +12,7 @@
     })
     </script>
 </head>
-<body>
+<body style>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -36,16 +36,24 @@
 
 
     <div class="container">
-    <#include "base/alert.ftl">
-      <form class="form-signin" role="form" action="${rc.contextPath}/web/login"  method="post">
-        <h2 class="form-signin-heading">Sign in</h2>
-        <input type="text" id="loginName" name="loginName" class="form-control" placeholder="username/phoneNum/email" required autofocus>
-        <input type="password" name="password" class="form-control" placeholder="Password" required>
-        <label class="checkbox">
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
-        <button class="btn btn-lg btn-primary btn-block getRestName" type="submit" id="signin">Sign in</button>
-      </form>
+    <#include "base/alert.ftl">      
+       <form class="form-signin" role="form" action="${rc.contextPath}/web/login"  method="post">
+            <h2>Sign in</h2>
+            <div class="form-group">
+                <label for="example1-email">Login name</label>
+                <input type="text" id="loginName" name="loginName" class="form-control" placeholder="username/phoneNum/email" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="example1-password">Password</label>
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+                <label class="checkbox">
+		          <input type="checkbox" value="remember-me"> Remember me
+		        </label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block getRestName" type="submit" id="signin">Sign in</button>
+        </form>
     </div> <!-- /container -->    
       <footer>
         <p class="text-center">&copy; ThreeOne 2014</p>

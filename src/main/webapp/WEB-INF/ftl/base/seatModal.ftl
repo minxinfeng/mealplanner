@@ -4,7 +4,7 @@
 			<div class="modal-content">
 				<div class="modal-header">				    
 				    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-				     <h4 class="modal-title" id="seatInfoModalLabel">Choose Time</h4>
+				     <h4 class="modal-title" id="seatInfoModalLabel">Table No ${seatInfo.getSeatno()}</h4>
 				</div>
 				<div class="modal-body">
 				    <div class="bs-docs-grid">					    

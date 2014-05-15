@@ -15,12 +15,23 @@
 	              <li><a class="seatHref" href="seat.html">Seat</a></li>
 	              <li><a class="seatManagerHref" href="seatManager.html">Seat Manager</a></li>
 	            </ul></li>
-            <li><a class="menuHref" href="#">Order</a></li>
-            <li><a class="menuHref" href="#">Sequence</a></li>
+            <li><a class="orderHref" href="#">Order</a></li>
+            <li><a class="sequenceHref" href="#">Sequence</a></li>
           </ul>          
-          <ul class="nav navbar-nav navbar-right">
-          	<li> <span class='hello-name' style='line-height:20px;position:relative;display:block;padding:15px 15px;color:#fff'></span> </li>
-          </ul>
+          <ul id="navBar-right" class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+            <a href="#" class="dropdown-toggle hello-name" style="margin-bottom:-5px" data-toggle="dropdown">
+              <img src="http://www.gravatar.com/avatar/626ea913a31dadcfa8e27ec663fca996?s=25" />&nbsp&nbspUsername
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="/profile/">Profile</a></li>
+              <!-- TODO:  Dashboard  -->
+              <li><a href="/accounts/password/change/">Change Password</a></li>
+              <li class="divider"></li>
+              <li><a href="/accounts/logout/">Sign out</a></li>
+            </ul>
+            </li>
+          </ul>  
         </div><!--/.nav-collapse -->
       </div>
     </div>
@@ -37,6 +48,9 @@
       $(".menuHref").attr("href","${rc.contextPath}/web/menu/getMenuByUserId?userId=" +$.cookie("rest_userid"));
       $(".seatHref").attr("href","${rc.contextPath}/web/seat/getSeatByUserId?userId=" +$.cookie("rest_userid"));
       $(".seatManagerHref").attr("href","${rc.contextPath}/web/seat/getSeatInfosByUserId?userId=" +$.cookie("rest_userid"));
+      $(".orderHref").attr("href","${rc.contextPath}/web/order/getOrderByUserId?userId=" +$.cookie("rest_userid"));
+      $(".sequenceHref").attr("href","${rc.contextPath}/web/sequence/getSequenceByUserId?userId=" +$.cookie("rest_userid"));
+      
       $.ajax({
           type:"POST",
           url:"${rc.contextPath}/web/getUserId",

@@ -99,7 +99,7 @@
                   <tr id="${seatInfo.getSeatid()}" class="seatItem">
                     <td>${count}</td>
                     <td>No ${seatInfo.getSeatno()}</td>
-                    <td>${seatInfo.getPeoplenum()}</td>
+                    <td>${seatInfo.getPeoplenum()} people</td>
                     <td>${seatInfo.getDescription()}</td>
                     <td>
                       <button type="button" class="btn btn-default btn-sm editSeat" data-toggle="modal" data-target="#editSeatModal">

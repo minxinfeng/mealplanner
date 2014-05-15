@@ -28,7 +28,6 @@ public class WebOrderController {
 	private RestaurantService restaurantService;
 	
 	@RequestMapping(value = "/getOrderByUserId", method = RequestMethod.GET)
-	@ResponseBody
 	public String getOrderByUsrId(@RequestParam int userId, Model model){
 		Boolean flag = false;
 		String message = "Get orderDetail of userId = " + userId;

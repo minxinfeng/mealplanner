@@ -3,40 +3,28 @@ package com.threeone.mealplanner.model;
 import java.util.List;
 
 import com.threeone.mealplanner.model.entity.SequenceInfo;
+import com.threeone.mealplanner.model.entity.UserInfo;
 
 /**
  * 某个餐厅的排队信息
  * 
- * @author fengxiangmin
+ * @author wangyongbo
  * 
  */
 public class SequenceDetailForRest {
-	private int restId;
-	private int peopleNum;
-	private List<SequenceInfo> sequenceInfos;
-
-	public int getRestId() {
-		return restId;
+	private SequenceInfo sequenceInfo;
+	public SequenceInfo getSequenceInfo() {
+		return sequenceInfo;
 	}
-
-	public void setRestId(int restId) {
-		this.restId = restId;
+	public void setSequenceInfo(SequenceInfo sequenceInfo) {
+		this.sequenceInfo = sequenceInfo;
 	}
-
-	public int getPeopleNum() {
-		return peopleNum;
+	public UserInfo getUserInfo() {
+		return userInfo;
 	}
-
-	public void setPeopleNum(int peopleNum) {
-		this.peopleNum = peopleNum;
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
 	}
-
-	public List<SequenceInfo> getSequenceInfos() {
-		return sequenceInfos;
-	}
-
-	public void setSequenceInfos(List<SequenceInfo> sequenceInfos) {
-		this.sequenceInfos = sequenceInfos;
-	}
-
+	private UserInfo userInfo;	
+	
 }

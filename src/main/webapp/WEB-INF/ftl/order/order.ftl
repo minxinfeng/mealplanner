@@ -4,70 +4,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, charset=utf-8">
     <!-- Bootstrap -->
     <#include "/base/base.ftl">
+    <script type="text/javascript">
+    $(document).ready(function(){
+	    $(".orderAction").click(function(){
+	    	var userId = $.cookie("rest_userid");
+	    	var orderId = $(this).attr("id").split('_').pop();
+	    	var classes = $(this).attr('class').split(' ');
+	    	var btnStyle = classes[3];
+	    	if(btnStyle == "btn-success"){
+	    		$(this).removeClass(btnStyle);
+	    		$(this).addClass("btn-warning");
+	    		$(this).html("cancled");	    		
+	    		$.ajax({
+	    			type:"GET",
+	    			url:"${rc.contextPath}/web/order/confirmByRest",
+	    			data:{"orderId":orderId,"userId":userId},
+	    			success:function(){	    				
+	    			}
+	    		});
+	    	}else if(btnStyle == "btn-warning"){
+	    		$(this).removeClass(btnStyle);
+			    $(this).addClass("btn-error");
+			    $(this).html("cancled");
+	    		$.ajax({
+	    			type:"GET",
+	    			url:"${rc.contextPath}/web/order/cancleByRest",
+	    			data:{"orderId":orderId,"userId":userId},
+	    			success:function(){	    				
+	    			}
+	    		});
+	    	}
+	    })
+    })
+    </script>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse">
-            <span class="sr-only">Toggle navigation</span>
-          </button>
-          <a class="navbar-brand" href="#">Plan your meal</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="home.html">Home</a></li>
-            <li><a href="menu.html">Menu</a></li>
-            <li><a href="seat.html">Seat</a></li>
-            <li class="active"><a href="order.html">Order</a></li>
-            <li><a href="sequence.html">Sequence</a></li>
-          </ul>  
-          <ul id="navBar-right" class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-            <a href="#" class="dropdown-toggle" style="margin-bottom:-5px" data-toggle="dropdown">
-              <img src="http://www.gravatar.com/avatar/626ea913a31dadcfa8e27ec663fca996?s=25" />&nbsp&nbspUsername
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="/discuss/user/kylewang1005@gmail.com">My Discuss</a></li>
-              <li><a href="/profile/">Profile</a></li>
-              <!-- TODO:  Dashboard  -->
-              <li><a href="/accounts/password/change/">Change Password</a></li>
-              <li class="divider"></li>
-              <li><a href="/accounts/logout/">Sign out</a></li>
-            </ul>
-            </li>
-          </ul>     
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
+    <#include "/base/header.ftl">
      <div class="container theme-showcase">
         <div class="page-header">
           <h1>Orders</h1>
         </div>
+
         <div class="row">
-          <div class="col-sm-12">
-            <a href="#" class="list-group-item active">
-              <h4 class="list-group-item-heading">List group item heading</h4>
-              <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-              <button type="button" class="btn btn-sm btn-success">Accept</button>
-              <!--<button type="button" class="btn btn-sm btn-warning">Cancle</button>-->
-            </a>
-            <a href="#" class="list-group-item">
-              <h4 class="list-group-item-heading">List group item heading</h4>
-              <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-            <div class="dd"> 
-              <!--<button type="button" class="btn btn-sm btn-success">Accept</button>-->
-              <button type="button" class="btn btn-sm btn-warning">Cancle</button>
-            </div>
-            </a>
-            <a href="#" class="list-group-item">
-              <h4 class="list-group-item-heading">List group item heading</h4>
-              <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-              <!--<button type="button" class="btn btn-sm btn-success">Accept</button>-->
-              <button type="button" class="btn btn-sm btn-warning">Cancle</button>
-            </a>
-        </div><!-- /.col-sm-12 -->
-      </div>
+        	<div class="col-sm-12">
+              <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading">                              
+              </div>
+              <div class="panel-body">
+              <table id="orderTable" class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Order No</th>
+                    <th>People num</th>
+                    <th>Menus</th>
+                    <th>phone num</th>
+                    <th>meal time</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <#assign count = 0/>
+                <#list orderDetails as orderDetail>
+                <#assign count = count + 1/>
+                  <tr id="${orderDetail.getOrderInfo().getOrderid()}" class="orderItem">
+                    <td>${count}</td>
+                    <td>No ${orderDetail.getOrderInfo().getOrderid()}</td>
+                    <td>${orderDetail.getOrderInfo().getActualpeoplenum()} people</td>
+                    <td>
+                    	<#assign menuCount = 1/>
+                    	<#list orderDetail.getMenuInfos() as menuInfo>
+                    	${menuCount}.${menuInfo.getMenuname()}
+                    	<#assign menuCount = menuCount + 1/>
+                    	<br>
+                    	</#list>
+                    </td>
+                    <td>Tel: ${orderDetail.getOrderInfo().getContactinfo()}</td>
+                    <td>${orderDetail.getOrderInfo().getMealtime()?string("yyyy-MM-dd HH:mm")}</td>
+                    <td>                        
+                      <#if orderDetail.getOrderInfo().getStatus() == 0>
+                      <button id="orderAction_${orderDetail.getOrderInfo().getOrderid()}" type="button" class="orderAction btn btn-sm btn-success">
+                        Accept
+                      </button>
+                      <#elseif orderDetail.getOrderInfo().getStatus() == 2>
+                      <button id="orderAction_${orderDetail.getOrderInfo().getOrderid()}" type="button" class="orderAction btn btn-sm btn-warning">
+                        cancle
+                      </button>
+                      <#else>
+                      <button id="orderAction_${orderDetail.getOrderInfo().getOrderid()}" type="button" class="orderAction btn btn-sm btn-default">
+                        done
+                      </button>
+                      </#if>
+                    </td>
+                  </tr>
+                  </#list>
+                </tbody>
+              </table>
+              </div>              
+              </div>
+        	</div>
+        </div>
+
          <div class="col-sm-12">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="#">&laquo;</a></li>

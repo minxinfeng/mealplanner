@@ -159,4 +159,12 @@
     set status = #{status,jdbcType=INTEGER}
     where seqId = #{seqId,jdbcType=INTEGER}
   </update>
+  
+  <select id="getSequenceInfos" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sequenceinfo
+    where restId = #{restId,jdbcType=INTEGER} 
+    and status = 0;
+  </select>
 </mapper>
