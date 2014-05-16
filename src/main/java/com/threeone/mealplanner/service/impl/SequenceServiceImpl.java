@@ -80,14 +80,6 @@ public class SequenceServiceImpl implements SequenceService {
 		try {
 			sequenceInfoMapper.updateSeqStatus(seqId, SequenceStatus.cancle.getValue());
 			LOG.info("Cancle seqId=" + seqId + " success!");
-			SequenceInfo sequenceInfo = sequenceInfoMapper.selectByPrimaryKey(seqId);
-			int userId = sequenceInfo.getUserid();
-			String restName = sequenceInfo.getRestname();
-			pushService.setUserId(userId);
-			pushService.setTitle("Sequence cancled");
-			pushService.setDescription("Your sequence in " + restName + " has cancled success");
-			Thread thread = new Thread(pushService);
-			thread.run();
 		} catch (Exception e) {
 			String message = "Cancle seqId=" + seqId + " failed!Reason:" + e.getMessage();
 			LOG.error(message);
