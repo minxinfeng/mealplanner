@@ -8,7 +8,7 @@ public class UserInfoWithFriends {
 	
 	private int userId;
 	private int status;
-	private List<UserInfo> userInfos;
+	private List<UserInfoForShow> userInfos;
 	
 	public int getUserId() {
 		return userId;
@@ -22,10 +22,10 @@ public class UserInfoWithFriends {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	public List<UserInfo> getUserInfos() {
+	public List<UserInfoForShow> getUserInfos() {
 		return userInfos;
 	}
-	public void setUserInfos(List<UserInfo> userInfos) {
+	public void setUserInfos(List<UserInfoForShow> userInfos) {
 		this.userInfos = userInfos;
 	}
 	

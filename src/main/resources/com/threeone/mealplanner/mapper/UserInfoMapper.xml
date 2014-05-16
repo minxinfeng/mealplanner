@@ -13,6 +13,17 @@
   <sql id="Base_Column_List" >
     userId, userName, email, phoneNum, password, registerDate, userType
   </sql>
+  
+  <resultMap id="UserShowResult" type="com.threeone.mealplanner.model.UserInfoForShow" >
+    <id column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="userName" property="username" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="phoneNum" property="phonenum" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="userShowList" >
+    userId, userName, email, phoneNum
+  </sql>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -141,6 +152,13 @@
   <select id="getUserInfoById" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
+    from userinfo
+    where userId = #{userId,jdbcType=INTEGER}
+  </select>
+  
+   <select id="getUserInfoForShow" resultMap="UserShowResult">
+    select 
+    <include refid="userShowList" />
     from userinfo
     where userId = #{userId,jdbcType=INTEGER}
   </select>

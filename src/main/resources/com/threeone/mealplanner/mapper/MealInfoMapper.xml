@@ -12,14 +12,11 @@
     <result column="mealStatus" property="mealstatus" jdbcType="INTEGER" />
   </resultMap>
   
-  <resultMap id="userInfoResultMap" type="com.threeone.mealplanner.model.entity.UserInfo" >
+  <resultMap id="userInfoResultMap" type="com.threeone.mealplanner.model.UserInfoForShow" >
     <id column="userId" property="userid" jdbcType="INTEGER" />
     <result column="userName" property="username" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="phoneNum" property="phonenum" jdbcType="VARCHAR" />
-    <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="registerDate" property="registerdate" jdbcType="TIMESTAMP" />
-    <result column="userType" property="usertype" jdbcType="INTEGER" />
   </resultMap>
   
   <resultMap id="mealFriendWithStatus" type="com.threeone.mealplanner.model.MealFriendWithStatus" >

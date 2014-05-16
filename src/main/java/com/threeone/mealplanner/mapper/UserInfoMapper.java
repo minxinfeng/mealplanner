@@ -2,6 +2,7 @@ package com.threeone.mealplanner.mapper;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.threeone.mealplanner.model.UserInfoForShow;
 import com.threeone.mealplanner.model.entity.UserInfo;
 
 public interface UserInfoMapper {
@@ -24,4 +25,6 @@ public interface UserInfoMapper {
     int updateByPrimaryKeySelective(UserInfo record);
 
     int updateByPrimaryKey(UserInfo record);
+    
+    UserInfoForShow getUserInfoForShow(@Param("userId") int userId);
 }
