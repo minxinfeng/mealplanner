@@ -100,17 +100,29 @@ public class SequenceServiceImpl implements SequenceService {
 		try {
 			sequenceInfoMapper.updateSeqStatus(seqId, SequenceStatus.eating.getValue());
 			LOG.info("Change to eating seqId=" + seqId + " success!");
-			
-			SequenceInfo sequenceInfo = sequenceInfoMapper.selectByPrimaryKey(seqId);
-			int userId = this.getPushUserId(sequenceInfo);
-			if(userId != 0){
-				System.err.println("userId=" + userId);
+			try {
+				SequenceInfo sequenceInfo = sequenceInfoMapper.selectByPrimaryKey(seqId);
+				//向刚刚进入用餐状态的用户发送通知，出队
+				int userId = sequenceInfo.getUserid();
 				pushService.setUserId(userId);
-				pushService.setTitle("Eating time coming");
-				pushService.setDescription("There only two tables before you, please return to the restaurant on time!");
+				pushService.setTitle("Eating time");
+				pushService.setDescription("It's time for your eating!");
 				Thread thread = new Thread(pushService);
 				thread.run();
+				
+				//向后面排队的人发送消息
+				userId = this.getPushUserId(sequenceInfo);
+				if(userId != 0){
+					pushService.setUserId(userId);
+					pushService.setTitle("Eating time coming");
+					pushService.setDescription("There only two tables before you, please return to the restaurant on time!");
+					thread = new Thread(pushService);
+					thread.run();
+				}
+			} catch (Exception e) {
+				LOG.error("Error to push notification, Reason:" + e.getMessage());
 			}
+			
 		} catch (Exception e) {
 			String message = "Change to eating seqId=" + seqId + " failed!Reason:" + e.getMessage();
 			LOG.error(message);
