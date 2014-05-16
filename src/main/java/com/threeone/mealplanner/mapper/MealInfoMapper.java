@@ -38,6 +38,6 @@ public interface MealInfoMapper {
      * @param userId
      * @return
      */
-    List<MealInfo> getMealListByUserId(@Param("userId") int userId, @Param("mealstatus") int mealstatus);
+    List<MealInfo> getMealListByUserId(@Param("userId") int userId, @Param("mealstatus") int mealstatus, @Param("start") int start, @Param("limit") int limit);
     
 }

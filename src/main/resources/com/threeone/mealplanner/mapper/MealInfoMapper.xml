@@ -144,6 +144,7 @@
     <if test="mealstatus != -1" >
     	and mealStatus = #{mealstatus, jdbcType=INTEGER}
     </if>
+    limit #{start,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
   </select>
   
 </mapper>

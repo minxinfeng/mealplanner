@@ -53,11 +53,11 @@ public class AppMealController {
 	
 	@RequestMapping("/getMealInfo")
 	@ResponseBody
-	public JsonResult<List<MealWithDetail>> getMealInfoByUserId(@RequestParam int userId, @RequestParam(defaultValue="-1") int status){
+	public JsonResult<List<MealWithDetail>> getMealInfoByUserId(@RequestParam int userId, @RequestParam(defaultValue="-1") int status, @RequestParam int start, @RequestParam(defaultValue="5") int limit){
 		Boolean flag = false;
 		String message = "Get Meal of userId=" + userId + " and status=" + status;
 		try {
-			List<MealWithDetail> mealWithDetails = mealService.getMealDetailByUserId(userId, status);
+			List<MealWithDetail> mealWithDetails = mealService.getMealDetailByUserId(userId, status, start, limit);
 			message += " success!";
 			flag = true;
 			System.err.println("mealWithDetails=" + mealWithDetails.size());

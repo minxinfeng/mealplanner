@@ -27,10 +27,12 @@ public interface MealService {
 	 * 获取某个人组织的饭局
 	 * @param userId
 	 * @param status
+	 * @param start
+	 * @param limit 默认为5
 	 * @return
 	 * @throws InternalException
 	 */
-	List<MealWithDetail> getMealDetailByUserId(int userId, int status) throws InternalException;
+	List<MealWithDetail> getMealDetailByUserId(int userId, int status, int start, int limit) throws InternalException;
 	
 	/**
 	 * 获取某个人待处理的饭局信息

@@ -72,12 +72,12 @@ public class MealServiceImpl implements MealService {
 	}
 	
 	
-	public List<MealWithDetail> getMealDetailByUserId(int userId, int status)
+	public List<MealWithDetail> getMealDetailByUserId(int userId, int status, int start, int limit)
 			throws InternalException {
 		try {
 			List<MealWithDetail> mealWithDetailList = new ArrayList<MealWithDetail>(); 
 			// 1.获取所有的meal信息
-			List<MealInfo> mealInfos = mealInfoMapper.getMealListByUserId(userId, status);
+			List<MealInfo> mealInfos = mealInfoMapper.getMealListByUserId(userId, status, start, limit);
 			// 2.获取每个对应的friend信息
 			for (MealInfo mealInfo : mealInfos) {
 				MealWithDetail mealWithDetail = new MealWithDetail();
