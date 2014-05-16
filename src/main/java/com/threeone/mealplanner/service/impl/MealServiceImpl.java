@@ -13,6 +13,7 @@ import com.threeone.mealplanner.mapper.MealInfoMapper;
 import com.threeone.mealplanner.mapper.RestaurantInfoMapper;
 import com.threeone.mealplanner.mapper.UserInfoMapper;
 import com.threeone.mealplanner.model.MealFriendStatus;
+import com.threeone.mealplanner.model.MealRequestInfo;
 import com.threeone.mealplanner.model.MealWithDetail;
 import com.threeone.mealplanner.model.entity.MealFriend;
 import com.threeone.mealplanner.model.entity.MealInfo;
@@ -96,19 +97,19 @@ public class MealServiceImpl implements MealService {
 	}
 
 	
-	public List<MealInfo> getMealRequest(int userId, int status)
+	public List<MealRequestInfo> getMealRequest(int userId, int status)
 			throws InternalException {
 		try {
-			List<MealInfo> mealInfos = new ArrayList<MealInfo>();
-			// 1.获取friendId=userId的所有menuId
-			List<Integer> mealIds = mealFriendMapper.getMealRequestByUserId(userId, status);
+			List<MealRequestInfo> mealRequestInfos = new ArrayList<MealRequestInfo>();
+			// 1.获取friendId=userId的所有menuId等相关信息
+			List<MealFriend> mealFriends = mealFriendMapper.getMealRequestByUserId(userId, status);
 			// 2.根据menuId获取mealInfo详细信息
-			for (Integer mealId : mealIds) {
-				MealInfo mealInfo = mealInfoMapper.selectByPrimaryKey(mealId);
-				mealInfos.add(mealInfo);
+			for (MealFriend mealFriend : mealFriends) {
+				MealInfo mealInfo = mealInfoMapper.selectByPrimaryKey(mealFriend.getMealid());
+				mealRequestInfos.add(mealInfo2MealRequestInfo(mealInfo,userId,mealFriend.getStatus()));
 			}
 			LOG.info("Get mealRequest of userId=" + userId + " and status=" + status);
-			return mealInfos;
+			return mealRequestInfos;
 		} catch (Exception e) {
 			String message = "Error to get the mealRequest of userId=" + userId + " and status=" + status + ", reason:" + e.getMessage();
 			LOG.error(message);
@@ -154,6 +155,22 @@ public class MealServiceImpl implements MealService {
 			LOG.info("Get meal detail info of mealId=" + mealId + " failed. Reason:" + e.getMessage());
 			throw new InternalException(e.getMessage());
 		}
+	}
+	
+	//获取mealRequestInfo
+	private MealRequestInfo mealInfo2MealRequestInfo(MealInfo mealInfo, int userId, int status){
+		MealRequestInfo mealRequestInfo = new MealRequestInfo();
+		mealRequestInfo.setMealid(mealInfo.getMealid());
+		mealRequestInfo.setMealorganizeuserid(mealInfo.getMealorganizeuserid());
+		mealRequestInfo.setMealorganizeusername(mealInfo.getMealorganizeusername());
+		mealRequestInfo.setMealstatus(mealInfo.getMealstatus());
+		mealRequestInfo.setMealtime(mealInfo.getMealtime());
+		mealRequestInfo.setOrganizationtime(mealInfo.getOrganizationtime());
+		mealRequestInfo.setRestid(mealInfo.getRestid());
+		mealRequestInfo.setRestname(mealInfo.getRestname());
+		mealRequestInfo.setStatus(status);
+		mealRequestInfo.setUserid(userId);
+		return mealRequestInfo;
 	}
 
 	public void setMealInfoMapper(MealInfoMapper mealInfoMapper) {

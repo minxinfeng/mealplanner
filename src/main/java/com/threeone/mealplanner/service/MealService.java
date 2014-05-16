@@ -3,6 +3,7 @@ package com.threeone.mealplanner.service;
 import java.util.List;
 
 import com.threeone.mealplanner.common.InternalException;
+import com.threeone.mealplanner.model.MealRequestInfo;
 import com.threeone.mealplanner.model.MealWithDetail;
 import com.threeone.mealplanner.model.entity.MealInfo;
 
@@ -38,7 +39,7 @@ public interface MealService {
 	 * @return
 	 * @throws InternalException
 	 */
-	List<MealInfo> getMealRequest(int userId, int status) throws InternalException;
+	List<MealRequestInfo> getMealRequest(int userId, int status) throws InternalException;
 	/**
 	 * ´¦Àí·¹¾ÖÑûÇë
 	 * @param mealId

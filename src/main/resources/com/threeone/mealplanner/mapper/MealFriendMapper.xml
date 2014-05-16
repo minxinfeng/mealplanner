@@ -90,8 +90,9 @@
       friendId = #{userId,jdbcType=INTEGER}
   </update>
   
-  <select id="getMealRequestByUserId" resultType="java.lang.Integer" >
-    select distinct(mealId)
+  <select id="getMealRequestByUserId" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
     from mealfriend
     where friendId=#{userId,jdbcType=INTEGER}
     <if test="status != -1" >

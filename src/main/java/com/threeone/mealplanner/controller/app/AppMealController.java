@@ -2,6 +2,7 @@ package com.threeone.mealplanner.controller.app;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.threeone.mealplanner.common.JsonResult;
 import com.threeone.mealplanner.model.MealFriendStatus;
+import com.threeone.mealplanner.model.MealRequestInfo;
 import com.threeone.mealplanner.model.MealStatus;
 import com.threeone.mealplanner.model.MealWithDetail;
 import com.threeone.mealplanner.model.entity.MealInfo;
@@ -67,18 +69,18 @@ public class AppMealController {
 	
 	@RequestMapping("/getMealRequest")
 	@ResponseBody
-	public JsonResult<List<MealInfo>> getMealRequest(@RequestParam int userId, @RequestParam(defaultValue="-1") int status){
+	public JsonResult<List<MealRequestInfo>> getMealRequest(@RequestParam int userId, @RequestParam(defaultValue="-1") int status){
 		Boolean flag = false;
 		String message = "Get Meal request of userId=" + userId + " and status=" + status;
+		List<MealRequestInfo> mealRequestInfos = new ArrayList<MealRequestInfo>();
 		try {
-			List<MealInfo> mealInfos = mealService.getMealRequest(userId, status);
+			mealRequestInfos = mealService.getMealRequest(userId, status);
 			message += " success!";
 			flag = true;
-			return new JsonResult<List<MealInfo>>(flag, message, mealInfos);
 		} catch (Exception e) {
 			message = message + "failed! reason:" + e.getMessage();
-			return new JsonResult<List<MealInfo>>(flag, message, null);
 		}
+		return new JsonResult<List<MealRequestInfo>>(flag, message, mealRequestInfos);
 	}
 	
 	@RequestMapping("/acceptMeal")

@@ -34,5 +34,5 @@ public interface MealFriendMapper {
      * @param status
      * @return
      */
-    List<Integer> getMealRequestByUserId( @Param("userId") int userId, @Param("status") int status);
+    List<MealFriend> getMealRequestByUserId( @Param("userId") int userId, @Param("status") int status);
 }
