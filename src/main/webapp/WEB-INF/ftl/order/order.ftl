@@ -14,7 +14,7 @@
 	    	if(btnStyle == "btn-success"){
 	    		$(this).removeClass(btnStyle);
 	    		$(this).addClass("btn-warning");
-	    		$(this).html("cancled");	    		
+	    		$(this).html("cancle");	    		
 	    		$.ajax({
 	    			type:"GET",
 	    			url:"${rc.contextPath}/web/order/confirmByRest",
@@ -25,7 +25,7 @@
 	    	}else if(btnStyle == "btn-warning"){
 	    		$(this).removeClass(btnStyle);
 			    $(this).addClass("btn-error");
-			    $(this).html("cancled");
+			    $(this).html("done");
 	    		$.ajax({
 	    			type:"GET",
 	    			url:"${rc.contextPath}/web/order/cancleByRest",

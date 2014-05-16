@@ -21,6 +21,11 @@
 
      $(".editSeat").click(function(){
         $('#userId.editSeatModal').val($.cookie("rest_userid"));
+        var seatNo = $(this).parent().parent().find('td').eq(1).text().split(' ')[1];
+        var description = $(this).parent().parent().find('td').eq(3).text();
+        $('#editSeatModal').find('#seatNo').val(seatNo);
+        $('#editSeatModal').find('#description').val(description);
+        
         var seatId = $(this).parent().parent().attr("id");
         $('#seatId').val(seatId);      
       });
@@ -29,6 +34,7 @@
 </head>
 <body>
     <#include "/base/header.ftl">
+    <#include "base/alert.ftl"> 
      <div class="container theme-showcase">
         <div class="page-header">
           <h1>Seat Manager</h1>
@@ -118,9 +124,9 @@
                             <div class="modal-body">
                               <div>
                                 <p>Seat No:</p>
-                                <input type="text" id="seatNo" name="seatNo" class="form-control" placeholder="1" required autofocus>
+                                <input type="text" id="seatNo" name="seatNo" class="form-control" required autofocus>
                                 <p>Description:</p>
-                                <input type="text" id="description" name="description" class="form-control" placeholder="you can say sth about this table!" required autofocus>
+                                <input type="text" id="description" name="description" class="form-control" required autofocus>
                                 <p>Choose people num</p>                
                                 <div>
                                   <select name="peopleNum" class="form-control">

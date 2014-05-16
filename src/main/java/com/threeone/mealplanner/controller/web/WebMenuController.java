@@ -43,11 +43,11 @@ public class WebMenuController {
 	
 	@RequestMapping("/getMenuByUserId")
 	public String getMenuInfoByRestId(@RequestParam int userId, Model model){
-		List<RestType> foodTypes;
+		List<FoodType> foodTypes;
 		try {
 			int restId = restaurantService.getRestIdByUserId(userId);
 			List<MenuInfo> menuInfos = menuService.getMenuInfoByRestId(restId);
-			foodTypes = restaurantTypeService.getAllType();			
+			foodTypes = menuService.getAllFoodTypes();			
 			model.addAttribute("foodTypes", foodTypes);
 			model.addAttribute("menuInfos", menuInfos);
 			return "menu/menu.ftl";
@@ -124,7 +124,6 @@ public class WebMenuController {
 	}
 	
 	@RequestMapping(value = "/updateMenuPart", method = RequestMethod.GET)
-	@ResponseBody
 	public String updateMenuPart(@RequestParam int menuId, @RequestParam int userId, @RequestParam String foodName, 
 			@RequestParam Double foodPrice, @RequestParam Integer foodType, @RequestParam Boolean recommand){
 		String message = "Update menu of restId=" + userId;

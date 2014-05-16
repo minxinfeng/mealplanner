@@ -6,7 +6,8 @@
     <#include "/base/base.ftl">
     <script type="text/javascript">
     $(document).ready(function () {    
-      $('#userId.addFoodModal').val($.cookie("rest_userid"));
+      	$('#userId.addFoodModal').val($.cookie("rest_userid"));
+
     	$('.dropdown-toggle').dropdown();
 	    $(".deleteMenu").click(function(){
 	    	var id = $(this).parent().parent().attr("id");
@@ -20,16 +21,23 @@
 	    	});
 	    	
 	    });
-      $(".editMenu").click(function(){
-        var mId = $(this).parent().parent().attr("id");
-        $('#userId.editFoodModal').val($.cookie("rest_userid"));
-        $('#menuId').val(mId);
-      });
+
+      	$(".editMenu").click(function(){
+        	var mId = $(this).parent().parent().attr("id");
+        	var foodName = $(this).parent().parent().find('td').eq(1).text();
+        	var foodPrice = $(this).parent().parent().find('td').eq(2).text().split('$')[0];
+        	$('#editFoodModal').find('#foodName').val(foodName);
+        	$('#editFoodModal').find('#foodPrice').val(foodPrice);
+        	
+        	$('#userId.editFoodModal').val($.cookie("rest_userid"));        	
+        	$('#menuId').val(mId);
+      	});
     })   
     </script>
 </head>
 <body>
     <#include "/base/header.ftl">
+    <#include "base/alert.ftl"> 
      <div class="container theme-showcase">
         <div class="page-header">
           <h1>Menus</h1>
@@ -54,13 +62,13 @@
                         <div class="modal-body">                        
                           <div class="form-group">
                             <h4>Food name</h4>
-                            <input type="text" id="foodName" name="foodName" class="form-control" placeholder="fish chips" required autofocus>
+                            <input type="text" id="foodName" name="foodName" class="form-control" required autofocus>
                           </div>
                           <div class="form-group">
                             <h4>Food price</h4>
                             <div class="input-group">
                               <span class="input-group-addon">$</span>
-                              <input type="text" id="foodPrice" name="foodPrice" class="form-control" placeholder="100" required autofocus>
+                              <input type="text" id="foodPrice" name="foodPrice" class="form-control" required autofocus>
                               <span class="input-group-addon">.00</span>
                             </div>
                           </div>
@@ -68,15 +76,15 @@
                             <h4>Food type</h4>
                             <select name="foodType" class="form-control">
                               <#list foodTypes as foodType>
-                                <option value=${foodType.resttypeid}>${foodType.resttypename}</option>
-                              </#list>  
+                                <option value=${foodType.getFoodtypeid()}>${foodType.getFoodtypename()}</option>
+                              </#list> 
                             </select>
                           </div>
-                          <div class="checkbox col-sm-offset-10 form-control">
-                            <label>
-                              <input name="recommand" type="checkbox" class="form-control"> recommand
-                            </label>
-                          </div>                                         
+                          	<div class="input-group-addon form-group checkbox">
+                                  <label class="checkbox">
+                                    <input name="recommand" type="checkbox" class="form-control"> recommand
+                                  </label>
+                            </div>                                                                    
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
@@ -103,9 +111,11 @@
                   </tr>
                 </thead>
                 <tbody>
+                <#assign count = 1/>
                 <#list menuInfos as menuInfo>
-                  <tr id="${menuInfo.menuid}" class="success menuItem">
-                    <td>${menuInfo.menuid}</td>
+                  <tr id="${menuInfo.menuid}" class="menuItem">                  
+                    <td>${count}</td>
+                    <!--<td>${menuInfo.menuid}</td>-->
                     <td>${menuInfo.menuname}</td>
                     <td>${menuInfo.menuprice} $</td>
                     <td>${menuInfo.foodTypeName}</td>
@@ -140,12 +150,12 @@
                                   <h4>Food type</h4>
                                   <select name="foodType" class="form-control">
                                     <#list foodTypes as foodType>
-                                      <option value=${foodType.resttypeid}>${foodType.resttypename}</option>
+                                      <option value=${foodType.getFoodtypeid()}>${foodType.getFoodtypename()}</option>
                                     </#list>  
                                   </select>
                                 </div>
-                                <div class="checkbox col-sm-offset-10 form-control">
-                                  <label>
+                                <div class="input-group-addon form-group checkbox">
+                                  <label class="checkbox">
                                     <input name="recommand" type="checkbox" class="form-control"> recommand
                                   </label>
                                 </div>                                         
@@ -163,6 +173,7 @@
                       </button>
                     </td>
                   </tr>
+                  <#assign count = count + 1/>
                   </#list>
                 </tbody>
               </table>
