@@ -91,10 +91,10 @@ public class WebMenuController {
 			menuInfo.setRestid(restId);
 			menuService.addMenu(menuInfo);
 			message += " success!";
-			return "menu/menu.ftl";
+			return "redirect:getMenuByUserId?userId=" + userId;
 		} catch (Exception e) {
 			message = message + " error! Reason:" + e.getMessage();
-			return "menu/menu.ftl";
+			return "redirect:getMenuByUserId?userId=" + userId;
 		}
 	}
 	
@@ -142,10 +142,10 @@ public class WebMenuController {
 			menuInfo.setRestid(restId);
 			menuService.updateMenu(menuInfo);
 			message += " success!";
-			return "/web/menu/getMenuByUserId?userId=" + userId;
+			return "redirect:getMenuByUserId?userId=" + userId;
 		} catch (Exception e) {
 			message = message + " error! Reason:" + e.getMessage();
-			return "web/menu/error";
+			return "redirect:getMenuByUserId?userId=" + userId;
 		}
 	}
 	

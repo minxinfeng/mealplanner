@@ -138,7 +138,6 @@ public class WebSeatController {
 	}
 	
 	@RequestMapping(value = "/addSeat", method = RequestMethod.GET)
-	@ResponseBody
 	public String addSeat(@RequestParam int userId, @RequestParam int seatNo, @RequestParam String description,
 			@RequestParam int peopleNum){
 		System.out.println("add seat");
@@ -151,10 +150,10 @@ public class WebSeatController {
 			}	
 			seatService.addSeat(restId, seatNo, peopleNum, description);			
 			message += " success!";
-			return "seat/seatManager.ftl";
+			return "redirect:getSeatInfosByUserId?userId=" + userId;
 		} catch (Exception e) {
 			message = message + " error! Reason:" + e.getMessage();
-			return "seat/seatManager.ftl";
+			return "redirect:getSeatInfosByUserId?userId=" + userId;
 		}
 	}
 	
@@ -173,7 +172,6 @@ public class WebSeatController {
 	}
 	
 	@RequestMapping(value = "/updateSeat", method = RequestMethod.GET)
-	@ResponseBody
 	public String updateSeat(@RequestParam int seatId, @RequestParam int userId, @RequestParam int seatNo, @RequestParam(defaultValue="Nothing to describe") String description,
 			@RequestParam int peopleNum){
 		System.out.println("update seat");
@@ -183,10 +181,10 @@ public class WebSeatController {
 			int restId = restaurantService.getRestIdByUserId(userId);
 			seatService.updateSeat(seatId, restId, seatNo, peopleNum, description);			
 			message += " success!";
-			return "seat/seatManager.ftl";
+			return "redirect:getSeatInfosByUserId?userId=" + userId;
 		} catch (Exception e) {
 			message = message + " error! Reason:" + e.getMessage();
-			return "seat/seatManager.ftl";
+			return "redirect:getSeatInfosByUserId?userId=" + userId;
 		}
 	}
 	
