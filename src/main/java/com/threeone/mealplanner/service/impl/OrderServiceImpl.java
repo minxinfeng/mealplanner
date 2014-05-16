@@ -35,7 +35,6 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private MealService mealService;
-	
 	@Autowired
 	private SeatService seatService;
 	@Autowired
@@ -129,8 +128,8 @@ public class OrderServiceImpl implements OrderService {
 			orderInfoMapper.updateOrderStatus(orderId, operationUserId, OrderStatus.comfirmed.getValue());
 			
 			pushService.setUserId(userId);
-			pushService.setTitle("Order confirmed");
-			pushService.setDescription("Your order " + orderId + " has confirmed by restanurant");
+			pushService.setTitle("订单已确认");
+			pushService.setDescription("亲，您的订单 " + orderId + "已经被餐厅确认啦，请不要忘记叫上小伙伴们来用餐哦~");
 			Thread thread = new Thread(pushService);
 			thread.run();
 			LOG.info("Confirm order " + orderId);

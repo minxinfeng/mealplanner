@@ -97,17 +97,18 @@ public class SequenceServiceImpl implements SequenceService {
 				//向刚刚进入用餐状态的用户发送通知，出队
 				int userId = sequenceInfo.getUserid();
 				pushService.setUserId(userId);
-				pushService.setTitle("Eating time");
-				pushService.setDescription("It's time for your eating!");
+				pushService.setTitle("用餐时刻");
+				pushService.setDescription("亲，等了这么久，终于可以吃上可口的饭菜啦，还等神马!");
 				Thread thread = new Thread(pushService);
 				thread.run();
 				
 				//向后面排队的人发送消息
-				userId = this.getPushUserId(sequenceInfo);
-				if(userId != 0){
-					pushService.setUserId(userId);
-					pushService.setTitle("Eating time coming");
-					pushService.setDescription("There only two tables before you, please return to the restaurant on time!");
+				SequenceInfo sequenceInfoForPush = this.getPushUserId(sequenceInfo);
+				if(sequenceInfoForPush != null){
+					int seatType = sequenceInfoForPush.getSeattype();
+					pushService.setUserId(sequenceInfoForPush.getUserid());
+					pushService.setTitle("用餐时间正在靠近");
+					pushService.setDescription("亲，您有" + sequenceInfoForPush.getPeoplenum() + "人就餐，为您提供了" + seatType + "人桌，前面还有2位排队" + seatType + "人桌，请尽快回到餐厅，以防错过排好");
 					thread = new Thread(pushService);
 					thread.run();
 				}
@@ -203,16 +204,16 @@ public class SequenceServiceImpl implements SequenceService {
 	}
 
 	//获取排队队列中待提醒的用户信息（当前服务的人相应队列后面的第二组）
-	private int getPushUserId(SequenceInfo sequenceInfo){
-		int userId = 0;
+	private SequenceInfo getPushUserId(SequenceInfo sequenceInfo){
+		SequenceInfo sequenceInfoForPush = null;
 		int seqId = sequenceInfo.getSeqid();
 		int restId = sequenceInfo.getRestid();
 		int seatType = sequenceInfo.getSeattype();
 		List<SequenceInfo> sequenceInfos = sequenceInfoMapper.getPushSeqInfos(restId, seqId, seatType);
 		if(sequenceInfos != null){
-			userId = sequenceInfos.get(sequenceInfos.size()-1).getUserid();
+			sequenceInfoForPush = sequenceInfos.get(sequenceInfos.size()-1);
 		}
-		return userId;
+		return sequenceInfoForPush;
 	}
 
 }

@@ -55,8 +55,8 @@ public class MealServiceImpl implements MealService {
 			for (String string : ids) {
 				int id = Integer.parseInt(string);
 				pushService.setUserId(id);
-				pushService.setTitle("Meal Invitation");
-				pushService.setDescription(userName + " invite you have a meal!");
+				pushService.setTitle("饭局邀请");
+				pushService.setDescription(userName + "喊你一起吃饭啦!快去看看有什么惊喜吧~");
 				Thread thread = new Thread(pushService);
 				thread.run();
 				LOG.info("Send meal invitation to friend=" + id + " success!");
@@ -124,11 +124,11 @@ public class MealServiceImpl implements MealService {
 			UserInfo userInfo = userInfoMapper.getUserInfoById(userId);
 			String userName = userInfo.getUsername();
 			pushService.setUserId(organizedId);
-			pushService.setTitle("Invitation feedback");
+			pushService.setTitle("饭局邀请反馈");
 			if(status == MealFriendStatus.accept.getValue()){
-				pushService.setDescription(userName + " accept your meal invitation!");
+				pushService.setDescription(userName + "同意了你的饭局邀请:) 快去看看这个饭局的进展情况吧!");
 			}else{
-				pushService.setDescription(userName + " reject your meal invitation!");
+				pushService.setDescription(userName + "拒绝了你的饭局邀请:( 快去看看这个饭局的进展情况吧!");
 			}
 			Thread thread = new Thread(pushService);
 			thread.run();
