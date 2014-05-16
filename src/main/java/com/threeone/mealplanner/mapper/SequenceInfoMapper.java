@@ -29,6 +29,8 @@ public interface SequenceInfoMapper {
     //刚刚插入的记录的seqId
     int getLatestSeqId(@Param("restId") int restId, @Param("seatType") int seatType);
     
+    List<SequenceInfo> getSequenceInfos(@Param("restId") int restId);
+    
     //获取排队队列中需要提醒的用户排队信息
     List<SequenceInfo> getPushSeqInfos(@Param("restId") int restId, @Param("seqId") int seqId, @Param("seatType") int seatType);
 }

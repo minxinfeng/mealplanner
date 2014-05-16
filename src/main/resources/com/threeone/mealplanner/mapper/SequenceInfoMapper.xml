@@ -161,6 +161,14 @@
     where seqId = #{seqId,jdbcType=INTEGER}
   </update>
   
+  <select id="getSequenceInfos" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sequenceinfo, restaurantinfo
+    where  sequenceinfo.restId = #{restId,jdbcType=INTEGER} and sequenceinfo.restId = restaurantinfo.restId
+    and status = 0;
+   </select>
+   
   <select id="getPushSeqInfos" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

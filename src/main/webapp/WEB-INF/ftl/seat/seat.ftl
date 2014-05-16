@@ -123,14 +123,15 @@
 	});
 
 	var dateCopy = new Date();   
-    dateCopy.setDate(dateCopy.getDate() + 31); 
-    if(dateCopy.getMonth() < 10){
-    	dateTemp = dateCopy.getFullYear() + '-0' + dateCopy.getMonth() + '-' + dateCopy.getDate();
-    }else{
-    	dateTemp = dateCopy.getFullYear() + '-' + dateCopy.getMonth() + '-' + dateCopy.getDate();
-    }    
+  dateCopy.setDate(dateCopy.getDate() + 31); 
+  if(dateCopy.getMonth() < 10){
+    dateTemp = dateCopy.getFullYear() + '-0' + dateCopy.getMonth() + '-' + dateCopy.getDate();
+  }else{
+  	dateTemp = dateCopy.getFullYear() + '-' + dateCopy.getMonth() + '-' + dateCopy.getDate();
+  }    
 	$('#tables_' + dateTemp).addClass("active");
-    })   
+  
+  })   
     </script>
 </head>
 <body>
@@ -146,7 +147,9 @@
 	              						 
 					</ul>
 					<div class="tab-content">
+            <#assign tabCount = 1/>
 						<#list nextWeeks as dateOffset>
+            <#if tabCount != 1>
 						<!--set 7 days tab -->
 						<div class="tab-pane" id="tables_${dateOffset}"><!-- grid -->
 					  	<div class="bs-docs-grid">				    
@@ -178,15 +181,58 @@
 							      		data-placement="left" 
 							      		title="contain ${seatInfo.getPeoplenum()} people"}>No ${seatInfo.getSeatid()}</button>
 							      		<#include "/base/seatModal.ftl">
-									</div>
+									    </div>
 							    </div>
 							    </#if>
 							    <#assign column = column + 1/>
-				          	</#list> 
-				          	</div>
-				          	<hr>
+				          </#list> 
+				      </div>
+				      <hr>
 						</div>
-						</div><!-- /grid -->				
+						</div><!-- /grid -->		
+            <#else>
+            <!--set 7 days tab -->
+            <div class="tab-pane active" id="tables_${dateOffset}"><!-- grid -->
+              <div class="bs-docs-grid">            
+                <div class="row show-grid">               
+                <#assign column = 1/>
+                <#list seatInfos as seatInfo>                   
+                      <#if (column % 5) != 0>
+                      <div class="col-md-3">
+                      <div class="container"> 
+                        <button id="No${seatInfo.getSeatid()}_${dateOffset}" 
+                        type="button" class="btn btn-default btn-lg seat-grid" 
+                        data-toggle="modal" 
+                        data-target="#seatInfoModal_${seatInfo.getSeatid()}_${dateOffset}" 
+                        data-placement="left" 
+                        title="contain ${seatInfo.getPeoplenum()} people"}>No ${seatInfo.getSeatid()}</button>
+                        <#include "/base/seatModal.ftl">                        
+                  </div>
+                  </div>
+                  <#else>
+              </div>
+              <div class="row show-grid">
+              <hr>
+                  <div class="col-md-3">
+                      <div class="container">
+                        <button id="No${seatInfo.getSeatid()}_${dateOffset}" 
+                        type="button" class="btn btn-default btn-lg seat-grid" 
+                        data-toggle="modal" 
+                        data-target="#seatInfoModal_${seatInfo.getSeatid()}_${dateOffset}" 
+                        data-placement="left" 
+                        title="contain ${seatInfo.getPeoplenum()} people"}>No ${seatInfo.getSeatid()}</button>
+                        <#include "/base/seatModal.ftl">
+                      </div>
+                  </div>
+                  </#if>
+                  <#assign column = column + 1/>
+                  </#list> 
+              </div>
+              <hr>
+            </div>
+            </div><!-- /grid -->  
+            </#if>	
+            <#assign tabCount = tabCount + 1/>	
 						</#list>
 					</div>			
 	            </div>

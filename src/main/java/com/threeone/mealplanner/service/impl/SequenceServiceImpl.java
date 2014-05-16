@@ -1,6 +1,7 @@
 package com.threeone.mealplanner.service.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.mapper.SequenceInfoMapper;
+import com.threeone.mealplanner.mapper.UserInfoMapper;
 import com.threeone.mealplanner.model.SequenceDetailForRest;
 import com.threeone.mealplanner.model.SequenceDetailForUser;
 import com.threeone.mealplanner.model.SequenceStatus;
 import com.threeone.mealplanner.model.entity.SequenceInfo;
+import com.threeone.mealplanner.model.entity.UserInfo;
 import com.threeone.mealplanner.push.PushService;
 import com.threeone.mealplanner.service.SequenceService;
 
@@ -21,10 +24,17 @@ public class SequenceServiceImpl implements SequenceService {
 
 	private static final Log LOG = LogFactory.getLog(SequenceServiceImpl.class); 
 	private SequenceInfoMapper sequenceInfoMapper;
+	private UserInfoMapper userInfoMapper;
 	
 	@Autowired
 	private PushService pushService;
 	
+	
+	public void setUserInfoMapper(UserInfoMapper userInfoMapper) {
+		this.userInfoMapper = userInfoMapper;
+	}
+
+
 	public void setSequenceInfoMapper(SequenceInfoMapper sequenceInfoMapper) {
 		this.sequenceInfoMapper = sequenceInfoMapper;
 	}
@@ -66,13 +76,6 @@ public class SequenceServiceImpl implements SequenceService {
 	}
 	
 
-	
-	public List<SequenceDetailForRest> getAllSeqInfosByRest(int restId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
 	public void cancleSeq(int seqId) throws InternalException {
 		try {
 			sequenceInfoMapper.updateSeqStatus(seqId, SequenceStatus.cancle.getValue());
@@ -176,6 +179,25 @@ public class SequenceServiceImpl implements SequenceService {
 		return seatType;
 	}
 	
+	public List<SequenceDetailForRest> getAllSeqInfosByRest(int restId) {
+		List<SequenceDetailForRest> sequenceDetailForRests = new ArrayList<SequenceDetailForRest>();
+		try {
+			List<SequenceInfo> sequenceInfos = sequenceInfoMapper.getSequenceInfos(restId);
+			for(int i = 0; i < sequenceInfos.size(); i++){
+				SequenceInfo sequenceInfo = sequenceInfos.get(i);
+				UserInfo userInfo = userInfoMapper.getUserInfoById(sequenceInfo.getUserid());
+				SequenceDetailForRest sequenceDetailForRest = new SequenceDetailForRest();
+				sequenceDetailForRest.setSequenceInfo(sequenceInfo);
+				sequenceDetailForRest.setUserInfo(userInfo);
+				sequenceDetailForRests.add(sequenceDetailForRest);
+			}
+			LOG.info("Get sequenceDetailForRests for restId =" + restId + " success!");
+		} catch (Exception e) {
+			LOG.info("Get sequenceDetailForRests for restId =" + restId + " failed! Reason:" + e.getMessage());
+		}
+		return sequenceDetailForRests;
+	}
+
 	//获取排队队列中待提醒的用户信息（当前服务的人相应队列后面的第二组）
 	private int getPushUserId(SequenceInfo sequenceInfo){
 		int userId = 0;
