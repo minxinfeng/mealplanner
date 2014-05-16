@@ -1,7 +1,5 @@
 package com.threeone.mealplanner.model;
 
-import java.util.List;
-
 import com.threeone.mealplanner.model.entity.SequenceInfo;
 import com.threeone.mealplanner.model.entity.UserInfo;
 
@@ -13,6 +11,8 @@ import com.threeone.mealplanner.model.entity.UserInfo;
  */
 public class SequenceDetailForRest {
 	private SequenceInfo sequenceInfo;
+	private UserInfo userInfo;
+	
 	public SequenceInfo getSequenceInfo() {
 		return sequenceInfo;
 	}
@@ -25,6 +25,5 @@ public class SequenceDetailForRest {
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
 	}
-	private UserInfo userInfo;	
 	
 }

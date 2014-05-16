@@ -6,6 +6,8 @@ public class SequenceInfo {
     private Integer seqid;
 
     private Integer restid;
+    
+    private String restname;
 
     private Integer userid;
 
@@ -82,4 +84,12 @@ public class SequenceInfo {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+	public String getRestname() {
+		return restname;
+	}
+
+	public void setRestname(String restname) {
+		this.restname = restname;
+	}
 }

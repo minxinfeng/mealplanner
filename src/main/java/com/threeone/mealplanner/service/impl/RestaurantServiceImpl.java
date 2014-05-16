@@ -11,6 +11,7 @@ import com.threeone.mealplanner.mapper.MenuInfoMapper;
 import com.threeone.mealplanner.mapper.RestCityMapper;
 import com.threeone.mealplanner.mapper.RestUserMapper;
 import com.threeone.mealplanner.mapper.RestaurantInfoMapper;
+import com.threeone.mealplanner.model.RestInfoForMap;
 import com.threeone.mealplanner.model.RestaurantWithMenu;
 import com.threeone.mealplanner.model.entity.MenuInfo;
 import com.threeone.mealplanner.model.entity.RestCity;
@@ -42,9 +43,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}	
 	
 	public List<RestaurantWithMenu> getSeveralRestaurantWithMenus(int start,
-			int end) throws InternalException {
+			int limit) throws InternalException {
 		List<RestaurantWithMenu> restaurantWithMenus = new ArrayList<RestaurantWithMenu>();
-		List<RestaurantInfo> restaurantInfos = restaurantInfoMapper.getSeveralRestaurantInfos(start, end);
+		List<RestaurantInfo> restaurantInfos = restaurantInfoMapper.getSeveralRestaurantInfos(start, limit);
 		for (RestaurantInfo restaurantInfo : restaurantInfos) {
 			RestaurantWithMenu restaurantWithMenu = new RestaurantWithMenu();
 			List<MenuInfo> menuInfos = menuInfoMapper.getMenuByRestId(restaurantInfo.getRestid());
@@ -105,7 +106,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 	public int registRestaurant(RestaurantInfo restaurantInfo)
 			throws InternalException {
 		try {
-			return restaurantInfoMapper.insert(restaurantInfo);
+			return restaurantInfoMapper.insertSelective(restaurantInfo);
 		} catch (Exception e) {
 			throw new InternalException(e.getMessage());
 		}		
@@ -114,7 +115,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 	public int mapRestaurantUser(RestUser restUser) throws InternalException {
 		try {
-			return restUserMapper.insert(restUser);
+			return restUserMapper.insertSelective(restUser);
 		} catch (Exception e) {
 			throw new InternalException(e.getMessage());
 		}
@@ -149,6 +150,24 @@ public class RestaurantServiceImpl implements RestaurantService {
 		}
 	}
 	
+	public List<RestInfoForMap> getRestInfoForMaps(String restNames) throws InternalException{
+		try {
+			List<RestInfoForMap> restInfoForMaps = new ArrayList<RestInfoForMap>();
+			String names[] = restNames.split(",");
+			for (String name : names) {
+				List<RestInfoForMap> restForMaps = restaurantInfoMapper.getRestInfoForMaps(name);
+				if (restForMaps != null) {
+					restInfoForMaps.addAll(restForMaps);
+				}
+			}
+			LOG.info("Success to get the restInfo for names=" + restNames);
+			return restInfoForMaps;
+		} catch (Exception e) {
+			String message = "Error to get restInfos by restNames= " + restNames + ", Reason: " + e.getMessage();
+			LOG.error(message);
+			throw new InternalException(message);
+		}
+	}
 	
 	public void setRestCityMapper(RestCityMapper restCityMapper) {
 		this.restCityMapper = restCityMapper;
@@ -166,4 +185,5 @@ public class RestaurantServiceImpl implements RestaurantService {
 	public void setMenuInfoMapper(MenuInfoMapper menuInfoMapper) {
 		this.menuInfoMapper = menuInfoMapper;
 	}
+
 }

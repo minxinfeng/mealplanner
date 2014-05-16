@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.threeone.mealplanner.common.InternalException;
+import com.threeone.mealplanner.model.RestInfoForMap;
 import com.threeone.mealplanner.model.RestaurantWithMenu;
 import com.threeone.mealplanner.model.entity.RestCity;
 import com.threeone.mealplanner.model.entity.RestUser;
@@ -26,7 +27,7 @@ public interface RestaurantService {
 	 */
 	List<RestaurantWithMenu> getAllRestaurantWithMenus() throws InternalException;
 	
-	List<RestaurantWithMenu> getSeveralRestaurantWithMenus(int start, int end) throws InternalException;
+	List<RestaurantWithMenu> getSeveralRestaurantWithMenus(int start, int limit) throws InternalException;
 	
 	/**
 	 * 获取餐厅基本信息
@@ -79,4 +80,12 @@ public interface RestaurantService {
 	 * @throws InternalException 
 	 */
 	int getRestIdByUserId(int userId) throws InternalException;
+	
+	/**
+	 * 通过餐厅的名称精确匹配获取餐厅基本信息(restId, restName, longitude, latitude)
+	 * @param restNames 餐厅名称列表，用英文逗号分隔
+	 * @return
+	 * @throws InternalException 
+	 */
+	List<RestInfoForMap> getRestInfoForMaps(String restNames) throws InternalException;
 }

@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.threeone.mealplanner.model.entity.SequenceInfo" >
     <id column="seqId" property="seqid" jdbcType="INTEGER" />
     <result column="restId" property="restid" jdbcType="INTEGER" />
+    <result column="restName" property="restname" jdbcType="VARCHAR" />
     <result column="userId" property="userid" jdbcType="INTEGER" />
     <result column="peopleNum" property="peoplenum" jdbcType="INTEGER" />
     <result column="seatType" property="seattype" jdbcType="INTEGER" />
@@ -12,13 +13,13 @@
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    seqId, restId, userId, peopleNum, seatType, seqNo, seqDate, status
+    seqId, sequenceinfo.restId as restId, restName, userId, peopleNum, seatType, seqNo, seqDate, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from sequenceinfo
-    where seqId = #{seqid,jdbcType=INTEGER}
+    from sequenceinfo, restaurantinfo
+    where seqId = #{seqid,jdbcType=INTEGER} and sequenceinfo.restId = restaurantinfo.restId
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sequenceinfo
@@ -163,8 +164,21 @@
   <select id="getSequenceInfos" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from sequenceinfo
-    where restId = #{restId,jdbcType=INTEGER} 
+    from sequenceinfo, restaurantinfo
+    where  sequenceinfo.restId = #{restId,jdbcType=INTEGER} and sequenceinfo.restId = restaurantinfo.restId
     and status = 0;
+   </select>
+   
+  <select id="getPushSeqInfos" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sequenceinfo, restaurantinfo
+    where sequenceinfo.restId = #{restId,jdbcType=INTEGER} 
+    	and seatType = #{seatType,jdbcType=INTEGER}
+    	and seqId &gt; #{seqId,jdbcType=INTEGER}
+		and sequenceinfo.restId = restaurantinfo.restId
+		and status=0
+		order by seqId
+		limit 0,2
   </select>
 </mapper>
