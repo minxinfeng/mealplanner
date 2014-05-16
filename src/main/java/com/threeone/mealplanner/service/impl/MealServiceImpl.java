@@ -27,7 +27,6 @@ public class MealServiceImpl implements MealService {
 	
 	private MealInfoMapper mealInfoMapper;
 	private MealFriendMapper mealFriendMapper;
-	private RestaurantInfoMapper restaurantInfoMapper;
 	private UserInfoMapper userInfoMapper;
 	
 	@Autowired
@@ -83,7 +82,6 @@ public class MealServiceImpl implements MealService {
 				MealWithDetail mealWithDetail = new MealWithDetail();
 				mealWithDetail.setMealInfo(mealInfo);
 				mealWithDetail.setMealFriendWithStatusList(mealInfoMapper.getMealFriendWithStatus(mealInfo.getMealid()));
-				mealWithDetail.setRestaurantInfo(restaurantInfoMapper.selectByPrimaryKey(mealInfo.getRestid()));
 				mealWithDetailList.add(mealWithDetail);
 			}
 			LOG.info("Get mealinfo of userId=" + userId + " and status=" + status);
@@ -148,7 +146,6 @@ public class MealServiceImpl implements MealService {
 			MealInfo mealInfo = mealInfoMapper.selectByPrimaryKey(mealId);
 			mealWithDetail.setMealInfo(mealInfo);
 			mealWithDetail.setMealFriendWithStatusList(mealInfoMapper.getMealFriendWithStatus(mealId));
-			mealWithDetail.setRestaurantInfo(restaurantInfoMapper.selectByPrimaryKey(mealInfo.getRestid()));
 			LOG.info("Get meal detail info of mealId=" + mealId);
 			return mealWithDetail;
 		} catch (Exception e) {
@@ -180,11 +177,6 @@ public class MealServiceImpl implements MealService {
 	public void setMealFriendMapper(MealFriendMapper mealFriendMapper) {
 		this.mealFriendMapper = mealFriendMapper;
 	}
-
-	public void setRestaurantInfoMapper(RestaurantInfoMapper restaurantInfoMapper) {
-		this.restaurantInfoMapper = restaurantInfoMapper;
-	}
-
 
 	public void setUserInfoMapper(UserInfoMapper userInfoMapper) {
 		this.userInfoMapper = userInfoMapper;

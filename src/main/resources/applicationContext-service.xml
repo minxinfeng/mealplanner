@@ -20,7 +20,7 @@
 		<property name="userBindMapper" ref="userBindMapper" />
 	</bean>
 	
-	<bean id="FriendService" class="com.threeone.mealplanner.service.impl.FriendServiceImpl">
+	<bean id="friendService" class="com.threeone.mealplanner.service.impl.FriendServiceImpl">
 		<property name="friendInfoMapper" ref="friendInfoMapper" />
 		<property name="userInfoMapper" ref="userInfoMapper" />
 	</bean>
@@ -40,7 +40,6 @@
 	<bean id="mealService" class="com.threeone.mealplanner.service.impl.MealServiceImpl">
 		<property name="mealInfoMapper" ref="mealInfoMapper" />
 		<property name="mealFriendMapper" ref="mealFriendMapper" />
-		<property name="restaurantInfoMapper" ref="restaurantInfoMapper" />
 		<property name="userInfoMapper" ref="userInfoMapper" />
 	</bean>
 	
