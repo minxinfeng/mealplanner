@@ -18,12 +18,12 @@ public interface SequenceService {
 	SequenceDetailForUser createSequence(SequenceInfo sequenceInfo) throws InternalException;
 	
 	//取消排队
-	void cancleSeq(int seqId) throws InternalException;
+	void cancleSeq(int userId) throws InternalException;
 	
 	//排队转为用餐状态,同时向其后面的第二个排队的人发送消息提醒
 	void changeToEating(int seqId) throws InternalException;
 	
 	List<SequenceDetailForRest> getAllSeqInfosByRest(int restId);
 	//获取排队详细信息
-	SequenceInfo getSequenceInfo(int seqId) throws InternalException;
+	SequenceInfo getSequenceInfo(int userId) throws InternalException;
 }

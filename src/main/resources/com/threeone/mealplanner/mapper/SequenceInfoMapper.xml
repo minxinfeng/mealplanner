@@ -181,4 +181,13 @@
 		order by seqId
 		limit 0,2
   </select>
+  
+  <select id="getLatestSeqByUserId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sequenceinfo, restaurantinfo
+    where sequenceinfo.userId = #{userId,jdbcType=INTEGER} and sequenceinfo.restId = restaurantinfo.restId
+    order by seqId desc
+    limit 1
+  </select>
 </mapper>

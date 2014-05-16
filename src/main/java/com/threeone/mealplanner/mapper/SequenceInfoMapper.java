@@ -28,6 +28,8 @@ public interface SequenceInfoMapper {
     void updateSeqStatus(@Param("seqId") int seqId, @Param("status") int status);	
     //刚刚插入的记录的seqId
     int getLatestSeqId(@Param("restId") int restId, @Param("seatType") int seatType);
+    //根据用户ID获取当前的排队信息
+    SequenceInfo getLatestSeqByUserId(@Param("userId") int userId);
     
     List<SequenceInfo> getSequenceInfos(@Param("restId") int restId);
     

@@ -42,11 +42,11 @@ public class AppSequenceController {
 	
 	@RequestMapping("/cancle")
 	@ResponseBody
-	public JsonResult<String> cancle(@RequestParam int userId, @RequestParam int seqId){
-		String message = "cancle seqId = " + seqId + " ";
+	public JsonResult<String> cancle(@RequestParam int userId){
+		String message = "cancle seq for userId = " + userId + " ";
 		Boolean flag = false;
 		try {
-			sequenceService.cancleSeq(seqId);
+			sequenceService.cancleSeq(userId);
 			flag = true;
 			message = message + "success!";
 		} catch (Exception e) {
@@ -59,12 +59,12 @@ public class AppSequenceController {
 	
 	@RequestMapping("/getSeqInfo")
 	@ResponseBody
-	public JsonResult<SequenceInfo> getSeqInfo( @RequestParam int seqId){
-		String message = "Get seqId = " + seqId + " detail info ";
+	public JsonResult<SequenceInfo> getSeqInfo( @RequestParam int userId){
+		String message = "Get userId = " + userId + " detail info ";
 		Boolean flag = false;
 		SequenceInfo sequenceInfo = new SequenceInfo();
 		try {
-			sequenceInfo = sequenceService.getSequenceInfo(seqId);
+			sequenceInfo = sequenceService.getSequenceInfo(userId);
 			flag = true;
 			message = message + "success!";
 		} catch (Exception e) {

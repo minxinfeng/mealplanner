@@ -76,12 +76,14 @@ public class SequenceServiceImpl implements SequenceService {
 	}
 	
 
-	public void cancleSeq(int seqId) throws InternalException {
+	public void cancleSeq(int userId) throws InternalException {
 		try {
+			SequenceInfo sequenceInfo = sequenceInfoMapper.getLatestSeqByUserId(userId);
+			int seqId = sequenceInfo.getSeqid();
 			sequenceInfoMapper.updateSeqStatus(seqId, SequenceStatus.cancle.getValue());
-			LOG.info("Cancle seqId=" + seqId + " success!");
+			LOG.info("Cancle  seq of userId=" + seqId + " success!");
 		} catch (Exception e) {
-			String message = "Cancle seqId=" + seqId + " failed!Reason:" + e.getMessage();
+			String message = "Cancle seq of userId=" + userId + " failed!Reason:" + e.getMessage();
 			LOG.error(message);
 			throw new InternalException(message);
 		}
@@ -123,13 +125,13 @@ public class SequenceServiceImpl implements SequenceService {
 		}
 	}
 	
-	public SequenceInfo getSequenceInfo(int seqId) throws InternalException{
+	public SequenceInfo getSequenceInfo(int userId) throws InternalException{
 		try {
-			SequenceInfo sequenceInfo = sequenceInfoMapper.selectByPrimaryKey(seqId);
-			LOG.info("Get seqId=" + seqId + " detail info success!");
+			SequenceInfo sequenceInfo = sequenceInfoMapper.getLatestSeqByUserId(userId);
+			LOG.info("Get seq of userId=" + userId + " detail info success!");
 			return sequenceInfo;
 		} catch (Exception e) {
-			String message = "Get seqId=" + seqId + " detail info failed!Reason:" + e.getMessage();
+			String message = "Get seq of userId=" + userId + " detail info failed!Reason:" + e.getMessage();
 			LOG.error(message);
 			throw new InternalException(message);
 		}
