@@ -59,12 +59,12 @@ public class AppSequenceController {
 	
 	@RequestMapping("/getSeqInfo")
 	@ResponseBody
-	public JsonResult<SequenceInfo> getSeqInfo( @RequestParam int userId){
+	public JsonResult<SequenceDetailForUser> getSeqInfo( @RequestParam int userId){
 		String message = "Get userId = " + userId + " detail info ";
 		Boolean flag = false;
-		SequenceInfo sequenceInfo = new SequenceInfo();
+		SequenceDetailForUser sequenceDetailForUser = new SequenceDetailForUser();
 		try {
-			sequenceInfo = sequenceService.getSequenceInfo(userId);
+			sequenceDetailForUser = sequenceService.getSequenceInfo(userId);
 			flag = true;
 			message = message + "success!";
 		} catch (Exception e) {
@@ -72,6 +72,6 @@ public class AppSequenceController {
 			
 		}
 		
-		return new JsonResult<SequenceInfo>(flag, message, sequenceInfo);
+		return new JsonResult<SequenceDetailForUser>(flag, message, sequenceDetailForUser);
 	}
 }

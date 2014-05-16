@@ -125,11 +125,28 @@ public class SequenceServiceImpl implements SequenceService {
 		}
 	}
 	
-	public SequenceInfo getSequenceInfo(int userId) throws InternalException{
+	public SequenceDetailForUser getSequenceInfo(int userId) throws InternalException{
 		try {
+			SequenceDetailForUser sequenceDetailForUser = new SequenceDetailForUser();
+			
 			SequenceInfo sequenceInfo = sequenceInfoMapper.getLatestSeqByUserId(userId);
+			int seqId = sequenceInfo.getSeqid();
+			int restId = sequenceInfo.getRestid();
+			int seatType = sequenceInfo.getSeattype();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String dateString = formatter.format(new Date());
+			String dateDay = dateString.split(" ")[0];
+			sequenceDetailForUser.setPeopleNum(sequenceInfo.getPeoplenum());
+			sequenceDetailForUser.setRestId(restId);
+			sequenceDetailForUser.setUserId(sequenceInfo.getUserid());
+			sequenceDetailForUser.setPeopleBefore(sequenceInfoMapper.getSeqBeforeSeqId(seqId, restId, seatType, dateDay));
+			sequenceDetailForUser.setSeatType(seatType);
+			sequenceDetailForUser.setSeqId(seqId);
+			sequenceDetailForUser.setSeqNo(sequenceInfo.getSeqno());
+			sequenceDetailForUser.setSeqNow(this.getSeqNow(restId));
+			
 			LOG.info("Get seq of userId=" + userId + " detail info success!");
-			return sequenceInfo;
+			return sequenceDetailForUser;
 		} catch (Exception e) {
 			String message = "Get seq of userId=" + userId + " detail info failed!Reason:" + e.getMessage();
 			LOG.error(message);
@@ -156,7 +173,10 @@ public class SequenceServiceImpl implements SequenceService {
 	
 	//获取正在用餐的排队号
 	private int getSeqNow(int restId){
-		Integer seqNow = sequenceInfoMapper.getSeqNow(restId);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dateString = formatter.format(new Date());
+		String dateDay = dateString.split(" ")[0];
+		Integer seqNow = sequenceInfoMapper.getSeqNow(restId, dateDay);
 		if(seqNow == null ){
 			seqNow = 0;
 		}

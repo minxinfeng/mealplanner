@@ -137,7 +137,7 @@
   <select id="getSeqNow" resultType="java.lang.Integer" >
     select seqNo
     from sequenceinfo
-    where restId = #{restId,jdbcType=INTEGER} and status = 1
+    where restId = #{restId,jdbcType=INTEGER} and status = 1 and seqDate &gt; #{dateDay,jdbcType=VARCHAR}
     order by seqId desc limit 1
   </select>
   
@@ -146,6 +146,14 @@
     from sequenceinfo
     where restId = #{restId,jdbcType=INTEGER} and seatType = #{seatType,jdbcType=INTEGER} and status = 0
     and seqDate &gt; #{dateDay,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getSeqBeforeSeqId" resultType="java.lang.Integer" >
+    select count(seqNo)
+    from sequenceinfo
+    where restId = #{restId,jdbcType=INTEGER} and seatType = #{seatType,jdbcType=INTEGER} and status = 0
+    and seqDate &gt; #{dateDay,jdbcType=VARCHAR}
+    and seqId &lt; #{seqId,jdbcType=INTEGER}
   </select>
   
   <select id="getLatestSeqId" resultType="java.lang.Integer" >
