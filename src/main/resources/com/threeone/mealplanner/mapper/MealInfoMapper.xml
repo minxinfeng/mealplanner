@@ -12,16 +12,12 @@
     <result column="mealStatus" property="mealstatus" jdbcType="INTEGER" />
   </resultMap>
   
-  <resultMap id="userInfoResultMap" type="com.threeone.mealplanner.model.UserInfoForShow" >
+  <resultMap id="mealFriendWithStatusResultMap" type="com.threeone.mealplanner.model.MealFriendWithStatus" >
     <id column="userId" property="userid" jdbcType="INTEGER" />
     <result column="userName" property="username" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="phoneNum" property="phonenum" jdbcType="VARCHAR" />
-  </resultMap>
-  
-  <resultMap id="mealFriendWithStatus" type="com.threeone.mealplanner.model.MealFriendWithStatus" >
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <collection property="friendInfo" resultMap="userInfoResultMap"></collection>
+     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -119,7 +115,7 @@
     where mealId = #{mealid,jdbcType=INTEGER}
   </update>
   
-  <select id="getMealFriendWithStatus" resultMap="mealFriendWithStatus">
+  <select id="getMealFriendWithStatus" resultMap="mealFriendWithStatusResultMap">
     select userId, userName, email, phoneNum, status
     from userinfo, mealfriend
     where mealfriend.mealId = #{mealId,jdbcType=INTEGER} and userinfo.userId=mealfriend.friendId
