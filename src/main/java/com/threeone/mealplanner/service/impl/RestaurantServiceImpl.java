@@ -45,15 +45,35 @@ public class RestaurantServiceImpl implements RestaurantService {
 	public List<RestaurantWithMenu> getSeveralRestaurantWithMenus(int start,
 			int limit) throws InternalException {
 		List<RestaurantWithMenu> restaurantWithMenus = new ArrayList<RestaurantWithMenu>();
-		List<RestaurantInfo> restaurantInfos = restaurantInfoMapper.getSeveralRestaurantInfos(start, limit);
-		for (RestaurantInfo restaurantInfo : restaurantInfos) {
-			RestaurantWithMenu restaurantWithMenu = new RestaurantWithMenu();
-			List<MenuInfo> menuInfos = menuInfoMapper.getMenuByRestId(restaurantInfo.getRestid());
-			restaurantWithMenu.setRestaurantInfo(restaurantInfo);
-			restaurantWithMenu.setMenuInfos(menuInfos);
-			restaurantWithMenus.add(restaurantWithMenu);
+		try {
+			List<RestaurantInfo> restaurantInfos = restaurantInfoMapper.getSeveralRestaurantInfos(start, limit);
+			for (RestaurantInfo restaurantInfo : restaurantInfos) {
+				RestaurantWithMenu restaurantWithMenu = new RestaurantWithMenu();
+				List<MenuInfo> menuInfos = menuInfoMapper.getMenuByRestId(restaurantInfo.getRestid());
+				restaurantWithMenu.setRestaurantInfo(restaurantInfo);
+				restaurantWithMenu.setMenuInfos(menuInfos);
+				restaurantWithMenus.add(restaurantWithMenu);
+			}
+			LOG.info("Get restaurants with menu info from " + start + "  limit to " + limit + " success!");
+		} catch (Exception e) {
+			String message = "Get restaurants with menu info from " + start + "  limit to " + limit + "failed, Reason:" + e.getMessage();
+			LOG.error(message);
+			throw new InternalException(message);
 		}
 		return restaurantWithMenus;
+	}
+	
+	public List<RestaurantInfo> getSeveralRest(int start, int limit) throws InternalException{
+		List<RestaurantInfo> restaurantInfos = new ArrayList<RestaurantInfo>();
+		try {
+			restaurantInfos = restaurantInfoMapper.getSeveralRestaurantInfos(start, limit);
+			LOG.info("Get restaurants info from " + start + "  limit to " + limit + " success!");
+		} catch (Exception e) {
+			String message = "Get restaurants from " + start + "  limit to " + limit + "failed, Reason:" + e.getMessage();
+			LOG.error(message);
+			throw new InternalException(message);
+		}
+		return restaurantInfos;
 	}
 	
 	public RestaurantInfo getRestaurantInfo(int restId)
@@ -85,7 +105,11 @@ public class RestaurantServiceImpl implements RestaurantService {
 	
 	public RestaurantInfo getRestInfoByExactName(String restName) throws InternalException {
 		try {
-			return restaurantInfoMapper.getRestInfoByExactName(restName);
+			RestaurantInfo restaurantInfo = restaurantInfoMapper.getRestInfoByExactName(restName);
+			if(restaurantInfo == null){
+				throw new InternalException("Don't have the restaurant " + restName);
+			}
+			return restaurantInfo;
 		} catch (Exception e) {
 			throw new InternalException(e.getMessage());
 		}

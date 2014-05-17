@@ -42,6 +42,7 @@ public class AppRestaurantController {
 	@ResponseBody
 	public JsonResult<List<RestaurantWithMenu>> getSeveralRestaurantWithMenus(@RequestParam int start, @RequestParam int limit){
 		Boolean flag = true;
+		start = 10;
 		String message = "Get restaurants info from " + start + "  limit to " + limit;
 		try {
 			List<RestaurantWithMenu> restaurantWithMenus = restaurantService.getSeveralRestaurantWithMenus(start,limit);
@@ -92,7 +93,8 @@ public class AppRestaurantController {
 		Boolean flag = true;
 		String message = "Get restaurants info of " + restName;
 		try {
-			int restId = restaurantService.getRestInfoByExactName(restName).getRestid();
+			RestaurantInfo restaurantInfo = restaurantService.getRestInfoByExactName(restName);
+			int restId = restaurantInfo.getRestid();
 			RestaurantWithMenu restaurantWithMenu = restaurantService.getRestaurantInfoWithMenu(restId);
 			message += " success!";
 			return new JsonResult<RestaurantWithMenu>(flag, message, restaurantWithMenu);
@@ -155,6 +157,22 @@ public class AppRestaurantController {
 			message = message + " failed! Reason:" + e.getMessage();
 		}
 		return new JsonResult<String>(flag, message, null);
+	}
+	
+	@RequestMapping("/getSeveralRest")
+	@ResponseBody
+	public JsonResult<List<RestaurantInfo>> getSeveralRest(@RequestParam int start, @RequestParam int limit){
+		Boolean flag = true;
+		String message = "Get restaurants info from " + start + "  limit to " + limit;
+		try {
+			List<RestaurantInfo> restaurantInfos = restaurantService.getSeveralRest(start,limit);
+			message += " success!";
+			return new JsonResult<List<RestaurantInfo>>(flag, message, restaurantInfos);
+		} catch (InternalException e) {
+			flag = false;
+			message = message + " failed! Reason:" + e.getMessage();
+			return new JsonResult<List<RestaurantInfo>>(flag, message, null);
+		}
 	}
 
 }

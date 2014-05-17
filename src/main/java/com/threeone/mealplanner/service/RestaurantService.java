@@ -29,6 +29,8 @@ public interface RestaurantService {
 	
 	List<RestaurantWithMenu> getSeveralRestaurantWithMenus(int start, int limit) throws InternalException;
 	
+	List<RestaurantInfo> getSeveralRest(int start, int limit) throws InternalException;
+	
 	/**
 	 * 获取餐厅基本信息
 	 * @param restId
