@@ -8,7 +8,7 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a class="menuHref" href="#">Home</a></li>
+            <li><a class="homeHref" href="#">Home</a></li>
             <li><a class="menuHref" href="#">Menu</a></li>
             <li><a class="dropdown-toggle seatHref" href="#"  style="margin-bottom:-5px" data-toggle="dropdown">Seat</a>
             	 <ul class="dropdown-menu">
@@ -46,7 +46,7 @@
       $(".seatManagerHref").attr("href","${rc.contextPath}/web/seat/getSeatInfosByUserId?userId=" +$.cookie("rest_userid"));
       $(".orderHref").attr("href","${rc.contextPath}/web/order/getOrderByUserId?userId=" +$.cookie("rest_userid"));
       $(".sequenceHref").attr("href","${rc.contextPath}/web/sequence/getSequenceByUserId?userId=" +$.cookie("rest_userid"));
-      
+      $(".homeHref").attr("href","${rc.contextPath}/index?userId=" +$.cookie("rest_userid"));
       $.ajax({
           type:"POST",
           url:"${rc.contextPath}/web/getUserId",

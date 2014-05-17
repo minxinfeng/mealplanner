@@ -39,6 +39,11 @@ public class WebUserInfoController {
 	@Autowired
 	private RestaurantTypeService restaurantTypeService;
 	
+	@RequestMapping("/home")
+	public String index(Model model) {
+		return "home.ftl";
+	}
+	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String loginGet(){
 		return "auth/login.ftl";
