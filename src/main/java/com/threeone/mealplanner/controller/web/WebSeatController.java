@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +18,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.common.JsonResult;
+import com.threeone.mealplanner.model.OrderDetail;
 import com.threeone.mealplanner.model.entity.MenuInfo;
 import com.threeone.mealplanner.model.entity.RestType;
 import com.threeone.mealplanner.model.entity.SeatInfo;
+import com.threeone.mealplanner.model.entity.UserInfo;
 import com.threeone.mealplanner.service.RestaurantService;
 import com.threeone.mealplanner.service.SeatService;
+import com.threeone.mealplanner.service.UserService;
 
 @Controller
 @RequestMapping("/web/seat")
@@ -32,15 +37,28 @@ public class WebSeatController {
 	@Autowired
 	private RestaurantService restaurantService;
 	
+	@Autowired
+	private UserService userService;
+	
 	@RequestMapping(value = "/getSeatByUserId", method = RequestMethod.GET)
-	public String getSeatByUserId(@RequestParam int userId, Model model){
+	public String getSeatByUserId(@RequestParam int userId, Model model, HttpSession session){
 		try {
-			int restId = restaurantService.getRestIdByUserId(userId);
-			List<SeatInfo> seatInfos = seatService.getSeatsByRestId(restId);
-			List<String> nextWeeks = getNextWeek();
-			model.addAttribute("seatInfos", seatInfos);
-			model.addAttribute("nextWeeks", nextWeeks);
-			return "seat/seat.ftl";
+			if(session.getAttribute("userId") == null){
+				return "redirect:/web/login.ftl";
+			}
+			UserInfo checkUserInfo = userService.getUserInfoById(Integer.parseInt(session.getAttribute("userId").toString()));
+			if(checkUserInfo != null){
+				int restId = restaurantService.getRestIdByUserId(userId);
+				List<SeatInfo> seatInfos = seatService.getSeatsByRestId(restId);
+				List<String> nextWeeks = getNextWeek();
+				model.addAttribute("seatInfos", seatInfos);
+				model.addAttribute("nextWeeks", nextWeeks);
+				return "seat/seat.ftl";
+			}else{
+				System.out.println("user is null");
+				return "redirect:/web/login.ftl";
+			}
+			
 		} catch (InternalException e) {
 			e.printStackTrace();
 			return "seat/seat.ftl";
@@ -122,15 +140,25 @@ public class WebSeatController {
 	}
 	
 	@RequestMapping(value = "/getSeatInfosByUserId", method = RequestMethod.GET)
-	public String getSeatInfosByUserId(@RequestParam int userId, Model model){
+	public String getSeatInfosByUserId(@RequestParam int userId, Model model, HttpSession session){
 		String message = "Get seats for userId=" + userId;
 		try {
-			int restId = restaurantService.getRestIdByUserId(userId);
-			List<SeatInfo> seatInfos = seatService.getSeatsByRestId(restId);
-			System.out.println(seatInfos.size());
-			model.addAttribute("seatInfos", seatInfos);
-			message += " success!";
-			return "seat/seatManager.ftl";
+			if(session.getAttribute("userId") == null){
+				return "redirect:/web/login.ftl";
+			}
+			UserInfo checkUserInfo = userService.getUserInfoById(Integer.parseInt(session.getAttribute("userId").toString()));
+			if(checkUserInfo != null){
+				int restId = restaurantService.getRestIdByUserId(userId);
+				List<SeatInfo> seatInfos = seatService.getSeatsByRestId(restId);
+				System.out.println(seatInfos.size());
+				model.addAttribute("seatInfos", seatInfos);
+				message += " success!";
+				return "seat/seatManager.ftl";
+			}else{
+				System.out.println("user is null");
+				return "redirect:/web/login.ftl";
+			}		
+			
 		} catch (Exception e) {
 			message = message + " error! Reason:" + e.getMessage();
 			return "seat/seatManager.ftl";

@@ -3,6 +3,8 @@ package com.threeone.mealplanner.controller.web;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,11 +45,12 @@ public class WebUserInfoController {
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String loginPost(@RequestParam String loginName, @RequestParam String password, Model model){		
+	public String loginPost(@RequestParam String loginName, @RequestParam String password, Model model, HttpSession session){		
 		try {
 			UserInfo userInfo = userService.getUserInfoByLogin(loginName);
 			RestaurantInfo restaurantInfo = restaurantService.getRestNameByUser(userInfo);
 			Message message = new Message();
+			session.setAttribute("userId", userInfo.getUserid());
 			if(userInfo == null || !userInfo.getPassword().equals(password)){
 				message.danger("Username or password is error!");
 				model.addAttribute("messages", message.getMessages());
@@ -90,7 +93,6 @@ public class WebUserInfoController {
 		String message = "Get restaurant ID success!";
 		try {
 			String restId = restaurantService.getRestsByName(restName).get(0).getRestid().toString();
-			System.out.println("restId:"+ restId);
 			return new JsonResult<String>(flag, message, restId);
 		} catch (InternalException e) {
 			flag = false;

@@ -2,6 +2,8 @@ package com.threeone.mealplanner.controller.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +16,10 @@ import com.threeone.mealplanner.common.JsonResult;
 import com.threeone.mealplanner.model.OrderDetail;
 import com.threeone.mealplanner.model.OrderStatus;
 import com.threeone.mealplanner.model.entity.OrderInfo;
+import com.threeone.mealplanner.model.entity.UserInfo;
 import com.threeone.mealplanner.service.OrderService;
 import com.threeone.mealplanner.service.RestaurantService;
+import com.threeone.mealplanner.service.UserService;
 
 @Controller
 @RequestMapping("/web/order")
@@ -27,17 +31,30 @@ public class WebOrderController {
 	@Autowired
 	private RestaurantService restaurantService;
 	
+	@Autowired
+	private UserService userService;
+	
 	@RequestMapping(value = "/getOrderByUserId", method = RequestMethod.GET)
-	public String getOrderByUsrId(@RequestParam int userId, Model model){
+	public String getOrderByUsrId(@RequestParam int userId, Model model, HttpSession session){
 		Boolean flag = false;
 		String message = "Get orderDetail of userId = " + userId;
 		try {
-			int restId = restaurantService.getRestIdByUserId(userId);
-			List<OrderDetail> orderDetails = orderService.getOrderByRest(restId, null, null);
-			model.addAttribute("orderDetails", orderDetails);
-			message += " success!";
-			flag = true;
-			return "order/order.ftl";
+			if(session.getAttribute("userId") == null){
+				return "redirect:/web/login.ftl";
+			}
+			UserInfo checkUserInfo = userService.getUserInfoById(Integer.parseInt(session.getAttribute("userId").toString()));
+			if(checkUserInfo != null){
+				int restId = restaurantService.getRestIdByUserId(userId);
+				List<OrderDetail> orderDetails = orderService.getOrderByRest(restId, null, null);
+				model.addAttribute("orderDetails", orderDetails);
+				message += " success!";
+				flag = true;
+				return "order/order.ftl";
+			}else{
+				System.out.println("user is null");
+				return "redirect:/web/login.ftl";
+			}
+			
 		} catch (Exception e) {
 			message = message + " failed. Reason:" + e.getMessage();
 			return "order/order.ftl";
