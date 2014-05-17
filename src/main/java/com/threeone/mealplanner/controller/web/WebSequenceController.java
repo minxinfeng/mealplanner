@@ -2,13 +2,11 @@ package com.threeone.mealplanner.controller.web;
 
 import java.util.List;
 
-import javax.mail.Flags.Flag;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.common.JsonResult;
-import com.threeone.mealplanner.common.Message;
 import com.threeone.mealplanner.model.SequenceDetailForRest;
 import com.threeone.mealplanner.model.entity.UserInfo;
 import com.threeone.mealplanner.service.RestaurantService;
@@ -83,7 +80,8 @@ public class WebSequenceController {
 		Boolean flag = false;
 		String message = "Cancle sequence for seqId = " + seqId;
 		try {
-			sequenceService.cancleSeq(seqId);
+			int userId = sequenceService.getUserIdBySeq(seqId);
+			sequenceService.cancleSeq(userId);
 			message = message + "success";
 			flag = true;
 			return new JsonResult<String>(flag, message);

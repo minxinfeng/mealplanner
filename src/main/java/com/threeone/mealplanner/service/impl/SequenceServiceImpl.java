@@ -289,6 +289,10 @@ public class SequenceServiceImpl implements SequenceService {
 		return sequenceInfoForPush;
 	}
 
+	//获取用户ID
+	public int getUserIdBySeq(int seqId){
+		return sequenceInfoMapper.selectByPrimaryKey(seqId).getUserid();
+	}
 
 	public void setRestaurantInfoMapper(RestaurantInfoMapper restaurantInfoMapper) {
 		this.restaurantInfoMapper = restaurantInfoMapper;

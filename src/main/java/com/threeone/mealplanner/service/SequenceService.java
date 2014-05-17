@@ -26,4 +26,6 @@ public interface SequenceService {
 	List<SequenceDetailForRest> getAllSeqInfosByRest(int restId);
 	//获取排队详细信息
 	SequenceDetailForUser getSequenceInfo(int userId) throws InternalException;
+	//获取某个排队的用户ID
+	int getUserIdBySeq(int seqId);
 }
