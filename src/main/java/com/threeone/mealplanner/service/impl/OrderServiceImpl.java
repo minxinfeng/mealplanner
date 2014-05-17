@@ -65,7 +65,6 @@ public class OrderServiceImpl implements OrderService {
 		
 	}
 
-	
 	public List<OrderDetail> getOrderByRest(int restId, String dateFrom,
 			String dateTo) throws InternalException {
 		try {
@@ -160,7 +159,18 @@ public class OrderServiceImpl implements OrderService {
 				LOG.error(message);
 				throw new InternalException(message);
 			}else{
+				//更新订单状态
 				orderInfoMapper.updateOrderStatus(orderId, userId, OrderStatus.cancled.getValue());
+				//释放掉座位
+				int seatId = orderInfo.getSeatid();
+				int restId = orderInfo.getSeatid();
+				Date mealTime = orderInfo.getMealtime();
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String dateString = formatter.format(mealTime);
+				String dateDay = dateString.split(" ")[0];
+				int dateClock = mealTime.getHours();
+				seatService.freeSeatById(seatId, restId, dateDay, dateClock);
+				
 				message += " success!";
 				LOG.info(message);
 			}
