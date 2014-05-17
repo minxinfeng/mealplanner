@@ -6,7 +6,7 @@
 				    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 				     <h4 class="modal-title" id="seatInfoModalLabel">Table No ${seatInfo.getSeatno()}</h4>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body" style="width:400px; margin:0 auto;">
 				    <div class="bs-docs-grid">					    
 						<div class="row show-grid">
 							<div class="col-md-3">

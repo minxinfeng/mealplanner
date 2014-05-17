@@ -7,7 +7,7 @@
 		  color: #000;
 		  margin: 10px;
 		  width: 300px;
-		  border: 3px dashed #999;
+		  border: 1px dashed #999;
 		  background: #eee;
 		  padding: 10px;
 		  display: block;
@@ -52,6 +52,31 @@
 		}
 		
 		#dragSeq #bin p {
+		  font-weight: bold;
+		  text-align: center;
+		  position: absolute;
+		  bottom: 20px;
+		  width: 166px;
+		  font-size: 32px;
+		  color: #fff;
+		  text-shadow: #000 2px 2px 2px;
+		}
+	
+		#dragSeq #recycle {
+		  background: url(images/recycle.jpg) top left no-repeat;
+		  height: 259px;
+		  width: 222px;
+		  float: left;
+		  border: 5px solid #000;
+		  position: relative;
+		  margin-top: 0;
+		}
+		
+		#dragSeq #recycle.over {
+		  background: url(images/recycle.jpg) top right no-repeat;
+		}
+		
+		#dragSeq #recycle p {
 		  font-weight: bold;
 		  text-align: center;
 		  position: absolute;
