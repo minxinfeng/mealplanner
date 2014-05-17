@@ -4,6 +4,7 @@ public class SequenceDetailForUser {
 	private int seqId; //排队唯一标识ID
 	private int userId;//用户ID
 	private int restId;//餐厅ID
+	private String restName;//餐厅名称
 	private int seqNo;// 排队号ID
 	private int seqNow;//现在正在进行的排队号ID
 	private int seatType;//几人桌
@@ -72,5 +73,13 @@ public class SequenceDetailForUser {
 
 	public void setSeqId(int seqId) {
 		this.seqId = seqId;
+	}
+
+	public String getRestName() {
+		return restName;
+	}
+
+	public void setRestName(String restName) {
+		this.restName = restName;
 	}
 }

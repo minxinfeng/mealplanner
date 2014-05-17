@@ -10,14 +10,17 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.threeone.mealplanner.common.InternalException;
+import com.threeone.mealplanner.mapper.RestaurantInfoMapper;
 import com.threeone.mealplanner.mapper.SequenceInfoMapper;
 import com.threeone.mealplanner.mapper.UserInfoMapper;
 import com.threeone.mealplanner.model.SequenceDetailForRest;
 import com.threeone.mealplanner.model.SequenceDetailForUser;
 import com.threeone.mealplanner.model.SequenceStatus;
+import com.threeone.mealplanner.model.entity.SeatInfo;
 import com.threeone.mealplanner.model.entity.SequenceInfo;
 import com.threeone.mealplanner.model.entity.UserInfo;
 import com.threeone.mealplanner.push.PushService;
+import com.threeone.mealplanner.service.SeatService;
 import com.threeone.mealplanner.service.SequenceService;
 
 public class SequenceServiceImpl implements SequenceService {
@@ -25,6 +28,10 @@ public class SequenceServiceImpl implements SequenceService {
 	private static final Log LOG = LogFactory.getLog(SequenceServiceImpl.class); 
 	private SequenceInfoMapper sequenceInfoMapper;
 	private UserInfoMapper userInfoMapper;
+	private RestaurantInfoMapper restaurantInfoMapper;
+	
+	@Autowired
+	private SeatService seatService;
 	
 	@Autowired
 	private PushService pushService;
@@ -40,34 +47,57 @@ public class SequenceServiceImpl implements SequenceService {
 	}
 	
 	
+	@SuppressWarnings("null")
 	public SequenceDetailForUser createSequence(SequenceInfo sequenceInfo) throws InternalException{
 		try {
-			SequenceDetailForUser sequenceDetailForUser = new SequenceDetailForUser();
-			
-			sequenceDetailForUser.setPeopleNum(sequenceInfo.getPeoplenum());
-			sequenceDetailForUser.setRestId(sequenceInfo.getRestid());
-			sequenceDetailForUser.setUserId(sequenceInfo.getUserid());
 			int restId = sequenceInfo.getRestid();
-			//1.生成对应的seqNo
-			int seqNo = this.getSeqNo(restId);
-			sequenceDetailForUser.setSeqNo(seqNo);
-			//2.获取排在当前队列未用餐的第一个人的排队号
-			int seqNow = this.getSeqNow(restId);
-			sequenceDetailForUser.setSeqNow(seqNow);
-			//3. 获取当前队列排队的队数
-			int seatType = this.getSeatType(sequenceInfo.getPeoplenum());
-			int peopleBefore = this.getSeqBefore(restId, seatType);
-			sequenceDetailForUser.setPeopleBefore(peopleBefore);
-			sequenceDetailForUser.setSeatType(seatType);
-			//插入记录
-			sequenceInfo.setSeattype(seatType);
-			sequenceInfo.setSeqdate(new Date());
-			sequenceInfo.setSeqno(seqNo);
-			sequenceInfo.setStatus(SequenceStatus.waiting.getValue());
-			sequenceInfoMapper.insertSelective(sequenceInfo);
-			sequenceDetailForUser.setSeqId(sequenceInfoMapper.getLatestSeqId(restId, seatType));
-			LOG.info("insert seq success!");
-			return sequenceDetailForUser;
+			int userId = sequenceInfo.getUserid();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date now = new Date();
+			String dateString = formatter.format(now);
+			String dateDay = dateString.split(" ")[0];
+			int dateClock = now.getHours();
+			List<SeatInfo> seatInfos = seatService.getAvailableSeats(restId, dateDay, dateClock, sequenceInfo.getPeoplenum());
+			//如果有空座，不进入排队程序
+			if(!seatInfos.isEmpty()){
+				LOG.error("userId=" + userId + " line up cancle due to there has free seat!");
+				throw new InternalException("Free");
+			}else {
+				//无空座，进入排队程序
+				SequenceDetailForUser sequenceDetailForUser = this.getSequenceInfo(userId);
+				//已在队列中，提示不可排队
+				if(sequenceDetailForUser != null){
+					LOG.error("userId=" + userId + " has in sequence, line up cancle!");
+					throw new InternalException("hasLineUp");
+				}else{
+					//不在队列中，进行排队
+					sequenceDetailForUser.setPeopleNum(sequenceInfo.getPeoplenum());
+					sequenceDetailForUser.setRestId(sequenceInfo.getRestid());
+					sequenceDetailForUser.setUserId(sequenceInfo.getUserid());
+					
+					//1.生成对应的seqNo
+					int seqNo = this.getSeqNo(restId);
+					sequenceDetailForUser.setSeqNo(seqNo);
+					//2.获取排在当前队列未用餐的第一个人的排队号
+					int seqNow = this.getSeqNow(restId);
+					sequenceDetailForUser.setSeqNow(seqNow);
+					//3. 获取当前队列排队的队数
+					int seatType = this.getSeatType(sequenceInfo.getPeoplenum());
+					int peopleBefore = this.getSeqBefore(restId, seatType);
+					sequenceDetailForUser.setPeopleBefore(peopleBefore);
+					sequenceDetailForUser.setSeatType(seatType);
+					//插入记录
+					sequenceInfo.setSeattype(seatType);
+					sequenceInfo.setSeqdate(new Date());
+					sequenceInfo.setSeqno(seqNo);
+					sequenceInfo.setStatus(SequenceStatus.waiting.getValue());
+					sequenceInfoMapper.insertSelective(sequenceInfo);
+					sequenceDetailForUser.setSeqId(sequenceInfoMapper.getLatestSeqId(restId, seatType));
+					LOG.info("insert seq success!");
+					return sequenceDetailForUser;
+				}
+			}
+			
 		} catch (Exception e) {
 			String message = "insert seq failed.Reason:" + e.getMessage();
 			LOG.error(message);
@@ -78,10 +108,7 @@ public class SequenceServiceImpl implements SequenceService {
 
 	public void cancleSeq(int userId) throws InternalException {
 		try {
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String dateString = formatter.format(new Date());
-			String dateDay = dateString.split(" ")[0];
-			SequenceInfo sequenceInfo = sequenceInfoMapper.getLatestSeqByUserId(userId,dateDay);
+			SequenceInfo sequenceInfo = sequenceInfoMapper.getLatestSeqByUserId(userId,getDateDay());
 			int seqId = sequenceInfo.getSeqid();
 			sequenceInfoMapper.updateSeqStatus(seqId, SequenceStatus.cancle.getValue());
 			LOG.info("Cancle  seq of userId=" + seqId + " success!");
@@ -113,7 +140,7 @@ public class SequenceServiceImpl implements SequenceService {
 					int seatType = sequenceInfoForPush.getSeattype();
 					pushService.setUserId(sequenceInfoForPush.getUserid());
 					pushService.setTitle("用餐时间正在靠近");
-					pushService.setDescription("亲，您有" + sequenceInfoForPush.getPeoplenum() + "人就餐，为您提供了" + seatType + "人桌，前面还有2位排队" + seatType + "人桌，请尽快回到餐厅，以防错过排好");
+					pushService.setDescription("亲，您有" + sequenceInfoForPush.getPeoplenum() + "人就餐，为您提供了" + seatType + "人桌，前面还有2位排队" + seatType + "人桌，请尽快回到餐厅，以防错过排号。");
 					thread = new Thread(pushService);
 					thread.run();
 				}
@@ -130,25 +157,12 @@ public class SequenceServiceImpl implements SequenceService {
 	
 	public SequenceDetailForUser getSequenceInfo(int userId) throws InternalException{
 		try {
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String dateString = formatter.format(new Date());
-			String dateDay = dateString.split(" ")[0];
 			
 			SequenceDetailForUser sequenceDetailForUser = new SequenceDetailForUser();
 			SequenceInfo sequenceInfo = new SequenceInfo();
-			sequenceInfo = sequenceInfoMapper.getLatestSeqByUserId(userId,dateDay);
+			sequenceInfo = sequenceInfoMapper.getLatestSeqByUserId(userId,getDateDay());
 			if(sequenceInfo != null){
-				int seqId = sequenceInfo.getSeqid();
-				int restId = sequenceInfo.getRestid();
-				int seatType = sequenceInfo.getSeattype();
-				sequenceDetailForUser.setPeopleNum(sequenceInfo.getPeoplenum());
-				sequenceDetailForUser.setRestId(restId);
-				sequenceDetailForUser.setUserId(sequenceInfo.getUserid());
-				sequenceDetailForUser.setPeopleBefore(sequenceInfoMapper.getSeqBeforeSeqId(seqId, restId, seatType, dateDay));
-				sequenceDetailForUser.setSeatType(seatType);
-				sequenceDetailForUser.setSeqId(seqId);
-				sequenceDetailForUser.setSeqNo(sequenceInfo.getSeqno());
-				sequenceDetailForUser.setSeqNow(this.getSeqNow(restId));
+				sequenceDetailForUser = toSequenceDetailForUser(sequenceInfo);
 			}else {
 				sequenceDetailForUser = null;
 			}
@@ -159,6 +173,32 @@ public class SequenceServiceImpl implements SequenceService {
 			LOG.error(message);
 			throw new InternalException(message);
 		}
+	}
+	
+	//通过排队信息获取排队详细信息，包括排队的详细信息
+	private SequenceDetailForUser toSequenceDetailForUser(SequenceInfo sequenceInfo){
+		SequenceDetailForUser sequenceDetailForUser = new SequenceDetailForUser();
+		int seqId = sequenceInfo.getSeqid();
+		int restId = sequenceInfo.getRestid();
+		int seatType = sequenceInfo.getSeattype();
+		sequenceDetailForUser.setPeopleNum(sequenceInfo.getPeoplenum());
+		sequenceDetailForUser.setRestId(restId);
+		sequenceDetailForUser.setUserId(sequenceInfo.getUserid());
+		sequenceDetailForUser.setPeopleBefore(sequenceInfoMapper.getSeqBeforeSeqId(seqId, restId, seatType, getDateDay()));
+		sequenceDetailForUser.setSeatType(seatType);
+		sequenceDetailForUser.setSeqId(seqId);
+		sequenceDetailForUser.setSeqNo(sequenceInfo.getSeqno());
+		sequenceDetailForUser.setSeqNow(this.getSeqNow(restId));
+		sequenceDetailForUser.setRestName(restaurantInfoMapper.selectByPrimaryKey(restId).getRestname());
+		return sequenceDetailForUser;
+	}
+	
+	//获取今天的日期
+	private String getDateDay(){
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dateString = formatter.format(new Date());
+		String dateDay = dateString.split(" ")[0];
+		return dateDay;
 	}
 	
 	//获取在某个餐厅的特定排队号
@@ -243,6 +283,11 @@ public class SequenceServiceImpl implements SequenceService {
 			sequenceInfoForPush = sequenceInfos.get(sequenceInfos.size()-1);
 		}
 		return sequenceInfoForPush;
+	}
+
+
+	public void setRestaurantInfoMapper(RestaurantInfoMapper restaurantInfoMapper) {
+		this.restaurantInfoMapper = restaurantInfoMapper;
 	}
 
 }

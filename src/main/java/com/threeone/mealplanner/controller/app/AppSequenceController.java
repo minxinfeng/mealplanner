@@ -33,8 +33,8 @@ public class AppSequenceController {
 			flag = true;
 			message = message + "success!";
 		} catch (Exception e) {
-			message = message + "failed. Reason:" +e.getMessage();
-			
+			String errorMsg = e.getMessage();
+			message = errorMsg;
 		}
 		
 		return new JsonResult<SequenceDetailForUser>(flag, message, sequenceDetailForUser);
@@ -68,7 +68,7 @@ public class AppSequenceController {
 			if(sequenceDetailForUser != null){
 				message = message + "success!";
 			}else {
-				message = "no";
+				message = "no";//没有userId的排队信息
 			}
 		} catch (Exception e) {
 			message = message + "failed. Reason:" +e.getMessage();
