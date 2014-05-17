@@ -51,7 +51,6 @@ public class AppSequenceController {
 			message = message + "success!";
 		} catch (Exception e) {
 			message = message + "failed. Reason:" +e.getMessage();
-			
 		}
 		
 		return new JsonResult<String>(flag, message, null);
@@ -69,7 +68,6 @@ public class AppSequenceController {
 			message = message + "success!";
 		} catch (Exception e) {
 			message = message + "failed. Reason:" +e.getMessage();
-			
 		}
 		
 		return new JsonResult<SequenceDetailForUser>(flag, message, sequenceDetailForUser);

@@ -195,6 +195,7 @@
     <include refid="Base_Column_List" />
     from sequenceinfo, restaurantinfo
     where sequenceinfo.userId = #{userId,jdbcType=INTEGER} and sequenceinfo.restId = restaurantinfo.restId
+    and status = 0 and seqDate &gt; #{dateDay,jdbcType=VARCHAR}
     order by seqId desc
     limit 1
   </select>

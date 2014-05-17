@@ -31,7 +31,7 @@ public interface SequenceInfoMapper {
     //刚刚插入的记录的seqId
     int getLatestSeqId(@Param("restId") int restId, @Param("seatType") int seatType);
     //根据用户ID获取当前的排队信息
-    SequenceInfo getLatestSeqByUserId(@Param("userId") int userId);
+    SequenceInfo getLatestSeqByUserId(@Param("userId") int userId, @Param("dateDay") String dateDay);
     
     List<SequenceInfo> getSequenceInfos(@Param("restId") int restId);
     

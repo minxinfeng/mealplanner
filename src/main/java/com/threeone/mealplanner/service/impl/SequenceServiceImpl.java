@@ -78,7 +78,10 @@ public class SequenceServiceImpl implements SequenceService {
 
 	public void cancleSeq(int userId) throws InternalException {
 		try {
-			SequenceInfo sequenceInfo = sequenceInfoMapper.getLatestSeqByUserId(userId);
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String dateString = formatter.format(new Date());
+			String dateDay = dateString.split(" ")[0];
+			SequenceInfo sequenceInfo = sequenceInfoMapper.getLatestSeqByUserId(userId,dateDay);
 			int seqId = sequenceInfo.getSeqid();
 			sequenceInfoMapper.updateSeqStatus(seqId, SequenceStatus.cancle.getValue());
 			LOG.info("Cancle  seq of userId=" + seqId + " success!");
@@ -127,24 +130,28 @@ public class SequenceServiceImpl implements SequenceService {
 	
 	public SequenceDetailForUser getSequenceInfo(int userId) throws InternalException{
 		try {
-			SequenceDetailForUser sequenceDetailForUser = new SequenceDetailForUser();
-			
-			SequenceInfo sequenceInfo = sequenceInfoMapper.getLatestSeqByUserId(userId);
-			int seqId = sequenceInfo.getSeqid();
-			int restId = sequenceInfo.getRestid();
-			int seatType = sequenceInfo.getSeattype();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String dateString = formatter.format(new Date());
 			String dateDay = dateString.split(" ")[0];
-			sequenceDetailForUser.setPeopleNum(sequenceInfo.getPeoplenum());
-			sequenceDetailForUser.setRestId(restId);
-			sequenceDetailForUser.setUserId(sequenceInfo.getUserid());
-			sequenceDetailForUser.setPeopleBefore(sequenceInfoMapper.getSeqBeforeSeqId(seqId, restId, seatType, dateDay));
-			sequenceDetailForUser.setSeatType(seatType);
-			sequenceDetailForUser.setSeqId(seqId);
-			sequenceDetailForUser.setSeqNo(sequenceInfo.getSeqno());
-			sequenceDetailForUser.setSeqNow(this.getSeqNow(restId));
 			
+			SequenceDetailForUser sequenceDetailForUser = new SequenceDetailForUser();
+			SequenceInfo sequenceInfo = new SequenceInfo();
+			sequenceInfo = sequenceInfoMapper.getLatestSeqByUserId(userId,dateDay);
+			if(sequenceInfo != null){
+				int seqId = sequenceInfo.getSeqid();
+				int restId = sequenceInfo.getRestid();
+				int seatType = sequenceInfo.getSeattype();
+				sequenceDetailForUser.setPeopleNum(sequenceInfo.getPeoplenum());
+				sequenceDetailForUser.setRestId(restId);
+				sequenceDetailForUser.setUserId(sequenceInfo.getUserid());
+				sequenceDetailForUser.setPeopleBefore(sequenceInfoMapper.getSeqBeforeSeqId(seqId, restId, seatType, dateDay));
+				sequenceDetailForUser.setSeatType(seatType);
+				sequenceDetailForUser.setSeqId(seqId);
+				sequenceDetailForUser.setSeqNo(sequenceInfo.getSeqno());
+				sequenceDetailForUser.setSeqNow(this.getSeqNow(restId));
+			}else {
+				sequenceDetailForUser = null;
+			}
 			LOG.info("Get seq of userId=" + userId + " detail info success!");
 			return sequenceDetailForUser;
 		} catch (Exception e) {
