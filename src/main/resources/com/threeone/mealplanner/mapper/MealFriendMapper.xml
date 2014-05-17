@@ -95,9 +95,6 @@
     <include refid="Base_Column_List" />
     from mealfriend
     where friendId=#{userId,jdbcType=INTEGER}
-    <if test="status != -1" >
-    	and status = #{status, jdbcType=INTEGER}
-    </if>
   </select>
   
   <select id="getAcceptNum" resultType="java.lang.Integer" >

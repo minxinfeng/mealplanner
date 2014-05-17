@@ -95,21 +95,24 @@ public class MealServiceImpl implements MealService {
 	}
 
 	
-	public List<MealRequestInfo> getMealRequest(int userId, int status)
+	public List<MealRequestInfo> getMealRequest(int userId)
 			throws InternalException {
 		try {
 			List<MealRequestInfo> mealRequestInfos = new ArrayList<MealRequestInfo>();
 			// 1.获取friendId=userId的所有menuId等相关信息
-			List<MealFriend> mealFriends = mealFriendMapper.getMealRequestByUserId(userId, status);
+			List<MealFriend> mealFriends = mealFriendMapper.getMealRequestByUserId(userId);
 			// 2.根据menuId获取mealInfo详细信息
 			for (MealFriend mealFriend : mealFriends) {
 				MealInfo mealInfo = mealInfoMapper.selectByPrimaryKey(mealFriend.getMealid());
-				mealRequestInfos.add(mealInfo2MealRequestInfo(mealInfo,userId,mealFriend.getStatus()));
+				//若饭局状态mealStatus不为ordered，同时邀请的处理状态不为等待处理,则加入返回队列
+				if(mealInfo.getMealstatus() != MealStatus.ordered.getValue() && mealFriend.getStatus() != MealStatus.ongoing.getValue()){
+					mealRequestInfos.add(mealInfo2MealRequestInfo(mealInfo,userId,mealFriend.getStatus()));
+				}
 			}
-			LOG.info("Get mealRequest of userId=" + userId + " and status=" + status);
+			LOG.info("Get mealRequest of userId=" + userId );
 			return mealRequestInfos;
 		} catch (Exception e) {
-			String message = "Error to get the mealRequest of userId=" + userId + " and status=" + status + ", reason:" + e.getMessage();
+			String message = "Error to get the mealRequest of userId=" + userId + ", reason:" + e.getMessage();
 			LOG.error(message);
 			throw new InternalException(message);
 		}

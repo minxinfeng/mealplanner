@@ -34,7 +34,7 @@ public interface MealFriendMapper {
      * @param status
      * @return
      */
-    List<MealFriend> getMealRequestByUserId( @Param("userId") int userId, @Param("status") int status);
+    List<MealFriend> getMealRequestByUserId( @Param("userId") int userId);
     
     //获取该饭局同意的好友数
     int getAcceptNum(@Param("mealId") int mealId);

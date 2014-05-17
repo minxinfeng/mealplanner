@@ -35,13 +35,13 @@ public interface MealService {
 	List<MealWithDetail> getMealDetailByUserId(int userId, int status, int start, int limit) throws InternalException;
 	
 	/**
-	 * 获取某个人待处理的饭局信息
+	 * 获取某个人所有的的饭局信息。返回的是除以下之外的接受到的所有饭局邀请的信息：状态mealStatus为ordered，同时我的处理状态为等待处理。
 	 * @param userId
 	 * @param status
 	 * @return
 	 * @throws InternalException
 	 */
-	List<MealRequestInfo> getMealRequest(int userId, int status) throws InternalException;
+	List<MealRequestInfo> getMealRequest(int userId) throws InternalException;
 	/**
 	 * 处理饭局邀请
 	 * @param mealId

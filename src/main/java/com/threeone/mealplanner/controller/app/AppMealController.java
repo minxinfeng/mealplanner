@@ -70,12 +70,12 @@ public class AppMealController {
 	
 	@RequestMapping("/getMealRequest")
 	@ResponseBody
-	public JsonResult<List<MealRequestInfo>> getMealRequest(@RequestParam int userId, @RequestParam(defaultValue="-1") int status){
+	public JsonResult<List<MealRequestInfo>> getMealRequest(@RequestParam int userId){
 		Boolean flag = false;
-		String message = "Get Meal request of userId=" + userId + " and status=" + status;
+		String message = "Get Meal request of userId=" + userId ;
 		List<MealRequestInfo> mealRequestInfos = new ArrayList<MealRequestInfo>();
 		try {
-			mealRequestInfos = mealService.getMealRequest(userId, status);
+			mealRequestInfos = mealService.getMealRequest(userId);
 			message += " success!";
 			flag = true;
 		} catch (Exception e) {
