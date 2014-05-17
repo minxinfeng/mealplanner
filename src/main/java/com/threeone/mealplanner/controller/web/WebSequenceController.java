@@ -3,6 +3,7 @@ package com.threeone.mealplanner.controller.web;
 import java.util.List;
 
 import javax.mail.Flags.Flag;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,8 +18,10 @@ import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.common.JsonResult;
 import com.threeone.mealplanner.common.Message;
 import com.threeone.mealplanner.model.SequenceDetailForRest;
+import com.threeone.mealplanner.model.entity.UserInfo;
 import com.threeone.mealplanner.service.RestaurantService;
 import com.threeone.mealplanner.service.SequenceService;
+import com.threeone.mealplanner.service.UserService;
 
 @Controller
 @RequestMapping("/web/sequence")
@@ -28,18 +31,30 @@ public class WebSequenceController {
 	private RestaurantService restaurantService;
 	@Autowired
 	private SequenceService sequenceService;
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping(value = "getSequenceByUserId", method = RequestMethod.GET)
-	public String getSequenceByUserId(@RequestParam int userId, Model model){
+	public String getSequenceByUserId(@RequestParam int userId, Model model, HttpSession session){
 		String message = "Get sequence for userId = " + userId;
 		try {
-			System.out.println("sequence start");
-			int restId = restaurantService.getRestIdByUserId(userId);
-			List<SequenceDetailForRest> sequenceDetailForRests = sequenceService.getAllSeqInfosByRest(restId);
-			model.addAttribute("sequenceDetailForRests", sequenceDetailForRests);
-			message = message + "success";
-			System.out.println("success");
-			return "sequence/sequence.ftl";
+			if(session.getAttribute("userId") == null){
+				return "redirect:/web/login.ftl";
+			}
+			UserInfo checkUserInfo = userService.getUserInfoById(Integer.parseInt(session.getAttribute("userId").toString()));
+			if(checkUserInfo != null){
+				System.out.println("sequence start");
+				int restId = restaurantService.getRestIdByUserId(userId);
+				List<SequenceDetailForRest> sequenceDetailForRests = sequenceService.getAllSeqInfosByRest(restId);
+				model.addAttribute("sequenceDetailForRests", sequenceDetailForRests);
+				message = message + "success";
+				System.out.println("success");
+				return "sequence/sequence.ftl";
+			}else{
+				System.out.println("user is null");
+				return "redirect:/web/login.ftl";
+			}
+			
 		} catch (InternalException e) {
 			message = message + "Failed. Reason : " + e.getMessage();
 			return "sequence/sequence.ftl";

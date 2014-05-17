@@ -14,14 +14,14 @@
         </div>
 
         <div class="row">
-        <section id="wrapper">		
+        	
 		  <article id="dragSeq">
-		    <p>Drag Sequence item to restautrant to reserved /p>
+		    <p>Drag Sequence item to restautrant to reserved </p>
 		    <div id="bin"></div>
 		    <ul>		    
 		    <#assign count = 1>
 		    <#list sequenceDetailForRests as sequenceDetailForRest>
-		    	<li><a id="${sequenceDetailForRest.getSequenceInfo().getSeqid()}" href="#">${count} user: ${sequenceDetailForRest.getUserInfo().getUsername()} ${sequenceDetailForRest.getSequenceInfo().getPeoplenum()} people</a></li>
+		    	<li><a id="${sequenceDetailForRest.getSequenceInfo().getSeqid()}" href="#">SeqId:${sequenceDetailForRest.getSequenceInfo().getSeqid()}  user: ${sequenceDetailForRest.getUserInfo().getUsername()} ${sequenceDetailForRest.getSequenceInfo().getPeoplenum()} people</a></li>
 		    	<#assign count = count + 1>
 		    </#list>
 		    </ul>
@@ -95,8 +95,7 @@
 		
 		    return false;
 		  });
-		
-		  
+
 		  $(document).ready(function(){
 		  	confirmSequence = function changeStatus(id){
 		  		$.ajax({
@@ -108,9 +107,7 @@
 		  		});//ajax
 		  	}
 		  });
-
 		</script>
-		</section>
         </div>
 
 

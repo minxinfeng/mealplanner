@@ -6,7 +6,7 @@
 		  text-decoration: none;
 		  color: #000;
 		  margin: 10px;
-		  width: 150px;
+		  width: 300px;
 		  border: 3px dashed #999;
 		  background: #eee;
 		  padding: 10px;
@@ -38,9 +38,9 @@
 		}
 		
 		#dragSeq #bin {
-		  background: url(images/bin.jpg) top right no-repeat;
-		  height: 250px;
-		  width: 166px;
+		  background: url(images/served.jpg) top right no-repeat;
+		  height: 259px;
+		  width: 222px;
 		  float: left;
 		  border: 5px solid #000;
 		  position: relative;
@@ -48,7 +48,7 @@
 		}
 		
 		#dragSeq #bin.over {
-		  background: url(images/bin.jpg) top left no-repeat;
+		  background: url(images/served.jpg) top left no-repeat;
 		}
 		
 		#dragSeq #bin p {

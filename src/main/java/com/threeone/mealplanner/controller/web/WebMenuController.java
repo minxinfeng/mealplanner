@@ -2,6 +2,8 @@ package com.threeone.mealplanner.controller.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,14 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.threeone.mealplanner.common.JsonResult;
 import com.threeone.mealplanner.model.entity.FoodType;
 import com.threeone.mealplanner.model.entity.MenuInfo;
 import com.threeone.mealplanner.model.entity.RestType;
+import com.threeone.mealplanner.model.entity.UserInfo;
 import com.threeone.mealplanner.service.MenuService;
 import com.threeone.mealplanner.service.RestaurantService;
 import com.threeone.mealplanner.service.RestaurantTypeService;
+import com.threeone.mealplanner.service.UserService;
 
 /**
  * Need to update for the web side
@@ -36,21 +41,34 @@ public class WebMenuController {
 	@Autowired
 	private RestaurantTypeService restaurantTypeService;
 	
+	@Autowired
+	private UserService userService;
+	
 	@RequestMapping("/menu")
 	public String getMenuInfo(){
 		return "menu/menu.ftl";
 	}
 	
 	@RequestMapping("/getMenuByUserId")
-	public String getMenuInfoByRestId(@RequestParam int userId, Model model){
+	public String getMenuInfoByRestId(@RequestParam int userId, Model model, HttpSession session){		
 		List<FoodType> foodTypes;
 		try {
-			int restId = restaurantService.getRestIdByUserId(userId);
-			List<MenuInfo> menuInfos = menuService.getMenuInfoByRestId(restId);
-			foodTypes = menuService.getAllFoodTypes();			
-			model.addAttribute("foodTypes", foodTypes);
-			model.addAttribute("menuInfos", menuInfos);
-			return "menu/menu.ftl";
+			if(session.getAttribute("userId") == null){
+				return "redirect:/web/login.ftl";
+			}
+			UserInfo checkUserInfo = userService.getUserInfoById(Integer.parseInt(session.getAttribute("userId").toString()));
+			if(checkUserInfo != null){
+				int restId = restaurantService.getRestIdByUserId(userId);
+				List<MenuInfo> menuInfos = menuService.getMenuInfoByRestId(restId);
+				foodTypes = menuService.getAllFoodTypes();			
+				model.addAttribute("foodTypes", foodTypes);
+				model.addAttribute("menuInfos", menuInfos);
+				return "menu/menu.ftl";
+			}else{
+				System.out.println("user is null");
+				return "redirect:/web/login.ftl";
+			}	
+			
 		} catch (Exception e) {
 			return "menu/menu.ftl";
 		}
@@ -91,7 +109,7 @@ public class WebMenuController {
 			menuInfo.setRestid(restId);
 			menuService.addMenu(menuInfo);
 			message += " success!";
-			return "redirect:getMenuByUserId?userId=" + userId;
+			return "redirect:getMenuByUserId?userId=" + userId;			
 		} catch (Exception e) {
 			message = message + " error! Reason:" + e.getMessage();
 			return "redirect:getMenuByUserId?userId=" + userId;
