@@ -11,11 +11,14 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.threeone.mealplanner.common.InternalException;
+import com.threeone.mealplanner.mapper.MealInfoMapper;
 import com.threeone.mealplanner.mapper.MenuInfoMapper;
 import com.threeone.mealplanner.mapper.OrderInfoMapper;
 import com.threeone.mealplanner.mapper.RestaurantInfoMapper;
+import com.threeone.mealplanner.model.MealStatus;
 import com.threeone.mealplanner.model.OrderDetail;
 import com.threeone.mealplanner.model.OrderStatus;
+import com.threeone.mealplanner.model.entity.MealInfo;
 import com.threeone.mealplanner.model.entity.MenuInfo;
 import com.threeone.mealplanner.model.entity.OrderInfo;
 import com.threeone.mealplanner.model.entity.RestaurantInfo;
@@ -32,6 +35,7 @@ public class OrderServiceImpl implements OrderService {
 	private OrderInfoMapper orderInfoMapper;
 	private MenuInfoMapper menuInfoMapper;
 	private RestaurantInfoMapper restaurantInfoMapper;
+	private MealInfoMapper mealInfoMapper;
 	
 	@Autowired
 	private MealService mealService;
@@ -95,7 +99,7 @@ public class OrderServiceImpl implements OrderService {
 			int dateClock = mealTime.getHours();
 			List<SeatInfo> seatInfos = seatService.getAvailableSeats(restId, dateDay, dateClock, peopleNum);
 			//若获取失败
-			if(seatInfos == null){
+			if(seatInfos.isEmpty()){
 				orderInfo.setStatus(OrderStatus.commitFailed.getValue());
 				LOG.error("Sorry, No seats empty!");
 				throw new InternalException("Create order failed for there is no seats empty!");
@@ -110,6 +114,14 @@ public class OrderServiceImpl implements OrderService {
 				LOG.info("create order success!");
 				// 3.获得相应的详细信息
 				orderInfo.setOrderid(orderInfoMapper.getNewestOrderIdByUser(orderInfo.getUserid()));
+				
+				//如果根据mealId创建order,则更改mealStatus
+				int mealId = orderInfo.getMealid();
+				if(mealId != -1){
+					MealInfo mealInfo = mealInfoMapper.selectByPrimaryKey(mealId);
+					mealInfo.setMealstatus(MealStatus.ordered.getValue());
+					mealInfoMapper.updateByPrimaryKeySelective(mealInfo);
+				}
 				return this.getOrderDetailByOrder(orderInfo);
 			}
 			
@@ -224,6 +236,11 @@ public class OrderServiceImpl implements OrderService {
 
 	public void setRestaurantInfoMapper(RestaurantInfoMapper restaurantInfoMapper) {
 		this.restaurantInfoMapper = restaurantInfoMapper;
+	}
+
+
+	public void setMealInfoMapper(MealInfoMapper mealInfoMapper) {
+		this.mealInfoMapper = mealInfoMapper;
 	}
 
 }

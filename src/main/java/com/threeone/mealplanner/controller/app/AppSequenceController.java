@@ -33,8 +33,7 @@ public class AppSequenceController {
 			flag = true;
 			message = message + "success!";
 		} catch (Exception e) {
-			String errorMsg = e.getMessage();
-			message = errorMsg;
+			message = e.getMessage();
 		}
 		
 		return new JsonResult<SequenceDetailForUser>(flag, message, sequenceDetailForUser);

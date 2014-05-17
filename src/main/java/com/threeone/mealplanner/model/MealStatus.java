@@ -13,7 +13,8 @@ public enum MealStatus {
 	all(-1,"所有"),
 	ongoing(0,"正在进行"),
 	success(1,"成功，所有人已经同意"),
-	reject(2,"所有人已回馈，但是有人拒绝");
+	reject(2,"所有人已回馈，但是有人拒绝"),
+	ordered(3,"已下订单啦");
 	
 	private int value;
 	private String name;
