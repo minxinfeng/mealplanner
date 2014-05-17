@@ -24,10 +24,6 @@
               <img src="http://www.gravatar.com/avatar/626ea913a31dadcfa8e27ec663fca996?s=25" />&nbsp&nbspUsername
             </a>
             <ul class="dropdown-menu">
-              <li><a href="/profile/">Profile</a></li>
-              <!-- TODO:  Dashboard  -->
-              <li><a href="/accounts/password/change/">Change Password</a></li>
-              <li class="divider"></li>
               <li><a href="/accounts/logout/">Sign out</a></li>
             </ul>
             </li>

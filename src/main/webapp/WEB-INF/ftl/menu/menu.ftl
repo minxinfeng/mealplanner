@@ -21,6 +21,15 @@
 	    	});
 	    	
 	    });
+	    var recommend = $('.recommand').attr('checked');
+	    if(!recommend){	    	
+	    	$('.recommand').val(false);
+	    }
+	    $('.recommand').click(function(){
+	    	if($(this).attr('checked') == false){
+	    		$(this).val(false);
+	    	}
+	    });
 
       	$(".editMenu").click(function(){
         	var mId = $(this).parent().parent().attr("id");
@@ -80,11 +89,11 @@
                               </#list> 
                             </select>
                           </div>
-                          	<div class="input-group-addon form-group checkbox">
-                                  <label class="checkbox">
-                                    <input name="recommand" type="checkbox" class="form-control"> recommand
-                                  </label>
-                            </div>                                                                    
+                          	<div style="margin-top: 10px;">
+							  <label>
+							  <input name="recommand" type="radio" class="recommand"> Recommend
+							  </label> 
+							</div>                                                                  
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
@@ -154,11 +163,11 @@
                                     </#list>  
                                   </select>
                                 </div>
-                                <div class="input-group-addon form-group checkbox">
-                                  <label class="checkbox">
-                                    <input name="recommand" type="checkbox" class="form-control"> recommand
-                                  </label>
-                                </div>                                         
+                                <div style="margin-top: 10px;">
+								  <label>
+								  <input name="recommand" type="radio" class="recommand"> Recommend
+								  </label> 
+								</div>                                      
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>

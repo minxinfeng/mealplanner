@@ -151,7 +151,7 @@
 						<#list nextWeeks as dateOffset>
             <#if tabCount != 1>
 						<!--set 7 days tab -->
-						<div class="tab-pane" id="tables_${dateOffset}"><!-- grid -->
+						<div class="tab-pane" id="tables_${dateOffset}" style="width:1000px; margin:0 auto;"><!-- grid -->
 					  	<div class="bs-docs-grid">				    
 						    <div class="row show-grid">					  		
 					  		<#assign column = 1/>
@@ -192,7 +192,7 @@
 						</div><!-- /grid -->		
             <#else>
             <!--set 7 days tab -->
-            <div class="tab-pane active" id="tables_${dateOffset}"><!-- grid -->
+            <div class="tab-pane active" id="tables_${dateOffset}" style="width:1000px; margin:0 auto;"><!-- grid -->
               <div class="bs-docs-grid">            
                 <div class="row show-grid">               
                 <#assign column = 1/>

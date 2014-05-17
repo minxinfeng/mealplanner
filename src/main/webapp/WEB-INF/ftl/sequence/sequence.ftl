@@ -9,22 +9,23 @@
 	<#include "/base/header.ftl">
  
      <div class="container theme-showcase">
-        <div class="page-header">
+        <div class="page-header" align="center">
           <h1>Sequence</h1>
         </div>
 
         <div class="row">
         	
-		  <article id="dragSeq">
+		  <article id="dragSeq" style="width:500px; margin:0 auto;">
 		    <p>Drag Sequence item to restautrant to reserved </p>
 		    <div id="bin"></div>
 		    <ul>		    
 		    <#assign count = 1>
 		    <#list sequenceDetailForRests as sequenceDetailForRest>
-		    	<li><a id="${sequenceDetailForRest.getSequenceInfo().getSeqid()}" href="#">SeqId:${sequenceDetailForRest.getSequenceInfo().getSeqid()}  user: ${sequenceDetailForRest.getUserInfo().getUsername()} ${sequenceDetailForRest.getSequenceInfo().getPeoplenum()} people</a></li>
+		    	<li><a id="${sequenceDetailForRest.getSequenceInfo().getSeqid()}" href="#">No:${sequenceDetailForRest.getSequenceInfo().getSeqid()} ; user: ${sequenceDetailForRest.getUserInfo().getUsername()} ; ${sequenceDetailForRest.getSequenceInfo().getPeoplenum()} people</a></li>
 		    	<#assign count = count + 1>
 		    </#list>
 		    </ul>
+		    <div id="recycle"></div>
 		  </article>
 		  <script type="text/javascript">
 		  var confirmSequence;
@@ -96,11 +97,71 @@
 		    return false;
 		  });
 
+		  var recycle = document.querySelector('#recycle');
+		
+		  addEvent(recycle, 'dragover', function (e) {
+		    if (e.preventDefault) e.preventDefault(); // allows us to drop
+		    this.className = 'over';
+		    e.dataTransfer.dropEffect = 'copy';
+		    return false;
+		  });
+		
+		  // to get IE to work
+		  addEvent(recycle, 'dragenter', function (e) {
+		    this.className = 'over';
+		    return false;
+		  });
+		
+		  addEvent(recycle, 'dragleave', function () {
+		    this.className = '';
+		  });
+		
+		  addEvent(recycle, 'drop', function (e) {
+		    if (e.stopPropagation) e.stopPropagation(); // stops the browser from redirecting...why???
+		
+		    var el = document.getElementById(e.dataTransfer.getData('Text'));
+		    
+		    el.parentNode.removeChild(el);
+		    cancleSequence(e.dataTransfer.getData('Text'));
+		
+		    // stupid nom text + fade effect
+		    recycle.className = '';
+		    yum.innerHTML = actionText[1];
+		
+		    var y = yum.cloneNode(true);
+		    recycle.appendChild(y);
+		
+		    setTimeout(function () {
+		      var t = setInterval(function () {
+		        if (y.style.opacity <= 0) {
+		          if (msie) { // don't bother with the animation
+		            y.style.display = 'none';
+		          }
+		          clearInterval(t); 
+		        } else {
+		          y.style.opacity -= 0.1;
+		        }
+		      }, 50);
+		    }, 250);
+		
+		    return false;
+		  });
+
 		  $(document).ready(function(){
 		  	confirmSequence = function changeStatus(id){
 		  		$.ajax({
 		  			type:"GET",
 		          	url:"${rc.contextPath}/web/sequence/acceptSquenceBySeqId",
+		          	data:{"seqId":id},
+		          	success: function(msg){
+		            }
+		  		});//ajax
+		  	}
+
+		  	cancleSequence = function changeStatus(id){
+		  		$.ajax({
+		  			type:"GET",
+		          	url:"${rc.contextPath}/web/sequence/cancleSquenceBySeqId",
 		          	data:{"seqId":id},
 		          	success: function(msg){
 		            }
