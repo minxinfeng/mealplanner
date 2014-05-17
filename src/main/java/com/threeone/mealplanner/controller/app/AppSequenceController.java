@@ -65,7 +65,11 @@ public class AppSequenceController {
 		try {
 			sequenceDetailForUser = sequenceService.getSequenceInfo(userId);
 			flag = true;
-			message = message + "success!";
+			if(sequenceDetailForUser != null){
+				message = message + "success!";
+			}else {
+				message = "no";
+			}
 		} catch (Exception e) {
 			message = message + "failed. Reason:" +e.getMessage();
 		}
