@@ -199,4 +199,12 @@
     order by seqId desc
     limit 1
   </select>
+  
+  <select id="getSeqInListNum" resultType="java.lang.Integer" >
+    select count(seqNo)
+    from sequenceinfo
+    where restId = #{restId,jdbcType=INTEGER} and seatType = #{seatType,jdbcType=INTEGER} and status = 0
+    and seqDate &gt; #{dateDay,jdbcType=VARCHAR}
+  </select>
+  
 </mapper>

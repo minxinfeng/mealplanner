@@ -47,7 +47,6 @@ public class SequenceServiceImpl implements SequenceService {
 	}
 	
 	
-	@SuppressWarnings("null")
 	public SequenceDetailForUser createSequence(SequenceInfo sequenceInfo) throws InternalException{
 		try {
 			int restId = sequenceInfo.getRestid();
@@ -57,9 +56,14 @@ public class SequenceServiceImpl implements SequenceService {
 			String dateString = formatter.format(now);
 			String dateDay = dateString.split(" ")[0];
 			int dateClock = now.getHours();
+			
+			int seatType = this.getSeatType(sequenceInfo.getPeoplenum());
+			
+			int inSeqNum = sequenceInfoMapper.getSeqInListNum(restId, seatType, dateDay);
+			
 			List<SeatInfo> seatInfos = seatService.getAvailableSeats(restId, dateDay, dateClock, sequenceInfo.getPeoplenum());
 			//如果有空座，不进入排队程序
-			if(!seatInfos.isEmpty()){
+			if(!seatInfos.isEmpty() && inSeqNum == 0){
 				LOG.error("userId=" + userId + " line up cancle due to there has free seat!");
 				throw new InternalException("Free");
 			}else {
@@ -71,6 +75,7 @@ public class SequenceServiceImpl implements SequenceService {
 					throw new InternalException("hasLineUp");
 				}else{
 					//不在队列中，进行排队
+					sequenceDetailForUser = new SequenceDetailForUser();
 					sequenceDetailForUser.setPeopleNum(sequenceInfo.getPeoplenum());
 					sequenceDetailForUser.setRestId(sequenceInfo.getRestid());
 					sequenceDetailForUser.setUserId(sequenceInfo.getUserid());
@@ -82,7 +87,6 @@ public class SequenceServiceImpl implements SequenceService {
 					int seqNow = this.getSeqNow(restId);
 					sequenceDetailForUser.setSeqNow(seqNow);
 					//3. 获取当前队列排队的队数
-					int seatType = this.getSeatType(sequenceInfo.getPeoplenum());
 					int peopleBefore = this.getSeqBefore(restId, seatType);
 					sequenceDetailForUser.setPeopleBefore(peopleBefore);
 					sequenceDetailForUser.setSeatType(seatType);

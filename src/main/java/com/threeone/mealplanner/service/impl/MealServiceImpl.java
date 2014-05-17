@@ -125,6 +125,9 @@ public class MealServiceImpl implements MealService {
 			
 			//获取邀请详情
 			MealInfo mealInfo = mealInfoMapper.selectByPrimaryKey(mealId);
+			//如果饭局已下订单，则邀请回馈失败
+			
+			//饭局未下订单，则正常反馈
 			
 			//更新邀请的饭局状态
 			if(acceptNum == allNum){

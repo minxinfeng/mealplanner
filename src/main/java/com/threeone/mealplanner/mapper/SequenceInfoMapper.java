@@ -37,4 +37,6 @@ public interface SequenceInfoMapper {
     
     //获取排队队列中需要提醒的用户排队信息
     List<SequenceInfo> getPushSeqInfos(@Param("restId") int restId, @Param("seqId") int seqId, @Param("seatType") int seatType);
+    //获取当前排队的队数
+    int getSeqInListNum(@Param("restId") int restId, @Param("seatType") int seatType, @Param("dateDay") String dateDay);
 }

@@ -34,6 +34,13 @@ public class AppSequenceController {
 			message = message + "success!";
 		} catch (Exception e) {
 			message = e.getMessage();
+			if(message.contains("Free")){
+				flag = true;
+				message = "Free";
+			}else if(message.contains("hasLineUp")){
+				flag = true;
+				message = "hasLineUp";
+			}
 		}
 		
 		return new JsonResult<SequenceDetailForUser>(flag, message, sequenceDetailForUser);
