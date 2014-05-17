@@ -105,7 +105,7 @@ public class MealServiceImpl implements MealService {
 			for (MealFriend mealFriend : mealFriends) {
 				MealInfo mealInfo = mealInfoMapper.selectByPrimaryKey(mealFriend.getMealid());
 				//若饭局状态mealStatus不为ordered，同时邀请的处理状态不为等待处理,则加入返回队列
-				if(mealInfo.getMealstatus() != MealStatus.ordered.getValue() && mealFriend.getStatus() != MealStatus.ongoing.getValue()){
+				if(!(mealInfo.getMealstatus() == MealStatus.ordered.getValue() && mealFriend.getStatus() == MealStatus.ongoing.getValue())){
 					mealRequestInfos.add(mealInfo2MealRequestInfo(mealInfo,userId,mealFriend.getStatus()));
 				}
 			}

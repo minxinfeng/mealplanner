@@ -120,7 +120,7 @@
   </update>
   
   <select id="getMealFriendWithStatus" resultMap="mealFriendWithStatus">
-    select userId, userName, email, phoneNum, password, registerDate, userType, status
+    select userId, userName, email, phoneNum, status
     from userinfo, mealfriend
     where mealfriend.mealId = #{mealId,jdbcType=INTEGER} and userinfo.userId=mealfriend.friendId
   </select>

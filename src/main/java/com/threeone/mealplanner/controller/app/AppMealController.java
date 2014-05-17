@@ -60,7 +60,6 @@ public class AppMealController {
 			List<MealWithDetail> mealWithDetails = mealService.getMealDetailByUserId(userId, status, start, limit);
 			message += " success!";
 			flag = true;
-			System.err.println("mealWithDetails=" + mealWithDetails.size());
 			return new JsonResult<List<MealWithDetail>>(flag, message, mealWithDetails);
 		} catch (Exception e) {
 			message = message + "failed! reason:" + e.getMessage();

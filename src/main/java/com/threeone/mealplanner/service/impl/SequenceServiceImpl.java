@@ -62,7 +62,7 @@ public class SequenceServiceImpl implements SequenceService {
 			int inSeqNum = sequenceInfoMapper.getSeqInListNum(restId, seatType, dateDay);
 			
 			List<SeatInfo> seatInfos = seatService.getAvailableSeats(restId, dateDay, dateClock, sequenceInfo.getPeoplenum());
-			//如果有空座，不进入排队程序
+			//如果有空座且排队队列为空时，不进入排队程序
 			if(!seatInfos.isEmpty() && inSeqNum == 0){
 				LOG.error("userId=" + userId + " line up cancle due to there has free seat!");
 				throw new InternalException("Free");
