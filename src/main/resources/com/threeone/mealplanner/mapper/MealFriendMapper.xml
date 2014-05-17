@@ -99,4 +99,20 @@
     	and status = #{status, jdbcType=INTEGER}
     </if>
   </select>
+  
+  <select id="getAcceptNum" resultType="java.lang.Integer" >
+    select count(mealId)
+    from mealfriend
+    where mealId = #{mealId,jdbcType=INTEGER} and status = 1
+  </select>
+  <select id="getRejectNum" resultType="java.lang.Integer" >
+    select count(mealId)
+    from mealfriend
+    where mealId = #{mealId,jdbcType=INTEGER} and status = 2
+  </select>
+  <select id="getAllNum" resultType="java.lang.Integer" >
+    select count(mealId)
+    from mealfriend
+    where mealId = #{mealId,jdbcType=INTEGER}
+  </select>
 </mapper>

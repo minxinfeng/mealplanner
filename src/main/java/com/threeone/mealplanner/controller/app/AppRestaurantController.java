@@ -42,8 +42,7 @@ public class AppRestaurantController {
 	@ResponseBody
 	public JsonResult<List<RestaurantWithMenu>> getSeveralRestaurantWithMenus(@RequestParam int start, @RequestParam int limit){
 		Boolean flag = true;
-		start = 10;
-		String message = "Get restaurants info from " + start + "  limit to " + limit;
+		String message = "Get restaurants with menu info from " + start + "  limit to " + limit;
 		try {
 			List<RestaurantWithMenu> restaurantWithMenus = restaurantService.getSeveralRestaurantWithMenus(start,limit);
 			message += " success!";
@@ -91,7 +90,7 @@ public class AppRestaurantController {
 	@ResponseBody
 	public JsonResult<RestaurantWithMenu> getRestWithMenuByName(@RequestParam String restName){
 		Boolean flag = true;
-		String message = "Get restaurants info of " + restName;
+		String message = "Get restaurants with menu info of " + restName;
 		try {
 			RestaurantInfo restaurantInfo = restaurantService.getRestInfoByExactName(restName);
 			int restId = restaurantInfo.getRestid();

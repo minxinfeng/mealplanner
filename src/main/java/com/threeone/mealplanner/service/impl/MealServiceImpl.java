@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.threeone.mealplanner.common.InternalException;
 import com.threeone.mealplanner.mapper.MealFriendMapper;
 import com.threeone.mealplanner.mapper.MealInfoMapper;
-import com.threeone.mealplanner.mapper.RestaurantInfoMapper;
 import com.threeone.mealplanner.mapper.UserInfoMapper;
 import com.threeone.mealplanner.model.MealFriendStatus;
 import com.threeone.mealplanner.model.MealRequestInfo;
+import com.threeone.mealplanner.model.MealStatus;
 import com.threeone.mealplanner.model.MealWithDetail;
 import com.threeone.mealplanner.model.entity.MealFriend;
 import com.threeone.mealplanner.model.entity.MealInfo;
@@ -118,9 +118,26 @@ public class MealServiceImpl implements MealService {
 	
 	public int handleAMeal(int mealId, int userId, int status) throws InternalException {
 		try {
-			int code = mealFriendMapper.handleAMeal(mealId, userId, status);
+			int code = mealFriendMapper.handleAMeal(mealId, userId, status);//更新饭局反馈信息
+			int acceptNum = mealFriendMapper.getAcceptNum(mealId);
+			int rejectNum = mealFriendMapper.getRejectNum(mealId);
+			int allNum = mealFriendMapper.getAllNum(mealId);
+			
+			//获取邀请详情
 			MealInfo mealInfo = mealInfoMapper.selectByPrimaryKey(mealId);
+			
+			//更新邀请的饭局状态
+			if(acceptNum == allNum){
+				mealInfo.setMealstatus(MealStatus.success.getValue());
+				mealInfoMapper.updateByPrimaryKeySelective(mealInfo);
+			}else if(rejectNum != 0 && acceptNum + rejectNum == allNum){
+				mealInfo.setMealstatus(MealStatus.reject.getValue());
+				mealInfoMapper.updateByPrimaryKeySelective(mealInfo);
+			}
+			
+			//获取组织者ID
 			int organizedId = mealInfo.getMealorganizeuserid();
+			//获取反馈人员的信息
 			UserInfo userInfo = userInfoMapper.getUserInfoById(userId);
 			String userName = userInfo.getUsername();
 			pushService.setUserId(organizedId);

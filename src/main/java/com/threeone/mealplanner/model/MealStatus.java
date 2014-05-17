@@ -12,8 +12,8 @@ package com.threeone.mealplanner.model;
 public enum MealStatus {
 	all(-1,"所有"),
 	ongoing(0,"正在进行"),
-	success(1,"成功，已下订单"),
-	expire(2,"过期");
+	success(1,"成功，所有人已经同意"),
+	reject(2,"所有人已回馈，但是有人拒绝");
 	
 	private int value;
 	private String name;
